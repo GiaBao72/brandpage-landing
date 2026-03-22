@@ -881,6 +881,9 @@ export default function App() {
       </div>
 
       <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">↑</button>
+      <a href="https://m.me/583549081512783" target="_blank" rel="noreferrer" className="messenger-bubble" aria-label="Chat Messenger">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.906 1.404 5.497 3.6 7.22V22l3.25-1.786A10.5 10.5 0 0012 20.486c5.523 0 10-4.145 10-9.243S17.523 2 12 2zm1.07 12.44l-2.55-2.72-4.98 2.72 5.48-5.82 2.61 2.72 4.92-2.72-5.48 5.82z"/></svg>
+      </a>
     </div>
   )
 }
