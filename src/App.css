@@ -95,6 +95,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 .nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 5%;position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--b100);z-index:200}
 
 .logo{font-size:1.25rem;font-weight:900;color:var(--b600);letter-spacing:-.5px;text-decoration:none}
+.nav-logo{height:52px;object-fit:contain}
 
 .nav-links{display:flex;gap:2rem;list-style:none}
 
@@ -742,3 +743,4 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 .messenger-bubble{position:fixed;bottom:5.5rem;right:2rem;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0084ff,#0099ff);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,132,255,.4);z-index:999;transition:transform .2s,box-shadow .2s;text-decoration:none}
 .messenger-bubble:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(0,132,255,.5)}
 @media(max-width:768px){.messenger-bubble{bottom:8rem;right:1rem}}
+@media(max-width:768px){.nav-logo{height:32px}}
