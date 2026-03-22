@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  BRANDPAGE-LANDING ver1-final
+  BRANDPAGE-LANDING ver1-final (updated 2026-03-23)
   Stack: Vite + React 19
   Live: https://giaptech.site
   Repo: https://github.com/GiaBao72/brandpage-landing
@@ -306,7 +306,7 @@ export default defineConfig([
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- SEO Primary -->
@@ -316,19 +316,23 @@ export default defineConfig([
     <meta name="author" content="GIAPTECH" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://giaptech.site/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
+    <meta property="fb:app_id" content="647547958176308" />
     <meta property="og:url" content="https://giaptech.site/" />
     <meta property="og:title" content="Thiết kế landing page cá nhân chuyên nghiệp | GIAPTECH" />
     <meta property="og:description" content="Xây dựng thương hiệu cá nhân online — landing page đẹp, nhanh, chuẩn SEO cho huấn luyện viên, giáo viên, môi giới. Bàn giao 7-14 ngày." />
     <meta property="og:locale" content="vi_VN" />
     <meta property="og:site_name" content="GIAPTECH" />
+    <meta property="og:image" content="https://giaptech.site/Logo%20-%20metadata.png" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Thiết kế landing page cá nhân | GIAPTECH" />
     <meta name="twitter:description" content="Landing page cá nhân chuyên nghiệp cho huấn luyện viên, giáo viên, môi giới. Chuẩn SEO, mobile-first. LH: 0352 425 290" />
+    <meta name="twitter:image" content="https://giaptech.site/Logo%20-%20metadata.png" />
 
     <!-- Schema: ProfessionalService -->
     <script type="application/ld+json">
@@ -415,6 +419,16 @@ export default defineConfig([
     <path fill="#08060d" fill-rule="evenodd" d="M1.893 1.98c.052.072 1.245 1.769 2.653 3.77l2.892 4.114c.183.261.333.48.333.486s-.068.089-.152.183l-.522.593-.765.867-3.597 4.087c-.375.426-.734.834-.798.905a1 1 0 0 0-.118.148c0 .01.236.017.664.017h.663l.729-.83c.4-.457.796-.906.879-.999a692 692 0 0 0 1.794-2.038c.034-.037.301-.34.594-.675l.551-.624.345-.392a7 7 0 0 1 .34-.374c.006 0 .93 1.306 2.052 2.903l2.084 2.965.045.063h2.275c1.87 0 2.273-.003 2.266-.021-.008-.02-1.098-1.572-3.894-5.547-2.013-2.862-2.28-3.246-2.273-3.266.008-.019.282-.332 2.085-2.38l2-2.274 1.567-1.782c.022-.028-.016-.03-.65-.03h-.674l-.3.342a871 871 0 0 1-1.782 2.025c-.067.075-.405.458-.75.852a100 100 0 0 1-.803.91c-.148.172-.299.344-.99 1.127-.304.343-.32.358-.345.327-.015-.019-.904-1.282-1.976-2.808L6.365 1.85H1.8zm1.782.91 8.078 11.294c.772 1.08 1.413 1.973 1.425 1.984.016.017.241.02 1.05.017l1.03-.004-2.694-3.766L7.796 5.75 5.722 2.852l-1.039-.004-1.039-.004z" clip-rule="evenodd"/>
   </symbol>
 </svg>
+]]></file>
+  <file path="public/sitemap.xml"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://giaptech.site/</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
 ]]></file>
   <file path="src/App.css"><![CDATA[@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 
@@ -510,9 +524,10 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 
 /* ΓöÇΓöÇ NAV ΓöÇΓöÇ */
 
-.nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 5%;position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--b100);z-index:200}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:.6rem 5%;position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--b100);z-index:200}
 
 .logo{font-size:1.25rem;font-weight:900;color:var(--b600);letter-spacing:-.5px;text-decoration:none}
+.nav-logo{height:52px;object-fit:contain}
 
 .nav-links{display:flex;gap:2rem;list-style:none}
 
@@ -1160,6 +1175,11 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 .messenger-bubble{position:fixed;bottom:5.5rem;right:2rem;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#0084ff,#0099ff);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,132,255,.4);z-index:999;transition:transform .2s,box-shadow .2s;text-decoration:none}
 .messenger-bubble:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(0,132,255,.5)}
 @media(max-width:768px){.messenger-bubble{bottom:8rem;right:1rem}}
+@media(max-width:768px){.nav-logo{height:32px}}
+
+.footer-logo-img{height:64px;object-fit:contain;margin-bottom:.6rem;filter:none}
+.footer-slogan{color:rgba(255,255,255,.7);font-size:1rem;font-style:italic;margin:0}
+@media(max-width:768px){.nav{padding:.5rem 4%}}
 ]]></file>
   <file path="src/App.jsx"><![CDATA[import { useState, useEffect, useRef } from 'react'
 import './App.css'
@@ -1713,7 +1733,9 @@ export default function App() {
 
       {/* NAV */}
       <nav className="nav">
-        <a className="logo" href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}) }}>⚡ GIAPTECH</a>
+        <a className="logo" href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}) }}>
+          <img src="/Logo.png" alt="GIAPTECH" className="nav-logo" />
+        </a>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <li><a href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setMenuOpen(false) }}>Trang chủ</a></li>
           {['benefits','features','process','services','portfolio','pricing'].map((id,i) => (
@@ -2025,13 +2047,13 @@ export default function App() {
       <footer className="footer">
         <div className="footer-inner">
           <div className="footer-brand">
-            <div className="footer-logo">⚡ GIAPTECH</div>
-            <p>Bệ phóng thương hiệu cá nhân số 1 cho chuyên gia Việt</p>
+            <img src="/Logo-footer.png" alt="GIAPTECH" className="footer-logo-img" />
+            <p className="footer-slogan">Tôn vinh thực tài — Nâng tầm vị thế</p>
           </div>
           <div className="footer-contact">
-            <p>📞 0352 425 290</p>
-            <p>💬 Zalo: 0352 425 290</p>
-            <p>🌐 giaptech.site</p>
+            <p><a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>💬 Zalo: 0352 425 290</a></p>
+            <p>🌐 <a href="https://giaptech.site/" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>https://giaptech.site/</a></p>
+            <p><a href="https://www.facebook.com/giaptech" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>📘 facebook.com/giaptech</a></p>
           </div>
         </div>
         <div className="footer-bottom">© 2026 GIAPTECH. All rights reserved.</div>
