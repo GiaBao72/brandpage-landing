@@ -109,64 +109,64 @@ function Particles() {
 }
 
 const benefits = [
-  { icon: '🌐', title: '"Co May Sale" Khong Biet Met', desc: 'Khach hang am tham tim hieu ban luc nua dem va de lai thong tin khi ban dang ngu. Dung bo lo bat ky co hoi nao.' },
-  { icon: '💎', title: 'Thoat Khoi "Bay Gia Re"', desc: 'Giao dien sang trong la minh chung cho dang cap. Khach hang se khong ky keo khi bi thuyet phuc boi su chuyen nghiep cua ban.' },
-  { icon: '📈', title: 'Tu Dong Hoa Dong Khach Hang', desc: 'Tich hop thong minh Form, Zalo. Ban chi viec tu van va chot sale, viec tim kiem khach hang da co website lo.' },
-  { icon: '🎯', title: '"Danh Xa Khoi Vung An Toan"', desc: 'Toi uu SEO va noi dung ngach giup tiep can chinh xac nguoi dang khao khat dich vu cua ban, loc bo khach "hoi cho biet".' },
-  { icon: '🤝', title: 'Chot Sale Tu Trong Trung Nuoc', desc: 'Pho dien nang luc qua Portfolio, chung chi, Testimonials. Ho goi cho ban de mua, chu khong phai de hoi "ban la ai".' },
-  { icon: '🚀', title: 'De Bep 90% Doi Thu Cung Nganh', desc: 'Bao nhieu nguoi trong nganh cua ban dang lam duoc dieu nay? Day chinh la "Dai duong xanh" de ban but pha.' },
+  { icon: '🌐', title: '"Cỗ Máy Sale" Không Biết Mệt', desc: 'Khách hàng âm thầm tìm hiểu bạn lúc nửa đêm và để lại thông tin khi bạn đang ngủ. Đừng bỏ lỡ bất kỳ cơ hội nào.' },
+  { icon: '💎', title: 'Thoát Khỏi "Bẫy Giá Rẻ"', desc: 'Giao diện sang trọng là minh chứng cho đẳng cấp. Khách hàng sẽ không kỳ kèo khi bị thuyết phục bởi sự chuyên nghiệp của bạn.' },
+  { icon: '📈', title: 'Tự Động Hóa Dòng Khách Hàng', desc: 'Tích hợp thông minh Form, Zalo. Bạn chỉ việc tư vấn và chốt sale, việc tìm kiếm khách hàng đã có website lo.' },
+  { icon: '🎯', title: '"Đánh Xa Khỏi Vùng An Toàn"', desc: 'Tối ưu SEO và nội dung ngách giúp tiếp cận chính xác người đang khao khát dịch vụ của bạn, lọc bỏ khách "hỏi cho biết".' },
+  { icon: '🤝', title: 'Chốt Sale Từ Trong Trứng Nước', desc: 'Phô diễn năng lực qua Portfolio, chứng chỉ, Testimonials. Họ gọi cho bạn để mua, chứ không phải để hỏi "bạn là ai".' },
+  { icon: '🚀', title: 'Đè Bẹp 90% Đối Thủ Cùng Ngành', desc: 'Bao nhiêu người trong ngành của bạn đang làm được điều này? Đây chính là "Đại dương xanh" để bạn bứt phá.' },
 ]
 
 const features = [
-  { icon: '⚡', title: 'Toc Do < 2 Giay (Chuan Core Web Vitals)', desc: 'Khach hang thieu kien nhan va Google cung vay. Chung toi dam bao trai nghiem muot ma, giu chan khach o lai trang lau nhat.' },
-  { icon: '📱', title: 'Toi Uu Hoa Mobile (Mobile-first)', desc: 'Thiet ke duoc do ni dong giay cho man hinh dien thoai, noi 80% khach hang cua ban dang luot web moi ngay.' },
-  { icon: '🎯', title: 'Nghe Thuat "Thoi Mien" Khach Hang', desc: 'Tu ngon tu sac ben den tam ly hoc mau sac, moi yeu to deu duoc sap dat co chu dich de thoi thuc ho hanh dong ngay.' },
-  { icon: '🔍', title: 'Chuan Muc SEO Moi Nhat', desc: 'Toi uu On-page toan dien, giup ten tuoi cua ban nhanh chong thong linh trang nhat Google khi khach hang tim kiem.' },
-  { icon: '🛡️', title: 'Ha Tang Vung Nhu Ban Thach', desc: 'Khong lo sap web luc chay quang cao hay co luong truy cap dot bien. Bao mat tuyet doi moi du lieu khach hang.' },
+  { icon: '⚡', title: 'Tốc Độ < 2 Giây (Chuẩn Core Web Vitals)', desc: 'Khách hàng thiếu kiên nhẫn và Google cũng vậy. Chúng tôi đảm bảo trải nghiệm mượt mà, giữ chân khách ở lại trang lâu nhất.' },
+  { icon: '📱', title: 'Tối Ưu Hoá Mobile (Mobile-first)', desc: 'Thiết kế được đo ni đóng giày cho màn hình điện thoại, nơi 80% khách hàng của bạn đang lướt web mỗi ngày.' },
+  { icon: '🎯', title: 'Nghệ Thuật "Thôi Miên" Khách Hàng', desc: 'Từ ngôn từ sắc bén đến tâm lý học màu sắc, mọi yếu tố đều được sắp đặt có chủ đích để thôi thúc họ hành động ngay.' },
+  { icon: '🔍', title: 'Chuẩn Mực SEO Mới Nhất', desc: 'Tối ưu On-page toàn diện, giúp tên tuổi của bạn nhanh chóng thống lĩnh trang nhất Google khi khách hàng tìm kiếm.' },
+  { icon: '🛡️', title: 'Hạ Tầng Vững Như Bàn Thạch', desc: 'Không lo sập web lúc chạy quảng cáo hay có lượng truy cập đột biến. Bảo mật tuyệt đối mọi dữ liệu khách hàng.' },
 ]
 
 const services = [
-  { icon: '🏋️', title: 'Personal Trainer / HLV Yoga', desc: 'Bien hinh the dep va chung chi thanh thoi nam cham hut hoc vien. Tu dong hoa lich tap chuyen nghiep.' },
-  { icon: '👨‍🏫', title: 'Giao Vien / Chuyen Gia Dao Tao', desc: 'Xay dung niem tin tuyet doi voi phu huynh qua bang thanh tich dang ne va phuong phap giang day khac biet.' },
-  { icon: '🏠', title: 'Moi Gioi Bat Dong San', desc: 'Khang dinh dang cap "nguoi choi he du an lon". Uy tin di truoc, hop dong tien ty theo sau.' },
-  { icon: '🚗', title: 'Moi Gioi Xe O To', desc: 'Tao showroom ao ca nhan cuc sang chanh. Khach hang xem xe qua web, goi dien la de chot coc.' },
-  { icon: '💰', title: 'Chuyen Vien Tai Chinh / Bao Hiem', desc: 'Dap tan su hoai nghi cua khach hang. Xay dung hinh anh chuyen gia tu van dang tin cay tron doi.' },
-  { icon: '💆', title: 'Chuyen Gia Tham My / Spa', desc: 'Pho dien nhung ca "lot xac" than thanh. Khach hang khao khat lam dep va tranh nhau dat lich truoc hang tuan.' },
+  { icon: '🏋️', title: 'Personal Trainer / HLV Yoga', desc: 'Biến hình thể đẹp và chứng chỉ thành thỏi nam châm hút học viên. Tự động hóa lịch tập chuyên nghiệp.' },
+  { icon: '👨‍🏫', title: 'Giáo Viên / Chuyên Gia Đào Tạo', desc: 'Xây dựng niềm tin tuyệt đối với phụ huynh qua bảng thành tích đáng nể và phương pháp giảng dạy khác biệt.' },
+  { icon: '🏠', title: 'Môi Giới Bất Động Sản', desc: 'Khẳng định đẳng cấp "người chơi hệ dự án lớn". Uy tín đi trước, hợp đồng tiền tỷ theo sau.' },
+  { icon: '🚗', title: 'Môi Giới Xe Ô Tô', desc: 'Tạo showroom ảo cá nhân cực sang chảnh. Khách hàng xem xe qua web, gọi điện là để chốt cọc.' },
+  { icon: '💰', title: 'Chuyên Viên Tài Chính / Bảo Hiểm', desc: 'Đập tan sự hoài nghi của khách hàng. Xây dựng hình ảnh chuyên gia tư vấn đáng tin cậy trọn đời.' },
+  { icon: '💆', title: 'Chuyên Gia Thẩm Mỹ / Spa', desc: 'Phô diễn những ca "lột xác" thần thánh. Khách hàng khao khát làm đẹp và tranh nhau đặt lịch trước hàng tuần.' },
 ]
 
 const steps = [
-  { num: '01', icon: '📋', title: 'Khai Thac Diem Manh Nhat Cua Ban', desc: '15 phut lang nghe de thau hieu nganh nghe, loi the canh tranh va dinh hinh phong cach thuong hieu ca nhan.' },
-  { num: '02', icon: '🎨', title: 'Phac Thao "Vu Khi" Ban Hang', desc: 'De xuat cau truc chien luoc, mau sac, va luong noi dung tam ly hoc. Ban se duyet truoc khi chung toi code.' },
-  { num: '03', icon: '💻', title: 'Lap Trinh & Trai Nghiem Thuc Te', desc: 'Chuyen hoa ban ve thanh website hoat dong muot ma. Ban duoc truc tiep trai nghiem ban preview.' },
-  { num: '04', icon: '✅', title: 'Tinh Chinh Hoan Hao', desc: 'Toi da 3 lan dieu chinh mien phi de dam bao tung cau chu, hinh anh deu sac net va dung y ban 100%.' },
-  { num: '05', icon: '🚀', title: 'Kich Hoat & Thong Linh Thi Truong', desc: 'Ban giao toan bo ten mien, ma nguon va huong dan tan tinh. Co may thu hut khach hang cua ban chinh thuc van hanh.' },
+  { num: '01', icon: '📋', title: 'Khai Thác Điểm Mạnh Nhất Của Bạn', desc: '15 phút lắng nghe để thấu hiểu ngành nghề, lợi thế cạnh tranh và định hình phong cách thương hiệu cá nhân.' },
+  { num: '02', icon: '🎨', title: 'Phác Thảo "Vũ Khí" Bán Hàng', desc: 'Đề xuất cấu trúc chiến lược, màu sắc, và luồng nội dung tâm lý học. Bạn sẽ duyệt trước khi chúng tôi code.' },
+  { num: '03', icon: '💻', title: 'Lập Trình & Trải Nghiệm Thực Tế', desc: 'Chuyển hóa bản vẽ thành website hoạt động mượt mà. Bạn được trực tiếp trải nghiệm bản preview.' },
+  { num: '04', icon: '✅', title: 'Tinh Chỉnh Hoàn Hảo', desc: 'Tối đa 3 lần điều chỉnh miễn phí để đảm bảo từng câu chữ, hình ảnh đều sắc nét và đúng ý bạn 100%.' },
+  { num: '05', icon: '🚀', title: 'Kích Hoạt & Thống Lĩnh Thị Trường', desc: 'Bàn giao toàn bộ tên miền, mã nguồn và hướng dẫn tận tình. Cỗ máy thu hút khách hàng của bạn chính thức vận hành.' },
 ]
 
 const packages = [
   {
-    name: 'Khoi nghiep',
-    price: '2.900.000d',
-    time: '7 ngay',
-    desc: 'Be phong hoan hao khi ban moi bat dau xay dung thuong hieu ca nhan online.',
-    features: ['Landing page 1 trang', 'Toi uu giao dien Mobile', 'Form lien he co ban', 'Chuan SEO On-page', 'Ban giao toc toc 7 ngay'],
-    missing: ['Ten mien rieng', 'Chinh sua sau ban giao'],
+    name: 'Khởi nghiệp',
+    price: '2.900.000đ',
+    time: '7 ngày',
+    desc: 'Bệ phóng hoàn hảo khi bạn mới bắt đầu xây dựng thương hiệu cá nhân online.',
+    features: ['Landing page 1 trang', 'Tối ưu giao diện Mobile', 'Form liên hệ cơ bản', 'Chuẩn SEO On-page', 'Ban giao toc toc 7 ngày'],
+    missing: ['Tên miền riêng', 'Chỉnh sửa sau bàn giao'],
   },
   {
-    name: 'Chuyen nghiep',
-    price: '5.900.000d',
-    time: '14 ngay',
+    name: 'Chuyên nghiệp',
+    price: '5.900.000đ',
+    time: '14 ngày',
     featured: true,
-    badge: 'GIAI PHAP TOI UU NHAT',
-    desc: 'Danh cho chuyen gia muon but pha va dan dau thi phan.',
-    features: ['Landing page thiet ke cao cap', 'Hieu ung Animation muot ma', 'Tich hop Form & Nut goi/Zalo', 'Toi uu SEO nang cao', 'Tang Ten mien .com 1 nam', 'Ban giao 14 ngay', '3 lan chinh sua mien phi'],
+    badge: 'GIẢI PHÁP TỐI ƯU NHẤT',
+    desc: 'Dành cho chuyên gia muốn bứt phá và dẫn đầu thị phần.',
+    features: ['Landing page thiết kế cao cấp', 'Hiệu ứng Animation mượt mà', 'Tích hợp Form & Nút gọi/Zalo', 'Tối ưu SEO nâng cao', 'Tặng Tên miền .com 1 năm', 'Ban giao 14 ngày', '3 lần chỉnh sửa miễn phí'],
     missing: [],
   },
   {
-    name: 'Thuong hieu',
-    price: '9.900.000d',
-    time: '21 ngay',
-    desc: 'Danh cho chuyen gia VIP muon xay dung he sinh thai thuong hieu ben vung, doc quyen.',
-    features: ['Thiet ke Premium doc ban', 'Micro-interactions dinh cao', 'Form + Tich hop Mini CRM', 'SEO chuyen sau + Muc Blog', 'Tang Ten mien + Hosting 1 nam', 'Ban giao 21 ngay', 'Bao hanh & Ho tro 6 thang'],
+    name: 'Thương hiệu',
+    price: '9.900.000đ',
+    time: '21 ngày',
+    desc: 'Dành cho chuyên gia VIP muốn xây dựng hệ sinh thái thương hiệu bền vững, độc quyền.',
+    features: ['Thiết kế Premium độc bản', 'Micro-interactions đỉnh cao', 'Form + Tích hợp Mini CRM', 'SEO chuyên sâu + Mục Blog', 'Tặng Tên miền + Hosting 1 năm', 'Ban giao 21 ngày', 'Bảo hành & Hỗ trợ 6 tháng'],
     missing: [],
   },
 ]
@@ -195,12 +195,12 @@ export default function App() {
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           {['benefits','features','process','services','pricing'].map((id,i) => (
             <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
-              {['Loi ich','Tieu chuan','Quy trinh','Danh cho ai','Bang gia'][i]}
+              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Bảng giá'][i]}
             </a></li>
           ))}
         </ul>
         <div className="nav-right">
-          <RippleBtn href="#contact" className="btn-primary nav-cta">Tu van mien phi</RippleBtn>
+          <RippleBtn href="#contact" className="btn-primary nav-cta">Tư vấn miễn phí</RippleBtn>
           <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
             <span /><span /><span />
           </button>
@@ -213,10 +213,10 @@ export default function App() {
         <div className="hero-orb orb1" /><div className="hero-orb orb2" />
         <div className="hero-inner">
           <div className="hero-content">
-            <div className="hero-badge"><span className="badge-dot" />Be Phong Thuong Hieu Ca Nhan Chuyen Nghiep</div>
+            <div className="hero-badge"><span className="badge-dot" />Bệ Phóng Thương Hiệu Cá Nhân Chuyên Nghiệp</div>
             <h1>
-              Nang luc cua ban xung dang duoc tra gia cao hon.<br />
-              <span className="gradient-text">Dung de khach hang chon doi thu chi vi ho co ve ngoai bong bay hon.</span>
+              Năng lực của bạn xứng đáng được trả giá cao hơn.<br />
+              <span className="gradient-text">Đừng để khách hàng chọn đối thủ chỉ vì họ có vẻ ngoài bóng bẩy hơn.</span>
             </h1>
             <p className="hero-desc">
               Trong thoi dai so, "huu xa tu nhien huong" la chua du. GIAPTECH thiet ke landing page ca nhan chuyen sau —
@@ -224,18 +224,18 @@ export default function App() {
             </p>
             <div className="hero-actions">
               <RippleBtn href="#contact" className="btn-hero-primary">
-                Phan Tich Thuong Hieu Mien Phi (Tri gia 2Tr) <span className="btn-arrow">→</span>
+                Phân Tích Thương Hiệu Miễn Phí (Trị giá 2Tr) <span className="btn-arrow">→</span>
               </RippleBtn>
-              <a href="#benefits" className="btn-hero-ghost">Xem Cach Chung Toi Dot Pha Doanh Thu</a>
+              <a href="#benefits" className="btn-hero-ghost">Xem Cách Chúng Tôi Đột Phá Doanh Thu</a>
             </div>
             <div className="hero-stats">
-              <div className="hero-stat"><strong><Counter target="50" suffix="+" /></strong><span>Chuyen gia tin dung</span></div>
+              <div className="hero-stat"><strong><Counter target="50" suffix="+" /></strong><span>Chuyên gia tin dùng</span></div>
               <div className="stat-divider" />
-              <div className="hero-stat"><strong><Counter target="98" suffix="%" /></strong><span>Tang ty le chot sale</span></div>
+              <div className="hero-stat"><strong><Counter target="98" suffix="%" /></strong><span>Tăng tỷ lệ chốt sale</span></div>
               <div className="stat-divider" />
-              <div className="hero-stat"><strong>&lt;2s</strong><span>Toc do tai trang</span></div>
+              <div className="hero-stat"><strong>&lt;2s</strong><span>Tốc độ tải trang</span></div>
               <div className="stat-divider" />
-              <div className="hero-stat"><strong>24/7</strong><span>Dong hanh ho tro</span></div>
+              <div className="hero-stat"><strong>24/7</strong><span>Đồng hành hỗ trợ</span></div>
             </div>
           </div>
           <div className="hero-visual">
@@ -258,8 +258,8 @@ export default function App() {
       {/* BENEFITS */}
       <Section id="benefits" className="benefits-section">
         <div className="container">
-          <div className="section-label">Tai Sao Bat Buoc Phai Co Landing Page Ca Nhan?</div>
-          <h2 className="section-title">6 Ly Do Website Ca Nhan Se Thay Doi Hoan Toan<br /><span className="gradient-text">Cach Ban Kiem Tien</span></h2>
+          <div className="section-label">Tại Sao Bắt Buộc Phải Có Landing Page Cá Nhân?</div>
+          <h2 className="section-title">6 Lý Do Website Cá Nhân Sẽ Thay Đổi Hoàn Toàn<br /><span className="gradient-text">Cách Bạn Kiếm Tiền</span></h2>
           <div className="benefits-grid">
             {benefits.map((b, i) => (
               <TiltCard key={i} className="benefit-card" style={{ '--delay': `${i * 0.1}s` }}>
@@ -270,8 +270,8 @@ export default function App() {
             ))}
           </div>
           <div className="benefits-cta">
-            <p>🏆 <strong>Nhan hieu manh = Khach hang VIP = Thu nhap dot pha. Bat dau ngay hom nay!</strong></p>
-            <RippleBtn href="#contact" className="btn-primary">Bat Dau Xay Dung Ngay →</RippleBtn>
+            <p>🏆 <strong>Nhân hiệu mạnh = Khách hàng VIP = Thu nhập đột phá. Bắt đầu ngay hôm nay!</strong></p>
+            <RippleBtn href="#contact" className="btn-primary">Bắt Đầu Xây Dựng Ngay →</RippleBtn>
           </div>
         </div>
       </Section>
@@ -279,8 +279,8 @@ export default function App() {
       {/* FEATURES */}
       <Section id="features" className="features-section">
         <div className="container">
-          <div className="section-label">Tieu Chuan GIAPTECH</div>
-          <h2 className="section-title">Khong Chi La Web Dep,<br /><span className="gradient-text">Chung Toi Xay Dung "Co May In Tien"</span></h2>
+          <div className="section-label">Tiêu Chuẩn GIAPTECH</div>
+          <h2 className="section-title">Không Chỉ Là Web Đẹp,<br /><span className="gradient-text">Chúng Tôi Xây Dựng "Cỗ Máy In Tiền"</span></h2>
           <div className="features-grid">
             {features.map((f, i) => (
               <TiltCard key={i} className="feature-card" style={{ '--delay': `${i * 0.1}s` }}>
@@ -296,8 +296,8 @@ export default function App() {
       {/* PROCESS */}
       <Section id="process" className="process-section">
         <div className="container">
-          <div className="section-label">Quy trinh lam viec</div>
-          <h2 className="section-title">Thuc Thi Toc Do —<br /><span className="gradient-text">Minh Bach Tung Buoc</span></h2>
+          <div className="section-label">Quy trình lam viec</div>
+          <h2 className="section-title">Thực Thi Tốc Độ —<br /><span className="gradient-text">Minh Bạch Từng Bước</span></h2>
           <div className="steps">
             {steps.map((s, i) => (
               <div className="step" key={i} style={{ '--delay': `${i * 0.12}s` }}>
@@ -318,15 +318,15 @@ export default function App() {
       {/* SERVICES */}
       <Section id="services" className="services-section">
         <div className="container">
-          <div className="section-label">Dich Vu Nay Danh Rieng Cho Ai?</div>
-          <h2 className="section-title">Chung Toi La "Vu Khi Bi Mat" Cua<br /><span className="gradient-text">Nhung Chuyen Gia Dung Dau Nganh</span></h2>
+          <div className="section-label">Dịch Vụ Này Dành Riêng Cho Ai?</div>
+          <h2 className="section-title">Chúng Tôi Là "Vũ Khí Bi Mat" Của<br /><span className="gradient-text">Những Chuyên Gia Đứng Đầu Ngành</span></h2>
           <div className="services-grid">
             {services.map((s, i) => (
               <TiltCard key={i} className="service-card" style={{ '--delay': `${i * 0.08}s` }}>
                 <div className="service-icon">{s.icon}</div>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
-                <a href="#contact" className="service-link">Tu van cho toi →</a>
+                <a href="#contact" className="service-link">Tư vấn cho tôi →</a>
               </TiltCard>
             ))}
           </div>
@@ -336,9 +336,9 @@ export default function App() {
       {/* PRICING */}
       <Section id="pricing" className="pricing-section">
         <div className="container">
-          <div className="section-label">Dau Tu Nho, Vi The Lon</div>
-          <h2 className="section-title">Bang Gia Minh Bach —<br /><span className="gradient-text">Tuong Xung Voi Tam Voc Cua Ban</span></h2>
-          <p className="pricing-note">Dung dot tien rai to roi hay chay Ads vo dinh. So huu "Mat bang so" vinh vien chi bang chi phi mot chau nhau.</p>
+          <div className="section-label">Đầu Tư Nhỏ, Vị Thế Lớn</div>
+          <h2 className="section-title">Bảng Giá Minh Bạch —<br /><span className="gradient-text">Tuong Xung Voi Tam Voc Của Ban</span></h2>
+          <p className="pricing-note">Đừng đốt tiền rải tờ rơi hay chạy Ads vô định. Sở hữu "Mặt bằng số" vĩnh viễn chỉ bằng chi phí một chầu nhậu.</p>
           <div className="pricing-grid">
             {packages.map((pkg, i) => (
               <div className={`pricing-card ${pkg.featured ? 'featured' : ''}`} key={i} style={{ '--delay': `${i * 0.1}s` }}>
@@ -356,7 +356,7 @@ export default function App() {
                   {pkg.missing.map((f, j) => <li key={j} className="no">✕ {f}</li>)}
                 </ul>
                 <RippleBtn href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>
-                  Tu van goi nay →
+                  Tư vấn gói này →
                 </RippleBtn>
               </div>
             ))}
@@ -367,15 +367,15 @@ export default function App() {
       {/* CONTACT */}
       <Section id="contact" className="contact-section">
         <div className="container">
-          <div className="section-label">Bat Dau Ky Nguyen Moi Cho Thuong Hieu</div>
-          <h2 className="section-title">Nhan Lo Trinh Xay Dung Nhan Hieu<br /><span className="gradient-text">Hoan Toan Mien Phi</span></h2>
-          <p className="contact-desc">Danh 15 phut noi chuyen voi chuyen gia cua GIAPTECH. Du co hop tac hay khong, ban cung se biet chinh xac minh can lam gi tiep theo de but pha thu nhap.</p>
+          <div className="section-label">Bắt Đầu Kỷ Nguyên Mới Cho Thương Hiệu</div>
+          <h2 className="section-title">Nhận Lộ Trình Xây Dựng Nhân Hiệu<br /><span className="gradient-text">Hoàn Toàn Miễn Phí</span></h2>
+          <p className="contact-desc">Dành 15 phút nói chuyện với chuyên gia của GIAPTECH. Dù có hợp tác hay không, bạn cũng sẽ biết chính xác mình cần làm gì tiếp theo để bứt phá thu nhập.</p>
           <div className="contact-grid">
             <div className="contact-left">
-              <h3>Lien he ngay</h3>
+              <h3>Liên hệ ngay</h3>
               <a href="tel:0352425290" className="contact-method">
                 <div className="method-icon">📞</div>
-                <div><strong>Goi dien truc tiep</strong><span>0352 425 290</span></div>
+                <div><strong>Gọi điện trực tiếp</strong><span>0352 425 290</span></div>
                 <div className="method-arrow">→</div>
               </a>
               <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="contact-method">
@@ -385,41 +385,41 @@ export default function App() {
               </a>
               <div className="response-time">
                 <span>⏰</span>
-                <p>Phan hoi toc do trong <strong>30 phut</strong> — Hoat dong 8:00 den 22:00 moi ngay</p>
+                <p>Phản hồi tốc độ trong <strong>30 phut</strong> — Hoạt động 8:00 đến 22:00 mỗi ngày</p>
               </div>
             </div>
             <form className="contact-form" onSubmit={handleSubmit}>
               {sent ? (
                 <div className="form-success">
                   <div className="success-icon">🎉</div>
-                  <h3>Da nhan thong tin cua ban!</h3>
-                  <p>Chuyen gia GIAPTECH se lien he lai trong vong 30 phut.</p>
+                  <h3>Đã nhận thông tin của bạn!</h3>
+                  <p>Chuyên gia GIAPTECH sẽ liên hệ lại trong vòng 30 phút.</p>
                 </div>
               ) : (
                 <>
-                  <h3>De lai thong tin</h3>
+                  <h3>Để lại thông tin</h3>
                   <div className="form-group">
-                    <input type="text" placeholder="Ho va ten chuyen gia" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+                    <input type="text" placeholder="Họ và tên chuyên gia" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                   </div>
                   <div className="form-group">
-                    <input type="tel" placeholder="So dien thoai / Zalo" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+                    <input type="tel" placeholder="Số điện thoại / Zalo" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
                   </div>
                   <div className="form-group">
                     <select value={form.job} onChange={e => setForm({...form, job: e.target.value})} required>
-                      <option value="">Linh vuc chuyen mon</option>
-                      <option>Huan luyen vien PT / Yoga</option>
-                      <option>Giao vien / Chuyen gia Dao tao</option>
-                      <option>Moi gioi Bat dong san</option>
-                      <option>Moi gioi Xe o to</option>
-                      <option>Chuyen vien Tai chinh / Bao hiem</option>
-                      <option>Chuyen gia Tham my / Spa</option>
-                      <option>Linh vuc khac</option>
+                      <option value="">Lĩnh vực chuyên môn</option>
+                      <option>Huấn luyện viên PT / Yoga</option>
+                      <option>Giáo viên / Chuyên gia Đào tạo</option>
+                      <option>Môi giới Bất động sản</option>
+                      <option>Môi giới Xe ô tô</option>
+                      <option>Chuyên viên Tài chính / Bảo hiểm</option>
+                      <option>Chuyên gia Thẩm mỹ / Spa</option>
+                      <option>Lĩnh vực khác</option>
                     </select>
                   </div>
                   <RippleBtn type="submit" className="btn-primary btn-full">
-                    Dang ky nhan lo trinh mien phi 🚀
+                    Đăng ký nhận lộ trình miễn phí 🚀
                   </RippleBtn>
-                  <p className="form-privacy">🔒 Thong tin duoc bao mat tuyet doi</p>
+                  <p className="form-privacy">🔒 Thông tin được bảo mật tuyệt đối</p>
                 </>
               )}
             </form>
@@ -432,7 +432,7 @@ export default function App() {
         <div className="footer-inner">
           <div className="footer-brand">
             <div className="footer-logo">⚡ GIAPTECH</div>
-            <p>Be phong thuong hieu ca nhan so 1 cho chuyen gia Viet</p>
+            <p>Bệ phóng thương hiệu cá nhân số 1 cho chuyên gia Việt</p>
           </div>
           <div className="footer-contact">
             <p>📞 0352 425 290</p>
@@ -443,7 +443,7 @@ export default function App() {
         <div className="footer-bottom">© 2026 GIAPTECH. All rights reserved.</div>
       </footer>
 
-      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Len dau trang">↑</button>
+      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">↑</button>
     </div>
   )
 }
