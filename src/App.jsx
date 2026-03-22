@@ -554,7 +554,7 @@ export default function App() {
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <li><a href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setMenuOpen(false) }}>Trang chủ</a></li>
           {['benefits','features','process','services','portfolio','pricing'].map((id,i) => (
-            <li key={id}><a href="#" onClick={e => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); history.replaceState(null,'',window.location.pathname); setMenuOpen(false) }}>
+            <li key={id}><a href="#" onClick={e => { e.preventDefault(); const el=document.getElementById(id); if(el){el.scrollIntoView({behavior:'smooth'}); setTimeout(()=>history.replaceState(null,'',window.location.pathname),800)} setMenuOpen(false) }}>
               {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Portfolio','Bảng giá'][i]}
             </a></li>
           ))}
@@ -872,7 +872,7 @@ export default function App() {
 
       {/* MOBILE ACTION BAR */}
       <div className="mobile-action-bar">
-        <a href="#" onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); history.replaceState(null,'',window.location.pathname) }} className="mob-btn mob-btn-outline">
+        <a href="#" onClick={e => { e.preventDefault(); const el = document.getElementById('contact'); if(el){ el.scrollIntoView({behavior:'smooth'}); setTimeout(()=>history.replaceState(null,'',window.location.pathname),800) } }} className="mob-btn mob-btn-outline">
           <span>📝</span> Gửi Thông Tin
         </a>
         <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="mob-btn mob-btn-primary">
