@@ -1,36 +1,79 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
+// ── Scroll animation hook
+function useInView(threshold = 0.15) {
+  const ref = useRef(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true) }, { threshold })
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [threshold])
+  return [ref, inView]
+}
+
+// ── Counter animation
+function Counter({ target, suffix = '' }) {
+  const [count, setCount] = useState(0)
+  const [ref, inView] = useInView(0.5)
+  useEffect(() => {
+    if (!inView) return
+    let start = 0
+    const end = parseInt(target)
+    if (isNaN(end)) { setCount(target); return }
+    const duration = 1800
+    const step = Math.ceil(end / (duration / 16))
+    const timer = setInterval(() => {
+      start += step
+      if (start >= end) { setCount(end); clearInterval(timer) }
+      else setCount(start)
+    }, 16)
+    return () => clearInterval(timer)
+  }, [inView, target])
+  return <span ref={ref}>{isNaN(parseInt(target)) ? target : count}{suffix}</span>
+}
+
+// ── Section wrapper with animation
+function Section({ children, className = '', id = '' }) {
+  const [ref, inView] = useInView()
+  return (
+    <section ref={ref} id={id} className={`section ${className} ${inView ? 'visible' : ''}`}>
+      {children}
+    </section>
+  )
+}
+
 const services = [
-  { icon: '🏋️', title: 'Huấn luyện viên PT / Yoga', desc: 'Trang cá nhân thể hiện chuyên môn, chứng chỉ, lịch tập và form đăng ký học viên.' },
-  { icon: '👨‍🏫', title: 'Giáo viên / Gia sư', desc: 'Giới thiệu phương pháp giảng dạy, thành tích học sinh, lịch học và học phí rõ ràng.' },
-  { icon: '🏠', title: 'Môi giới Bất động sản', desc: 'Portfolio dự án đã bán, review khách hàng, form tư vấn — tạo uy tín chốt deal nhanh hơn.' },
-  { icon: '🚗', title: 'Môi giới Xe ô tô', desc: 'Showroom online cá nhân, so sánh dòng xe, form báo giá — khách hàng tìm đến bạn trước.' },
-  { icon: '💰', title: 'Tư vấn Tài chính / Bảo hiểm', desc: 'Xây dựng sự tin tưởng qua nội dung chuyên sâu, case study thực tế và form tư vấn miễn phí.' },
-  { icon: '💆', title: 'Chuyên gia Sắc đẹp / Spa', desc: 'Trước - sau thuyết phục, lịch đặt hẹn online, chính sách rõ ràng — khách quay lại nhiều hơn.' },
+  { icon: '🏋️', title: 'Huấn luyện viên PT / Yoga', desc: 'Chứng chỉ, lịch tập, testimonial học viên — tất cả trên một trang duy nhất.' },
+  { icon: '👨‍🏫', title: 'Giáo viên / Gia sư', desc: 'Phương pháp giảng dạy, thành tích, lịch học — phụ huynh tin tưởng ngay lần đầu.' },
+  { icon: '🏠', title: 'Môi giới Bất động sản', desc: 'Portfolio dự án, review khách hàng, form tư vấn — uy tín được xây dựng trước khi gặp mặt.' },
+  { icon: '🚗', title: 'Môi giới Xe ô tô', desc: 'Showroom cá nhân online, báo giá tức thì — khách tìm đến bạn trước đối thủ.' },
+  { icon: '💰', title: 'Tư vấn Tài chính / Bảo hiểm', desc: 'Nội dung chuyên sâu, case study thực tế — biến sự tin tưởng thành hợp đồng.' },
+  { icon: '💆', title: 'Chuyên gia Sắc đẹp / Spa', desc: 'Hình ảnh before/after, đặt lịch online — khách hàng quay lại không cần nhắc.' },
 ]
 
 const pains = [
-  { icon: '😰', text: 'Bạn giỏi chuyên môn nhưng khách hàng không biết đến bạn?' },
-  { icon: '📱', text: 'Chỉ dùng Facebook cá nhân để kinh doanh — không chuyên nghiệp, dễ bị mất tài khoản?' },
-  { icon: '🤦', text: 'Đối thủ kém hơn bạn nhưng lại có nhiều khách hơn chỉ vì họ trông "chuyên nghiệp" hơn?' },
-  { icon: '💸', text: 'Đang bỏ tiền chạy quảng cáo nhưng không có trang đích — tiền đổ sông đổ biển?' },
+  { icon: '😰', title: 'Giỏi chuyên môn, thiếu khách', desc: 'Bạn xuất sắc trong nghề nhưng khách hàng không biết bạn tồn tại.' },
+  { icon: '📱', title: 'Facebook không đủ', desc: 'Kinh doanh qua trang cá nhân — thiếu chuyên nghiệp, dễ bị block, không bền vững.' },
+  { icon: '🤦', title: 'Thua đối thủ kém hơn', desc: 'Họ ít kinh nghiệm hơn bạn nhưng có nhiều khách hơn — chỉ vì trông "chuyên nghiệp" hơn.' },
+  { icon: '💸', title: 'Quảng cáo không ra leads', desc: 'Đổ tiền chạy ads nhưng không có landing page chuẩn — tỷ lệ chuyển đổi gần bằng 0.' },
 ]
 
 const features = [
-  { icon: '⚡', title: 'Tốc độ tải trang dưới 2 giây', desc: 'Trang web của bạn tải nhanh trên mọi thiết bị — Google ưu tiên xếp hạng cao hơn, khách hàng không bỏ đi.' },
-  { icon: '📱', title: 'Chuẩn Mobile-first', desc: '80% khách hàng của bạn dùng điện thoại. Chúng tôi thiết kế cho điện thoại trước — đảm bảo trải nghiệm hoàn hảo.' },
-  { icon: '🎯', title: 'Tối ưu chuyển đổi', desc: 'Mỗi dòng chữ, nút bấm, màu sắc đều được thiết kế theo tâm lý hành vi người dùng Việt Nam để tối đa hóa leads.' },
-  { icon: '🔍', title: 'Chuẩn SEO kỹ thuật', desc: 'Cấu trúc trang chuẩn, meta tags đầy đủ, tốc độ cao — giúp Google tìm thấy bạn dễ hơn và xếp hạng cao hơn đối thủ.' },
-  { icon: '🛡️', title: 'Bảo mật & Ổn định 99.9%', desc: 'Hạ tầng CDN toàn cầu — uptime 99.9%, không bao giờ bị down, bảo mật chuẩn cao cấp.' },
+  { icon: '⚡', title: 'Tốc độ dưới 2 giây', desc: 'Tải nhanh trên mọi thiết bị. Google ưu tiên — khách hàng không bỏ đi.' },
+  { icon: '📱', title: 'Mobile-first', desc: '80% khách hàng dùng điện thoại. Chúng tôi thiết kế cho họ trước tiên.' },
+  { icon: '🎯', title: 'Tối ưu chuyển đổi', desc: 'Copywriting, màu sắc, CTA — mọi chi tiết đều được tính toán để tăng tỷ lệ liên hệ.' },
+  { icon: '🔍', title: 'Chuẩn SEO', desc: 'Cấu trúc đúng chuẩn, meta tags đầy đủ — Google tìm thấy bạn, đối thủ không thể copy.' },
+  { icon: '🛡️', title: 'Ổn định 99.9%', desc: 'Hạ tầng CDN toàn cầu — không bao giờ bị down, bảo mật chuẩn cao cấp.' },
 ]
 
 const steps = [
-  { num: '01', icon: '📋', title: 'Tiếp nhận yêu cầu', desc: 'Khách hàng liên hệ qua Zalo hoặc điện thoại. Chúng tôi lắng nghe nhu cầu, ngành nghề và mục tiêu của bạn trong 15 phút.' },
-  { num: '02', icon: '🎨', title: 'Tư vấn & Lên concept', desc: 'Dựa trên thông tin thu thập, chúng tôi đề xuất cấu trúc trang, màu sắc thương hiệu và nội dung phù hợp với ngành của bạn.' },
-  { num: '03', icon: '✍️', title: 'Thiết kế & Phát triển', desc: 'Đội ngũ bắt tay vào thiết kế giao diện và lập trình. Bạn được xem bản preview trước khi hoàn thiện.' },
-  { num: '04', icon: '🔍', title: 'Chỉnh sửa & Hoàn thiện', desc: 'Bạn xem xét và góp ý. Chúng tôi chỉnh sửa theo yêu cầu (tối đa 3 lần) để đảm bảo bạn 100% hài lòng.' },
-  { num: '05', icon: '🚀', title: 'Bàn giao & Hướng dẫn', desc: 'Bàn giao toàn bộ website, tên miền và hướng dẫn sử dụng. Hỗ trợ kỹ thuật trong suốt thời gian sử dụng.' },
+  { num: '01', icon: '📋', title: 'Tư vấn & Thu thập thông tin', desc: '15 phút — chúng tôi lắng nghe ngành nghề, mục tiêu và phong cách thương hiệu của bạn.' },
+  { num: '02', icon: '🎨', title: 'Lên concept & Thiết kế', desc: 'Đề xuất cấu trúc trang, màu sắc, nội dung phù hợp với ngành. Bạn xem và góp ý trước khi làm.' },
+  { num: '03', icon: '💻', title: 'Phát triển & Preview', desc: 'Đội ngũ phát triển trang web. Bạn được xem bản preview thực tế trước khi hoàn thiện.' },
+  { num: '04', icon: '✅', title: 'Chỉnh sửa theo yêu cầu', desc: 'Tối đa 3 lần chỉnh sửa miễn phí — đảm bảo bạn 100% hài lòng trước khi bàn giao.' },
+  { num: '05', icon: '🚀', title: 'Bàn giao & Go Live', desc: 'Tên miền, hosting, hướng dẫn sử dụng — website của bạn chính thức hoạt động.' },
 ]
 
 const packages = [
@@ -38,52 +81,27 @@ const packages = [
     name: 'Khởi nghiệp',
     price: '2.900.000đ',
     time: '7 ngày',
-    features: [
-      '✅ 1 trang landing page',
-      '✅ Responsive mobile',
-      '✅ Form liên hệ',
-      '✅ SEO cơ bản',
-      '✅ Bàn giao 7 ngày',
-      '❌ Tên miền riêng',
-      '❌ Chỉnh sửa sau bàn giao',
-    ],
+    desc: 'Phù hợp khi bạn mới bắt đầu xây dựng thương hiệu cá nhân online.',
+    features: ['Landing page 1 trang', 'Responsive mobile', 'Form liên hệ', 'SEO cơ bản', 'Bàn giao 7 ngày'],
+    missing: ['Tên miền riêng', 'Chỉnh sửa sau bàn giao'],
   },
   {
     name: 'Chuyên nghiệp',
     price: '5.900.000đ',
     time: '14 ngày',
     featured: true,
-    features: [
-      '✅ 1 trang landing page',
-      '✅ Responsive mobile',
-      '✅ Form liên hệ + Zalo OA',
-      '✅ SEO nâng cao',
-      '✅ Tên miền .com 1 năm',
-      '✅ Bàn giao 14 ngày',
-      '✅ 3 lần chỉnh sửa miễn phí',
-    ],
+    desc: 'Giải pháp hoàn chỉnh cho chuyên gia muốn dẫn đầu trong ngành.',
+    features: ['Landing page cao cấp', 'Responsive + Animation', 'Form liên hệ & Zalo', 'SEO nâng cao', 'Tên miền .com 1 năm', 'Bàn giao 14 ngày', '3 lần chỉnh sửa miễn phí'],
+    missing: [],
   },
   {
     name: 'Thương hiệu',
     price: '9.900.000đ',
     time: '21 ngày',
-    features: [
-      '✅ Trang landing page cao cấp',
-      '✅ Responsive + Animation',
-      '✅ Form + CRM cơ bản',
-      '✅ SEO chuyên sâu + Blog',
-      '✅ Tên miền + Hosting 1 năm',
-      '✅ Bàn giao 21 ngày',
-      '✅ Hỗ trợ 6 tháng',
-    ],
+    desc: 'Dành cho chuyên gia muốn xây dựng hệ sinh thái thương hiệu bền vững.',
+    features: ['Landing page premium', 'Animation & Micro-interactions', 'Form + CRM cơ bản', 'SEO chuyên sâu + Blog', 'Tên miền + Hosting 1 năm', 'Bàn giao 21 ngày', 'Hỗ trợ 6 tháng'],
+    missing: [],
   },
-]
-
-const stats = [
-  { number: '50+', label: 'Khách hàng tin tưởng' },
-  { number: '98%', label: 'Hài lòng sau bàn giao' },
-  { number: '<1s', label: 'Tốc độ tải trang' },
-  { number: '24/7', label: 'Hỗ trợ kỹ thuật' },
 ]
 
 export default function App() {
@@ -93,265 +111,362 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 400)
+    const onScroll = () => setShowTop(window.scrollY > 500)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setSent(true)
-  }
+  const handleSubmit = (e) => { e.preventDefault(); setSent(true) }
 
   return (
     <div className="app">
 
-      {/* NAV */}
+      {/* ── NAV ── */}
       <nav className="nav">
         <div className="logo">⚡ GIÁP TECH</div>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          <li><a href="#pain" onClick={() => setMenuOpen(false)}>Vấn đề</a></li>
-          <li><a href="#why" onClick={() => setMenuOpen(false)}>Tại sao</a></li>
-          <li><a href="#process" onClick={() => setMenuOpen(false)}>Quy trình</a></li>
-          <li><a href="#services" onClick={() => setMenuOpen(false)}>Đối tượng</a></li>
-          <li><a href="#pricing" onClick={() => setMenuOpen(false)}>Bảng giá</a></li>
+          {['pain', 'why', 'process', 'services', 'pricing'].map((id, i) => (
+            <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
+              {['Vấn đề', 'Tại sao', 'Quy trình', 'Đối tượng', 'Bảng giá'][i]}
+            </a></li>
+          ))}
         </ul>
-        <a href="#contact" className="btn-primary nav-cta">Tư vấn miễn phí</a>
-        <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? '✕' : '☰'}
-        </button>
+        <div className="nav-right">
+          <a href="#contact" className="btn-primary nav-cta">Tư vấn miễn phí</a>
+          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            <span /><span /><span />
+          </button>
+        </div>
       </nav>
 
-      {/* HERO */}
+      {/* ── HERO ── */}
       <section className="hero">
-        <div className="hero-bg-circle c1" />
-        <div className="hero-bg-circle c2" />
-        <div className="hero-content">
-          <div className="hero-badge">🚀 Chuyên gia xây dựng thương hiệu cá nhân số 1 Việt Nam</div>
-          <h1>
-            Bạn giỏi chuyên môn —<br />
-            <span className="gradient">Hãy để thế giới biết điều đó</span>
-          </h1>
-          <p className="hero-sub">
-            GIÁP TECH tạo ra landing page cá nhân chuyên nghiệp giúp huấn luyện viên, giáo viên,
-            môi giới và chuyên gia các ngành <strong>thu hút khách hàng tự động</strong> — ngay cả khi bạn đang ngủ.
-          </p>
-          <div className="hero-btns">
-            <a href="#contact" className="btn-primary btn-lg pulse">Đặt lịch tư vấn miễn phí 🎯</a>
-            <a href="#services" className="btn-outline btn-lg">Xem phù hợp với tôi không</a>
-          </div>
-          <div className="hero-stats">
-            {stats.map((s, i) => (
-              <div className="stat" key={i}>
-                <strong>{s.number}</strong>
-                <span>{s.label}</span>
+        <div className="hero-orb orb1" />
+        <div className="hero-orb orb2" />
+        <div className="hero-orb orb3" />
+        <div className="hero-inner">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <span className="badge-dot" />
+              Chuyên gia xây dựng thương hiệu cá nhân
+            </div>
+            <h1>
+              Bạn giỏi chuyên môn.<br />
+              <span className="gradient-text">Đã đến lúc thế giới biết điều đó.</span>
+            </h1>
+            <p className="hero-desc">
+              GIÁP TECH tạo ra landing page cá nhân chuyên nghiệp — giúp bạn thu hút khách hàng tự động,
+              xây dựng uy tín vượt trội và tăng thu nhập mà không cần chạy quảng cáo mãi mãi.
+            </p>
+            <div className="hero-actions">
+              <a href="#contact" className="btn-hero-primary">
+                Đặt lịch tư vấn miễn phí
+                <span className="btn-arrow">→</span>
+              </a>
+              <a href="#services" className="btn-hero-ghost">Xem tôi phù hợp không</a>
+            </div>
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <strong><Counter target="50" suffix="+" /></strong>
+                <span>Khách hàng</span>
               </div>
-            ))}
+              <div className="stat-divider" />
+              <div className="hero-stat">
+                <strong><Counter target="98" suffix="%" /></strong>
+                <span>Hài lòng</span>
+              </div>
+              <div className="stat-divider" />
+              <div className="hero-stat">
+                <strong>&lt;2s</strong>
+                <span>Tốc độ tải</span>
+              </div>
+              <div className="stat-divider" />
+              <div className="hero-stat">
+                <strong>24/7</strong>
+                <span>Hỗ trợ</span>
+              </div>
+            </div>
+          </div>
+          <div className="hero-visual">
+            <div className="mockup">
+              <div className="mockup-bar">
+                <span /><span /><span />
+              </div>
+              <div className="mockup-content">
+                <div className="mock-nav" />
+                <div className="mock-hero">
+                  <div className="mock-title" />
+                  <div className="mock-sub" />
+                  <div className="mock-btn" />
+                </div>
+                <div className="mock-cards">
+                  <div className="mock-card" />
+                  <div className="mock-card" />
+                  <div className="mock-card" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* PAIN */}
-      <section className="pain" id="pain">
+      {/* ── PAIN ── */}
+      <Section id="pain" className="pain-section">
         <div className="container">
           <div className="section-label">Bạn có đang gặp phải?</div>
-          <h2>Những vấn đề khiến bạn<br /><span className="gradient">mất khách hàng mỗi ngày</span></h2>
+          <h2 className="section-title">
+            Những vấn đề đang khiến bạn<br />
+            <span className="gradient-text">mất khách hàng mỗi ngày</span>
+          </h2>
           <div className="pain-grid">
             {pains.map((p, i) => (
-              <div className="pain-card fade-up" key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-                <span className="pain-icon">{p.icon}</span>
-                <p>{p.text}</p>
+              <div className="pain-card" key={i} style={{ '--delay': `${i * 0.1}s` }}>
+                <div className="pain-icon-wrap">{p.icon}</div>
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.desc}</p>
+                </div>
               </div>
             ))}
           </div>
-          <div className="pain-solution">
-            <p>👉 <strong>Nếu bạn gật đầu với bất kỳ điều nào trên</strong> — bạn đang cần một landing page cá nhân chuyên nghiệp.</p>
+          <div className="pain-cta">
+            <p>👉 <strong>Nếu bạn gật đầu với bất kỳ điều nào</strong> — landing page cá nhân chính là giải pháp.</p>
+            <a href="#contact" className="btn-primary">Giải quyết ngay →</a>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* WHY */}
-      <section className="why" id="why">
+      {/* ── WHY ── */}
+      <Section id="why" className="why-section">
         <div className="container">
-          <div className="section-label">Tại sao cần thương hiệu cá nhân</div>
-          <h2>Trong thời đại số, <span className="gradient">người ta Google bạn<br />trước khi gặp bạn</span></h2>
-          <div className="why-text">
-            <p>Hãy thử nghĩ: khi bạn cần một huấn luyện viên cá nhân, bạn làm gì đầu tiên? Bạn <strong>tìm kiếm trên Google</strong> hoặc hỏi bạn bè, rồi <strong>vào trang web để đánh giá</strong> người đó có đáng tin không.</p>
-            <p>Khách hàng của bạn cũng vậy. Họ đang Google tên bạn ngay lúc này. Câu hỏi là: <strong>họ tìm thấy gì?</strong></p>
-          </div>
+          <div className="section-label">Sự thật về thương hiệu cá nhân</div>
+          <h2 className="section-title">
+            Trong 3 giây đầu tiên,<br />
+            <span className="gradient-text">khách hàng đã quyết định tin bạn hay không</span>
+          </h2>
+          <p className="why-intro">Trước khi gặp bạn, họ Google. Trước khi gọi điện, họ xem web. Câu hỏi là: <strong>trang web của bạn đang nói gì về bạn?</strong></p>
           <div className="why-compare">
-            <div className="compare-bad fade-up">
-              <h4>❌ Không có thương hiệu cá nhân</h4>
+            <div className="compare-card bad">
+              <div className="compare-header bad-header">
+                <span>✕</span> Không có thương hiệu
+              </div>
               <ul>
-                <li>Khách tìm không thấy hoặc thấy đối thủ</li>
-                <li>Trông không chuyên nghiệp, khó tạo niềm tin</li>
-                <li>Khó tính giá cao hơn thị trường</li>
-                <li>Phụ thuộc hoàn toàn vào referral và may mắn</li>
+                <li>Khách tìm thấy đối thủ, không tìm thấy bạn</li>
+                <li>Thiếu uy tín, khó tính giá cao</li>
+                <li>Phụ thuộc mãi vào referral và may mắn</li>
+                <li>Bị thay thế dễ dàng bởi người mới</li>
               </ul>
             </div>
-            <div className="compare-good fade-up">
-              <h4>✅ Có landing page chuyên nghiệp</h4>
+            <div className="compare-vs">VS</div>
+            <div className="compare-card good">
+              <div className="compare-header good-header">
+                <span>✓</span> Có landing page chuyên nghiệp
+              </div>
               <ul>
-                <li>Khách tự tìm đến, tự điền form 24/7</li>
-                <li>Uy tín cao, dễ tính giá premium hơn đối thủ</li>
-                <li>Thu leads liên tục kể cả lúc đang ngủ</li>
-                <li>Khác biệt hoàn toàn, dẫn đầu trong ngành</li>
+                <li>Khách hàng tự tìm đến, tự điền form 24/7</li>
+                <li>Uy tín vượt trội, tính được giá premium</li>
+                <li>Thu leads liên tục kể cả khi đang ngủ</li>
+                <li>Dẫn đầu và khó bị thay thế trong ngành</li>
               </ul>
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* FEATURES */}
-      <section className="features" id="features">
+      {/* ── FEATURES ── */}
+      <Section id="features" className="features-section">
         <div className="container">
-          <div className="section-label">Công nghệ & Khả năng</div>
-          <h2>Không chỉ là "làm web" —<br /><span className="gradient">chúng tôi xây dựng cỗ máy thu khách</span></h2>
+          <div className="section-label">Cam kết của chúng tôi</div>
+          <h2 className="section-title">
+            Mỗi trang web là một<br />
+            <span className="gradient-text">cỗ máy thu hút khách hàng</span>
+          </h2>
           <div className="features-grid">
             {features.map((f, i) => (
-              <div className="feature-card fade-up" key={i} style={{ animationDelay: `${i * 0.08}s` }}>
-                <div className="feature-icon">{f.icon}</div>
+              <div className="feature-card" key={i} style={{ '--delay': `${i * 0.1}s` }}>
+                <div className="feature-icon-wrap">{f.icon}</div>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* PROCESS */}
-      <section className="process" id="process">
+      {/* ── PROCESS ── */}
+      <Section id="process" className="process-section">
         <div className="container">
           <div className="section-label">Quy trình làm việc</div>
-          <h2>Từ yêu cầu đến bàn giao —<br /><span className="gradient">minh bạch từng bước</span></h2>
-          <div className="process-steps">
+          <h2 className="section-title">
+            Từ ý tưởng đến bàn giao —<br />
+            <span className="gradient-text">minh bạch từng bước</span>
+          </h2>
+          <div className="steps">
             {steps.map((s, i) => (
-              <div className="process-step fade-up" key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className="step-num">{s.num}</div>
-                <div className="step-icon">{s.icon}</div>
-                <div className="step-content">
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
+              <div className="step" key={i} style={{ '--delay': `${i * 0.12}s` }}>
+                <div className="step-left">
+                  <div className="step-num">{s.num}</div>
+                  {i < steps.length - 1 && <div className="step-line" />}
                 </div>
-                {i < steps.length - 1 && <div className="step-arrow">→</div>}
+                <div className="step-card">
+                  <div className="step-icon">{s.icon}</div>
+                  <div>
+                    <h3>{s.title}</h3>
+                    <p>{s.desc}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* SERVICES */}
-      <section className="services" id="services">
+      {/* ── SERVICES ── */}
+      <Section id="services" className="services-section">
         <div className="container">
-          <div className="section-label">Đối tượng phù hợp</div>
-          <h2>Chúng tôi tạo landing page cho<br /><span className="gradient">những ai muốn trở thành số 1 trong ngành</span></h2>
+          <div className="section-label">Ai phù hợp?</div>
+          <h2 className="section-title">
+            Chúng tôi xây dựng thương hiệu cho<br />
+            <span className="gradient-text">những người muốn dẫn đầu ngành của họ</span>
+          </h2>
           <div className="services-grid">
             {services.map((s, i) => (
-              <div className="service-card fade-up" key={i} style={{ animationDelay: `${i * 0.08}s` }}>
+              <div className="service-card" key={i} style={{ '--delay': `${i * 0.08}s` }}>
                 <div className="service-icon">{s.icon}</div>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
+                <a href="#contact" className="service-link">Tư vấn cho tôi →</a>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* PRICING */}
-      <section className="pricing" id="pricing">
+      {/* ── PRICING ── */}
+      <Section id="pricing" className="pricing-section">
         <div className="container">
-          <div className="section-label">Đầu tư cho thương hiệu</div>
-          <h2>Gói dịch vụ <span className="gradient">minh bạch, không phát sinh</span></h2>
-          <p className="pricing-sub">So với chi phí chạy quảng cáo mỗi tháng, đây là khoản đầu tư một lần — sinh lời mãi mãi.</p>
+          <div className="section-label">Đầu tư một lần, sinh lời mãi mãi</div>
+          <h2 className="section-title">
+            Gói dịch vụ <span className="gradient-text">minh bạch, không phát sinh</span>
+          </h2>
+          <p className="pricing-note">Chi phí chạy quảng cáo 1 tháng có thể mua được một landing page dùng mãi mãi.</p>
           <div className="pricing-grid">
             {packages.map((pkg, i) => (
-              <div className={`pricing-card fade-up ${pkg.featured ? 'featured' : ''}`} key={i} style={{ animationDelay: `${i * 0.1}s` }}>
-                {pkg.featured && <div className="badge">⭐ Phổ biến nhất</div>}
-                <h3>{pkg.name}</h3>
-                <div className="price">{pkg.price}</div>
-                <div className="price-time">⏱ Bàn giao trong {pkg.time}</div>
-                <ul>
-                  {pkg.features.map((f, j) => <li key={j}>{f}</li>)}
+              <div className={`pricing-card ${pkg.featured ? 'featured' : ''}`} key={i} style={{ '--delay': `${i * 0.1}s` }}>
+                {pkg.featured && <div className="featured-badge">⭐ Phổ biến nhất</div>}
+                <div className="pkg-header">
+                  <h3>{pkg.name}</h3>
+                  <p className="pkg-desc">{pkg.desc}</p>
+                </div>
+                <div className="pkg-price">
+                  <span className="price">{pkg.price}</span>
+                  <span className="price-note">Bàn giao {pkg.time}</span>
+                </div>
+                <ul className="pkg-features">
+                  {pkg.features.map((f, j) => <li key={j} className="ok">✓ {f}</li>)}
+                  {pkg.missing.map((f, j) => <li key={j} className="no">✕ {f}</li>)}
                 </ul>
-                <a href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>Chọn gói này</a>
+                <a href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>
+                  Tư vấn gói này →
+                </a>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* CONTACT */}
-      <section className="contact" id="contact">
+      {/* ── CONTACT ── */}
+      <Section id="contact" className="contact-section">
         <div className="container">
-          <div className="section-label">Bắt đầu ngay hôm nay</div>
-          <h2>Tư vấn <span className="gradient">miễn phí 100%</span> — Không ép mua</h2>
-          <p className="contact-sub">Chỉ cần 15 phút, chúng tôi sẽ cho bạn thấy landing page của bạn sẽ trông như thế nào và mang lại bao nhiêu khách hàng.</p>
-          <div className="contact-wrap">
-            <div className="contact-info">
-              <h3>Liên hệ trực tiếp</h3>
-              <a href="tel:0352425290" className="contact-item">
-                <span>📞</span>
+          <div className="section-label">Bắt đầu hành trình của bạn</div>
+          <h2 className="section-title">
+            Tư vấn <span className="gradient-text">miễn phí 100%</span>
+          </h2>
+          <p className="contact-desc">15 phút — chúng tôi sẽ phác thảo ngay landing page phù hợp cho bạn, không ép mua.</p>
+          <div className="contact-grid">
+            <div className="contact-left">
+              <h3>Liên hệ ngay</h3>
+              <a href="tel:0352425290" className="contact-method">
+                <div className="method-icon">📞</div>
                 <div>
-                  <strong>Gọi điện</strong>
-                  <p>0352 425 290</p>
+                  <strong>Gọi điện tư vấn</strong>
+                  <span>0352 425 290</span>
                 </div>
+                <div className="method-arrow">→</div>
               </a>
-              <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="contact-item">
-                <span>💬</span>
+              <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="contact-method">
+                <div className="method-icon">💬</div>
                 <div>
                   <strong>Nhắn Zalo</strong>
-                  <p>0352 425 290</p>
+                  <span>0352 425 290</span>
                 </div>
+                <div className="method-arrow">→</div>
               </a>
-              <div className="contact-note">
-                <p>⏰ Phản hồi trong vòng <strong>30 phút</strong> (8:00 - 22:00)</p>
+              <div className="response-time">
+                <span>⏰</span>
+                <p>Phản hồi trong <strong>30 phút</strong> — từ 8:00 đến 22:00 mỗi ngày</p>
               </div>
             </div>
             <form className="contact-form" onSubmit={handleSubmit}>
               {sent ? (
                 <div className="form-success">
                   <div className="success-icon">🎉</div>
-                  <h3>Đã nhận thông tin!</h3>
-                  <p>Chúng tôi sẽ liên hệ lại trong 30 phút. Cảm ơn bạn!</p>
+                  <h3>Đã nhận thông tin của bạn!</h3>
+                  <p>Chúng tôi sẽ liên hệ lại trong vòng 30 phút.</p>
                 </div>
               ) : (
                 <>
-                  <h3>Để lại thông tin tư vấn</h3>
-                  <input type="text" placeholder="Họ và tên *" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
-                  <input type="tel" placeholder="Số điện thoại / Zalo *" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
-                  <select value={form.job} onChange={e => setForm({...form, job: e.target.value})} required>
-                    <option value="">Nghề nghiệp của bạn *</option>
-                    <option>Huấn luyện viên PT / Yoga</option>
-                    <option>Giáo viên / Gia sư</option>
-                    <option>Môi giới Bất động sản</option>
-                    <option>Môi giới Xe ô tô</option>
-                    <option>Tư vấn Tài chính / Bảo hiểm</option>
-                    <option>Chuyên gia Sắc đẹp / Spa</option>
-                    <option>Khác</option>
-                  </select>
-                  <button type="submit" className="btn-primary btn-lg">Đăng ký tư vấn miễn phí 🚀</button>
-                  <p className="form-note">🔒 Thông tin của bạn được bảo mật tuyệt đối</p>
+                  <h3>Để lại thông tin</h3>
+                  <div className="form-group">
+                    <input type="text" placeholder="Họ và tên" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <input type="tel" placeholder="Số điện thoại / Zalo" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <select value={form.job} onChange={e => setForm({...form, job: e.target.value})} required>
+                      <option value="">Nghề nghiệp của bạn</option>
+                      <option>Huấn luyện viên PT / Yoga</option>
+                      <option>Giáo viên / Gia sư</option>
+                      <option>Môi giới Bất động sản</option>
+                      <option>Môi giới Xe ô tô</option>
+                      <option>Tư vấn Tài chính / Bảo hiểm</option>
+                      <option>Chuyên gia Sắc đẹp / Spa</option>
+                      <option>Khác</option>
+                    </select>
+                  </div>
+                  <button type="submit" className="btn-primary btn-full">
+                    Đăng ký tư vấn miễn phí 🚀
+                  </button>
+                  <p className="form-privacy">🔒 Thông tin được bảo mật tuyệt đối</p>
                 </>
               )}
             </form>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* FOOTER */}
+      {/* ── FOOTER ── */}
       <footer className="footer">
-        <div className="footer-logo">⚡ GIÁP TECH</div>
-        <p>Chuyên gia xây dựng thương hiệu cá nhân cho người Việt</p>
-        <p>📞 0352 425 290 &nbsp;·&nbsp; 💬 Zalo: 0352 425 290 &nbsp;·&nbsp; 🌐 giaptech.site</p>
-        <p className="footer-copy">© 2026 GIÁP TECH. All rights reserved.</p>
+        <div className="footer-inner">
+          <div className="footer-brand">
+            <div className="footer-logo">⚡ GIÁP TECH</div>
+            <p>Chuyên gia xây dựng thương hiệu cá nhân cho người Việt</p>
+          </div>
+          <div className="footer-contact">
+            <p>📞 0352 425 290</p>
+            <p>💬 Zalo: 0352 425 290</p>
+            <p>🌐 giaptech.site</p>
+          </div>
+        </div>
+        <div className="footer-bottom">© 2026 GIÁP TECH. All rights reserved.</div>
       </footer>
 
-      {/* SCROLL TO TOP */}
-      {showTop && (
-        <button className="scroll-top" onClick={scrollTop} title="Lên đầu trang">↑</button>
-      )}
+      {/* ── SCROLL TOP ── */}
+      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">
+        ↑
+      </button>
     </div>
   )
 }
