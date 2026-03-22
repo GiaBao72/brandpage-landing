@@ -534,6 +534,7 @@ export default function App() {
         body: JSON.stringify({
           name: form.name,
           phone: form.phone,
+          linh_vuc: form.job,
           service: form.service,
           message: form.message,
           _subject: 'Lead moi tu GIAPTECH.SITE',
