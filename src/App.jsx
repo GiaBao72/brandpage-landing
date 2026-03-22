@@ -6,6 +6,8 @@ export default function App() {
 
   return (
     <div className="app">
+      {/* Demo Banner */}
+      <div className="demo-banner">🚧 DEMO — Chưa được duyệt chính thức</div>
       {/* Hero */}
       <section className="hero">
         <nav className="nav">
