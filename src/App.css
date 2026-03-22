@@ -460,6 +460,120 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 
 /* ΓöÇΓöÇ RESPONSIVE ΓöÇΓöÇ */
 
+
+/* ═══════════════════════════════════════════
+   PORTFOLIO SHOWCASE — Premium Bento Layout
+═══════════════════════════════════════════ */
+.portfolio-section { padding: 9rem 0 7rem; background: var(--navy); position: relative; overflow: hidden; }
+.portfolio-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59,130,246,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.portfolio-section .section-label {
+  background: rgba(59,130,246,.15); color: #93c5fd;
+  border-color: rgba(59,130,246,.3);
+}
+.portfolio-section .section-title { color: #f1f5f9; }
+.portfolio-header { text-align: center; margin-bottom: 3rem; }
+.portfolio-sub { color: #64748b; font-size: 1.05rem; margin-top: .8rem; max-width: 500px; margin-inline: auto; }
+
+/* ── Glass Filter ── */
+.portfolio-filter {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem;
+  margin-bottom: 3.5rem;
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 50px;
+  padding: .5rem;
+  width: fit-content;
+  margin-inline: auto;
+}
+.pf-btn {
+  padding: .55rem 1.4rem; border-radius: 40px; border: none;
+  background: transparent; color: #64748b;
+  font-weight: 600; font-size: .85rem; cursor: pointer;
+  transition: all .3s cubic-bezier(.4,0,.2,1);
+  font-family: inherit; white-space: nowrap;
+}
+.pf-btn:hover { color: #cbd5e1; background: rgba(255,255,255,.06); }
+.pf-btn.active {
+  background: linear-gradient(135deg, var(--b500), var(--b700));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(37,99,235,.4);
+}
+
+/* ── Bento Grid ── */
+.portfolio-bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 240px;
+  gap: 1.2rem;
+}
+.pf-card {
+  border-radius: 20px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.06);
+  background: #0f172a;
+  display: flex; flex-direction: column;
+  cursor: pointer;
+  transition: border-color .3s, box-shadow .3s;
+}
+.pf-card:hover { border-color: rgba(59,130,246,.4); box-shadow: 0 20px 60px rgba(37,99,235,.2); }
+.pf-card--wide  { grid-column: span 7; }
+.pf-card--tall  { grid-column: span 5; grid-row: span 2; }
+.pf-card--normal{ grid-column: span 5; }
+
+/* ── Card Image ── */
+.pf-img-wrap { flex: 1; position: relative; overflow: hidden; }
+.pf-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s cubic-bezier(.4,0,.2,1);
+  display: block;
+}
+.pf-card:hover .pf-img-wrap img { transform: scale(1.06); }
+
+.pf-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(15,23,42,.85) 0%, rgba(15,23,42,.2) 50%, transparent 100%);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 1.5rem;
+  opacity: 0; transition: opacity .35s ease;
+}
+.pf-card:hover .pf-overlay { opacity: 1; }
+.pf-cta { font-size: .88rem; padding: .7rem 1.6rem; }
+
+/* ── Card Info ── */
+.pf-info { padding: 1rem 1.2rem; background: rgba(15,23,42,.95); }
+.pf-tags { display: flex; gap: .5rem; margin-bottom: .4rem; flex-wrap: wrap; }
+.pf-tag {
+  font-size: .7rem; font-weight: 700; padding: .2rem .7rem;
+  border-radius: 20px; letter-spacing: .3px;
+}
+.pf-tag--cat { background: rgba(59,130,246,.15); color: #93c5fd; border: 1px solid rgba(59,130,246,.25); }
+.pf-tag--grade { background: rgba(251,191,36,.1); color: #fcd34d; border: 1px solid rgba(251,191,36,.2); }
+.pf-title { font-size: .92rem; font-weight: 700; color: #e2e8f0; line-height: 1.4; }
+
+/* ── Bottom CTA ── */
+.portfolio-cta-wrap {
+  margin-top: 4rem; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1.2rem;
+}
+.portfolio-cta-wrap p { color: #475569; font-size: .95rem; }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .pf-card--wide  { grid-column: span 12; }
+  .pf-card--tall  { grid-column: span 12; grid-row: span 1; }
+  .pf-card--normal{ grid-column: span 12; }
+  .portfolio-bento { grid-auto-rows: 220px; }
+}
+@media (max-width: 768px) {
+  .portfolio-filter { padding: .4rem; gap: .4rem; }
+  .pf-btn { padding: .5rem 1rem; font-size: .8rem; }
+  .portfolio-bento { grid-auto-rows: 200px; gap: .8rem; }
+}
 @media(max-width:1024px){
 
   .hero-inner{grid-template-columns:1fr;text-align:center}

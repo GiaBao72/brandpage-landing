@@ -173,6 +173,74 @@ const packages = [
 
 
 
+
+const premiumDemos = [
+  {
+    id: 1,
+    title: 'Alpha Physique — HLV Thể Hình Số 1 Việt Nam',
+    category: 'PT / Yoga',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=85',
+    link: 'https://codervent.com/maxton/demo/horizontal-menu/index-dark.html',
+  },
+  {
+    id: 2,
+    title: 'Serenity Flow — Studio Yoga & Mindfulness',
+    category: 'PT / Yoga',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=85',
+    link: 'https://codervent.com/maxton/demo/horizontal-menu/index-light.html',
+  },
+  {
+    id: 3,
+    title: 'The Grand Residence — Luxury Real Estate',
+    category: 'Bất động sản',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85',
+    link: 'https://codervent.com/maxton/demo/vertical-menu/index-dark.html',
+  },
+  {
+    id: 4,
+    title: 'Prestige Motors — Showroom Xe Siêu Cấp',
+    category: 'Môi giới xe',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=85',
+    link: 'https://codervent.com/maxton/demo/vertical-menu/index-light.html',
+  },
+  {
+    id: 5,
+    title: 'Wealth Architect — Chuyên Gia Tài Chính Đầu Tư',
+    category: 'Tài chính',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=85',
+    link: 'https://codervent.com/maxton/demo/horizontal-menu/index.html',
+  },
+  {
+    id: 6,
+    title: 'Luminae Clinic — Thẩm Mỹ Viện Hạng A',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&q=85',
+    link: 'https://codervent.com/maxton/demo/vertical-menu/index.html',
+  },
+  {
+    id: 7,
+    title: 'MindBridge Academy — Giáo Dục Tinh Hoa',
+    category: 'Giáo dục',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=85',
+    link: 'https://codervent.com/maxton/eCommerce/demo/index.html',
+  },
+  {
+    id: 8,
+    title: 'Iron Empire — Phòng Gym & Personal Training',
+    category: 'PT / Yoga',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=85',
+    link: 'https://codervent.com/maxton/eCommerce/demo/shop-grid-left-sidebar.html',
+  },
+]
+
 const faqs = [
   {
     q: 'Tôi chưa có hình ảnh cá nhân chuyên nghiệp thì sao?',
@@ -206,6 +274,9 @@ export default function App() {
   const [sent, setSent] = useState(false)
   const [showTop, setShowTop] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('Tất cả')
+  const portfolioTabs = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Môi giới xe', 'Tài chính', 'Spa / Thẩm mỹ', 'Giáo dục']
+  const visibleDemos = activeTab === 'Tất cả' ? premiumDemos : premiumDemos.filter(d => d.category === activeTab)
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 500)
@@ -223,9 +294,9 @@ export default function App() {
       <nav className="nav">
         <div className="logo">⚡ GIAPTECH</div>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          {['benefits','features','process','services','pricing'].map((id,i) => (
+          {['benefits','features','process','services','portfolio','pricing'].map((id,i) => (
             <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
-              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Bảng giá'][i]}
+              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Portfolio','Bảng giá'][i]}
             </a></li>
           ))}
         </ul>
@@ -364,6 +435,54 @@ export default function App() {
 
 
 
+
+
+      {/* PORTFOLIO */}
+      <Section id="portfolio" className="portfolio-section">
+        <div className="container">
+          <div className="portfolio-header">
+            <div className="section-label">Kho Giao Diện Độc Bản</div>
+            <h2 className="section-title">Mỗi Dự Án Là Một<br /><span className="gradient-text">Tác Phẩm Đẳng Cấp</span></h2>
+            <p className="portfolio-sub">Không có template. Không có bản sậy. Mỗi website được thai nghén riêng cho từng chuyên gia.</p>
+          </div>
+          <div className="portfolio-filter">
+            {portfolioTabs.map(tab => (
+              <button
+                key={tab}
+                className={"pf-btn " + (activeTab === tab ? "active" : "")}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="portfolio-bento">
+            {visibleDemos.map((demo, i) => (
+              <TiltCard key={demo.id} className={"pf-card pf-card--" + ((i % 5 === 0) ? "wide" : (i % 5 === 3) ? "tall" : "normal")}>
+                <div className="pf-img-wrap">
+                  <img src={demo.image} alt={demo.title} loading="lazy" />
+                  <div className="pf-overlay">
+                    <RippleBtn href={demo.link} className="btn-primary pf-cta">
+                      Xem Bản Live →
+                    </RippleBtn>
+                  </div>
+                </div>
+                <div className="pf-info">
+                  <div className="pf-tags">
+                    <span className="pf-tag pf-tag--cat">{demo.category}</span>
+                    <span className="pf-tag pf-tag--grade">{demo.tag}</span>
+                  </div>
+                  <div className="pf-title">{demo.title}</div>
+                </div>
+              </TiltCard>
+            ))}
+          </div>
+          <div className="portfolio-cta-wrap">
+            <p>Đây chỉ là một phần nhỏ trong portfolio của chúng tôi.</p>
+            <RippleBtn href="#contact" className="btn-primary">Nhận Tư Vấn Để Xem Toàn Bộ →</RippleBtn>
+          </div>
+        </div>
+      </Section>
 
       {/* FAQ */}
       <Section id="faq" className="faq-section">
