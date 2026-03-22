@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
+// ── Intersection Observer hook
 function useInView(threshold = 0.15) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
@@ -12,6 +13,7 @@ function useInView(threshold = 0.15) {
   return [ref, inView]
 }
 
+// ── Counter animation
 function Counter({ target, suffix = '' }) {
   const [count, setCount] = useState(0)
   const [ref, inView] = useInView(0.5)
@@ -30,6 +32,7 @@ function Counter({ target, suffix = '' }) {
   return <span ref={ref}>{isNaN(parseInt(target)) ? target : count}{suffix}</span>
 }
 
+// ── Animated section
 function Section({ children, className = '', id = '' }) {
   const [ref, inView] = useInView()
   return (
@@ -39,20 +42,53 @@ function Section({ children, className = '', id = '' }) {
   )
 }
 
-const services = [
-  { icon: '🏋️', title: 'Huấn luyện viên PT / Yoga', desc: 'Chứng chỉ, lịch tập, testimonial học viên — tất cả trên một trang duy nhất.' },
-  { icon: '👨‍🏫', title: 'Giáo viên / Gia sư', desc: 'Phương pháp giảng dạy, thành tích, lịch học — phụ huynh tin tưởng ngay lần đầu.' },
-  { icon: '🏠', title: 'Môi giới Bất động sản', desc: 'Portfolio dự án, review khách hàng, form tư vấn — uy tín được xây dựng trước khi gặp mặt.' },
-  { icon: '🚗', title: 'Môi giới Xe ô tô', desc: 'Showroom cá nhân online, báo giá tức thì — khách tìm đến bạn trước đối thủ.' },
-  { icon: '💰', title: 'Tư vấn Tài chính / Bảo hiểm', desc: 'Nội dung chuyên sâu, case study thực tế — biến sự tin tưởng thành hợp đồng.' },
-  { icon: '💆', title: 'Chuyên gia Sắc đẹp / Spa', desc: 'Hình ảnh before/after, đặt lịch online — khách hàng quay lại không cần nhắc.' },
-]
+// ── Tilt card
+function TiltCard({ children, className = '' }) {
+  const cardRef = useRef(null)
+  const handleMove = (e) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    card.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`
+  }
+  const handleLeave = () => {
+    if (cardRef.current) cardRef.current.style.transform = ''
+  }
+  return (
+    <div ref={cardRef} className={className} onMouseMove={handleMove} onMouseLeave={handleLeave}
+      style={{ transition: 'transform 0.15s ease' }}>
+      {children}
+    </div>
+  )
+}
 
-const pains = [
-  { icon: '😰', title: 'Giỏi chuyên môn, thiếu khách', desc: 'Bạn xuất sắc trong nghề nhưng khách hàng không biết bạn tồn tại.' },
-  { icon: '📱', title: 'Facebook không đủ', desc: 'Kinh doanh qua trang cá nhân — thiếu chuyên nghiệp, dễ bị block, không bền vững.' },
-  { icon: '🤦', title: 'Thua đối thủ kém hơn', desc: 'Họ ít kinh nghiệm hơn bạn nhưng có nhiều khách hơn — chỉ vì trông "chuyên nghiệp" hơn.' },
-  { icon: '💸', title: 'Quảng cáo không ra leads', desc: 'Đổ tiền chạy ads nhưng không có landing page chuẩn — tỷ lệ chuyển đổi gần bằng 0.' },
+// ── Ripple button
+function RippleBtn({ children, className = '', href, onClick }) {
+  const handleClick = (e) => {
+    const btn = e.currentTarget
+    const circle = document.createElement('span')
+    const diameter = Math.max(btn.clientWidth, btn.clientHeight)
+    const radius = diameter / 2
+    const rect = btn.getBoundingClientRect()
+    circle.style.cssText = `width:${diameter}px;height:${diameter}px;left:${e.clientX - rect.left - radius}px;top:${e.clientY - rect.top - radius}px`
+    circle.classList.add('ripple')
+    btn.querySelector('.ripple')?.remove()
+    btn.appendChild(circle)
+    if (onClick) onClick(e)
+  }
+  if (href) return <a href={href} className={className} onClick={handleClick}>{children}</a>
+  return <button className={className} onClick={handleClick}>{children}</button>
+}
+
+const benefits = [
+  { icon: '🌐', title: 'Hiện diện online 24/7', desc: 'Website hoạt động không nghỉ — khách hàng tìm thấy bạn lúc 2 giờ sáng, cuối tuần, ngày lễ.' },
+  { icon: '💎', title: 'Định vị thương hiệu cao cấp', desc: 'Trang web chuyên nghiệp giúp bạn thoát khỏi cuộc chiến giá rẻ — khách hàng sẵn sàng trả nhiều hơn.' },
+  { icon: '📈', title: 'Thu leads tự động', desc: 'Form liên hệ, Zalo tích hợp — khách hàng tiềm năng điền thông tin mà bạn không cần làm gì.' },
+  { icon: '🎯', title: 'Nhắm đúng khách hàng mục tiêu', desc: 'SEO địa phương + nội dung ngách giúp người thực sự cần dịch vụ của bạn tìm đến, không phải người lướt.' },
+  { icon: '🤝', title: 'Xây dựng niềm tin trước khi gặp', desc: 'Portfolio, testimonial, chứng chỉ — khách hàng đã tin tưởng bạn trước khi nhấc điện thoại lên gọi.' },
+  { icon: '🚀', title: 'Vượt trội hơn 90% đối thủ', desc: 'Thực tế: 9/10 chuyên gia trong ngành của bạn chưa có landing page chuẩn. Đây là lợi thế không thể bỏ qua.' },
 ]
 
 const features = [
@@ -61,6 +97,15 @@ const features = [
   { icon: '🎯', title: 'Tối ưu chuyển đổi', desc: 'Copywriting, màu sắc, CTA — mọi chi tiết được tính toán để tăng tỷ lệ liên hệ.' },
   { icon: '🔍', title: 'Chuẩn SEO', desc: 'Cấu trúc đúng chuẩn, meta tags đầy đủ — Google tìm thấy bạn, đối thủ không thể copy.' },
   { icon: '🛡️', title: 'Ổn định 99.9%', desc: 'Hạ tầng CDN toàn cầu — không bao giờ bị down, bảo mật chuẩn cao cấp.' },
+]
+
+const services = [
+  { icon: '🏋️', title: 'Huấn luyện viên PT / Yoga', desc: 'Chứng chỉ, lịch tập, testimonial học viên — tất cả trên một trang duy nhất.' },
+  { icon: '👨‍🏫', title: 'Giáo viên / Gia sư', desc: 'Phương pháp giảng dạy, thành tích, lịch học — phụ huynh tin tưởng ngay lần đầu.' },
+  { icon: '🏠', title: 'Môi giới Bất động sản', desc: 'Portfolio dự án, review khách hàng, form tư vấn — uy tín được xây dựng trước khi gặp mặt.' },
+  { icon: '🚗', title: 'Môi giới Xe ô tô', desc: 'Showroom cá nhân online, báo giá tức thì — khách tìm đến bạn trước đối thủ.' },
+  { icon: '💰', title: 'Tư vấn Tài chính / Bảo hiểm', desc: 'Nội dung chuyên sâu, case study thực tế — biến sự tin tưởng thành hợp đồng.' },
+  { icon: '💆', title: 'Chuyên gia Sắc đẹp / Spa', desc: 'Hình ảnh before/after, đặt lịch online — khách hàng quay lại không cần nhắc.' },
 ]
 
 const steps = [
@@ -99,6 +144,47 @@ const packages = [
   },
 ]
 
+// ── Particle background
+function Particles() {
+  const canvasRef = useRef(null)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let animId
+    const particles = []
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    resize()
+    window.addEventListener('resize', resize)
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4,
+        alpha: Math.random() * 0.4 + 0.1,
+      })
+    }
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      particles.forEach(p => {
+        p.x += p.dx; p.y += p.dy
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(59,130,246,${p.alpha})`
+        ctx.fill()
+      })
+      animId = requestAnimationFrame(draw)
+    }
+    draw()
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={canvasRef} className="particles" />
+}
+
 export default function App() {
   const [form, setForm] = useState({ name: '', phone: '', job: '' })
   const [sent, setSent] = useState(false)
@@ -121,9 +207,9 @@ export default function App() {
       <nav className="nav">
         <div className="logo">⚡ GIAPTECH</div>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          {['pain', 'why', 'process', 'services', 'pricing'].map((id, i) => (
+          {['benefits', 'features', 'process', 'services', 'pricing'].map((id, i) => (
             <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
-              {['Vấn đề', 'Tại sao', 'Quy trình', 'Đối tượng', 'Bảng giá'][i]}
+              {['Lợi ích', 'Cam kết', 'Quy trình', 'Đối tượng', 'Bảng giá'][i]}
             </a></li>
           ))}
         </ul>
@@ -137,9 +223,9 @@ export default function App() {
 
       {/* HERO */}
       <section className="hero">
+        <Particles />
         <div className="hero-orb orb1" />
         <div className="hero-orb orb2" />
-        <div className="hero-orb orb3" />
         <div className="hero-inner">
           <div className="hero-content">
             <div className="hero-badge">
@@ -151,15 +237,14 @@ export default function App() {
               <span className="gradient-text">Đã đến lúc thế giới biết điều đó.</span>
             </h1>
             <p className="hero-desc">
-              GIAPTECH tạo ra landing page cá nhân chuyên nghiệp — giúp bạn thu hút khách hàng tự động,
-              xây dựng uy tín vượt trội và tăng thu nhập mà không cần chạy quảng cáo mãi mãi.
+              GIAPTECH tạo landing page cá nhân chuyên nghiệp — giúp bạn thu hút khách hàng tự động,
+              xây dựng uy tín vượt trội và tăng thu nhập bền vững.
             </p>
             <div className="hero-actions">
-              <a href="#contact" className="btn-hero-primary">
-                Đặt lịch tư vấn miễn phí
-                <span className="btn-arrow">→</span>
-              </a>
-              <a href="#services" className="btn-hero-ghost">Xem tôi phù hợp không</a>
+              <RippleBtn href="#contact" className="btn-hero-primary">
+                Đặt lịch tư vấn miễn phí <span className="btn-arrow">→</span>
+              </RippleBtn>
+              <a href="#benefits" className="btn-hero-ghost">Khám phá lợi ích</a>
             </div>
             <div className="hero-stats">
               <div className="hero-stat">
@@ -185,9 +270,7 @@ export default function App() {
           </div>
           <div className="hero-visual">
             <div className="mockup">
-              <div className="mockup-bar">
-                <span /><span /><span />
-              </div>
+              <div className="mockup-bar"><span /><span /><span /></div>
               <div className="mockup-content">
                 <div className="mock-nav" />
                 <div className="mock-hero">
@@ -196,9 +279,7 @@ export default function App() {
                   <div className="mock-btn" />
                 </div>
                 <div className="mock-cards">
-                  <div className="mock-card" />
-                  <div className="mock-card" />
-                  <div className="mock-card" />
+                  <div className="mock-card" /><div className="mock-card" /><div className="mock-card" />
                 </div>
               </div>
             </div>
@@ -206,61 +287,26 @@ export default function App() {
         </div>
       </section>
 
-      {/* PAIN */}
-      <Section id="pain" className="pain-section">
+      {/* BENEFITS */}
+      <Section id="benefits" className="benefits-section">
         <div className="container">
-          <div className="section-label">Bạn có đang gặp phải?</div>
+          <div className="section-label">Tại sao cần landing page cá nhân?</div>
           <h2 className="section-title">
-            Những vấn đề đang khiến bạn<br />
-            <span className="gradient-text">mất khách hàng mỗi ngày</span>
+            6 lợi ích mà website cá nhân<br />
+            <span className="gradient-text">mang lại cho sự nghiệp của bạn</span>
           </h2>
-          <div className="pain-grid">
-            {pains.map((p, i) => (
-              <div className="pain-card" key={i} style={{ '--delay': `${i * 0.1}s` }}>
-                <div className="pain-icon-wrap">{p.icon}</div>
-                <div>
-                  <h3>{p.title}</h3>
-                  <p>{p.desc}</p>
-                </div>
-              </div>
+          <div className="benefits-grid">
+            {benefits.map((b, i) => (
+              <TiltCard key={i} className="benefit-card" style={{ '--delay': `${i * 0.1}s` }}>
+                <div className="benefit-icon">{b.icon}</div>
+                <h3>{b.title}</h3>
+                <p>{b.desc}</p>
+              </TiltCard>
             ))}
           </div>
-          <div className="pain-cta">
-            <p>👉 <strong>Nếu bạn gật đầu với bất kỳ điều nào</strong> — landing page cá nhân chính là giải pháp.</p>
-            <a href="#contact" className="btn-primary">Giải quyết ngay →</a>
-          </div>
-        </div>
-      </Section>
-
-      {/* WHY */}
-      <Section id="why" className="why-section">
-        <div className="container">
-          <div className="section-label">Sự thật về thương hiệu cá nhân</div>
-          <h2 className="section-title">
-            Trong 3 giây đầu tiên,<br />
-            <span className="gradient-text">khách hàng đã quyết định tin bạn hay không</span>
-          </h2>
-          <p className="why-intro">Trước khi gặp bạn, họ Google. Trước khi gọi điện, họ xem web. Câu hỏi là: <strong>trang web của bạn đang nói gì về bạn?</strong></p>
-          <div className="why-compare">
-            <div className="compare-card bad">
-              <div className="compare-header bad-header"><span>✕</span> Không có thương hiệu</div>
-              <ul>
-                <li>Khách tìm thấy đối thủ, không tìm thấy bạn</li>
-                <li>Thiếu uy tín, khó tính giá cao</li>
-                <li>Phụ thuộc mãi vào referral và may mắn</li>
-                <li>Bị thay thế dễ dàng bởi người mới</li>
-              </ul>
-            </div>
-            <div className="compare-vs">VS</div>
-            <div className="compare-card good">
-              <div className="compare-header good-header"><span>✓</span> Có landing page chuyên nghiệp</div>
-              <ul>
-                <li>Khách hàng tự tìm đến, tự điền form 24/7</li>
-                <li>Uy tín vượt trội, tính được giá premium</li>
-                <li>Thu leads liên tục kể cả khi đang ngủ</li>
-                <li>Dẫn đầu và khó bị thay thế trong ngành</li>
-              </ul>
-            </div>
+          <div className="benefits-cta">
+            <p>🏆 <strong>Thương hiệu cá nhân mạnh = thu nhập cao hơn, khách hàng chủ động hơn, sự nghiệp bền vững hơn.</strong></p>
+            <RippleBtn href="#contact" className="btn-primary">Bắt đầu xây dựng ngay →</RippleBtn>
           </div>
         </div>
       </Section>
@@ -275,11 +321,11 @@ export default function App() {
           </h2>
           <div className="features-grid">
             {features.map((f, i) => (
-              <div className="feature-card" key={i} style={{ '--delay': `${i * 0.1}s` }}>
+              <TiltCard key={i} className="feature-card" style={{ '--delay': `${i * 0.1}s` }}>
                 <div className="feature-icon-wrap">{f.icon}</div>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
-              </div>
+              </TiltCard>
             ))}
           </div>
         </div>
@@ -323,12 +369,12 @@ export default function App() {
           </h2>
           <div className="services-grid">
             {services.map((s, i) => (
-              <div className="service-card" key={i} style={{ '--delay': `${i * 0.08}s` }}>
+              <TiltCard key={i} className="service-card" style={{ '--delay': `${i * 0.08}s` }}>
                 <div className="service-icon">{s.icon}</div>
                 <h3>{s.title}</h3>
                 <p>{s.desc}</p>
                 <a href="#contact" className="service-link">Tư vấn cho tôi →</a>
-              </div>
+              </TiltCard>
             ))}
           </div>
         </div>
@@ -358,7 +404,9 @@ export default function App() {
                   {pkg.features.map((f, j) => <li key={j} className="ok">✓ {f}</li>)}
                   {pkg.missing.map((f, j) => <li key={j} className="no">✕ {f}</li>)}
                 </ul>
-                <a href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>Tư vấn gói này →</a>
+                <RippleBtn href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>
+                  Tư vấn gói này →
+                </RippleBtn>
               </div>
             ))}
           </div>
@@ -378,18 +426,12 @@ export default function App() {
               <h3>Liên hệ ngay</h3>
               <a href="tel:0352425290" className="contact-method">
                 <div className="method-icon">📞</div>
-                <div>
-                  <strong>Gọi điện tư vấn</strong>
-                  <span>0352 425 290</span>
-                </div>
+                <div><strong>Gọi điện tư vấn</strong><span>0352 425 290</span></div>
                 <div className="method-arrow">→</div>
               </a>
               <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="contact-method">
                 <div className="method-icon">💬</div>
-                <div>
-                  <strong>Nhắn Zalo</strong>
-                  <span>0352 425 290</span>
-                </div>
+                <div><strong>Nhắn Zalo</strong><span>0352 425 290</span></div>
                 <div className="method-arrow">→</div>
               </a>
               <div className="response-time">
@@ -425,9 +467,9 @@ export default function App() {
                       <option>Khác</option>
                     </select>
                   </div>
-                  <button type="submit" className="btn-primary btn-full">
+                  <RippleBtn className="btn-primary btn-full" onClick={null}>
                     Đăng ký tư vấn miễn phí 🚀
-                  </button>
+                  </RippleBtn>
                   <p className="form-privacy">🔒 Thông tin được bảo mật tuyệt đối</p>
                 </>
               )}
@@ -453,7 +495,7 @@ export default function App() {
       </footer>
 
       {/* SCROLL TOP */}
-      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">↑</button>
+      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Len dau trang">↑</button>
     </div>
   )
 }
