@@ -554,7 +554,7 @@ export default function App() {
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <li><a href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setMenuOpen(false) }}>Trang chủ</a></li>
           {['benefits','features','process','services','portfolio','pricing'].map((id,i) => (
-            <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
+            <li key={id}><a href="#" onClick={e => { e.preventDefault(); document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); history.replaceState(null,'',window.location.pathname); setMenuOpen(false) }}>
               {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Portfolio','Bảng giá'][i]}
             </a></li>
           ))}
