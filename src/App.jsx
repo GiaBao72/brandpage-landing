@@ -256,7 +256,7 @@ export default function App() {
               <a href="#benefits" className="btn-hero-ghost">Xem Cách Chúng Tôi Đột Phá Doanh Thu</a>
             </div>
             <div className="hero-stats">
-              <div className="hero-stat"><strong><Counter target="50" suffix="+" /></strong><span>Chuyên gia tin dùng</span></div>
+              <div className="hero-stat"><strong>2.500+</strong><span>Chuyên gia tin dùng</span></div>
               <div className="stat-divider" />
               <div className="hero-stat"><strong><Counter target="98" suffix="%" /></strong><span>Tăng tỷ lệ chốt sale</span></div>
               <div className="stat-divider" />
