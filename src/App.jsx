@@ -172,18 +172,6 @@ const packages = [
 ]
 
 
-const demos = [
-  { id: 1, title: 'Landing Page HLV Fitness Cao Cấp', category: 'PT / Yoga', image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80', link: '#' },
-  { id: 2, title: 'Thương Hiệu Cá Nhân Yoga & Wellness', category: 'PT / Yoga', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80', link: '#' },
-  { id: 3, title: 'Dự Án BĐS VinHomes Premium', category: 'Bất động sản', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80', link: '#' },
-  { id: 4, title: 'Môi Giới Nhà Đất Cao Cấp Phú Mỹ Hưng', category: 'Bất động sản', image: 'https://images.unsplash.com/photo-1582407947304-fd86f28f3e34?w=600&q=80', link: '#' },
-  { id: 5, title: 'Trung Tâm Luyện Thi Đại Học Chuyên Sâu', category: 'Giáo dục', image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80', link: '#' },
-  { id: 6, title: 'Chuyên Gia Đào Tạo Kỹ Năng Mềm', category: 'Giáo dục', image: 'https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?w=600&q=80', link: '#' },
-  { id: 7, title: 'Showroom Xe Mercedes-Benz Cá Nhân', category: 'Môi giới xe', image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80', link: '#' },
-  { id: 8, title: 'Chuyên Gia Tư Vấn Xe Toyota & Lexus', category: 'Môi giới xe', image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&q=80', link: '#' },
-  { id: 9, title: 'Spa Cao Cấp & Làm Đẹp Toàn Diện', category: 'Spa / Làm đẹp', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80', link: '#' },
-  { id: 10, title: 'Chuyên Gia Thẩm Mỹ & Chăm Sóc Da', category: 'Spa / Làm đẹp', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80', link: '#' },
-]
 
 const faqs = [
   {
@@ -218,9 +206,6 @@ export default function App() {
   const [sent, setSent] = useState(false)
   const [showTop, setShowTop] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeFilter, setActiveFilter] = useState('Tất cả')
-  const categories = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Giáo dục', 'Môi giới xe', 'Spa / Làm đẹp']
-  const filteredDemos = activeFilter === 'Tất cả' ? demos : demos.filter(d => d.category === activeFilter)
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 500)
@@ -238,9 +223,9 @@ export default function App() {
       <nav className="nav">
         <div className="logo">⚡ GIAPTECH</div>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          {['benefits','features','process','services','demos','pricing'].map((id,i) => (
+          {['benefits','features','process','services','pricing'].map((id,i) => (
             <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
-              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Mẫu giao diện','Bảng giá'][i]}
+              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Bảng giá'][i]}
             </a></li>
           ))}
         </ul>
@@ -379,36 +364,6 @@ export default function App() {
 
 
 
-      {/* DEMOS */}
-      <Section id="demos" className="demos-section">
-        <div className="container">
-          <div className="section-label">Trải Nghiệm Các Dự Án Đã Triển Khai</div>
-          <h2 className="section-title">Kho Giao Diện Thực Tế —<br /><span className="gradient-text">Cảm Hứng Cho Thương Hiệu Của Bạn</span></h2>
-          <div className="demo-filter">
-            {categories.map(cat => (
-              <button key={cat} className={"filter-btn " + (activeFilter === cat ? "active" : "")} onClick={() => setActiveFilter(cat)}>
-                {cat}
-              </button>
-            ))}
-          </div>
-          <div className="demo-grid">
-            {filteredDemos.map(demo => (
-              <TiltCard key={demo.id} className="demo-card">
-                <div className="demo-img-wrap">
-                  <img src={demo.image} alt={demo.title} loading="lazy" />
-                  <div className="demo-overlay">
-                    <RippleBtn href={demo.link} className="btn-primary">Xem thực tế →</RippleBtn>
-                  </div>
-                </div>
-                <div className="demo-content">
-                  <span className="demo-category">{demo.category}</span>
-                  <div className="demo-title">{demo.title}</div>
-                </div>
-              </TiltCard>
-            ))}
-          </div>
-        </div>
-      </Section>
 
       {/* FAQ */}
       <Section id="faq" className="faq-section">
