@@ -258,7 +258,7 @@ export default function App() {
             <div className="hero-stats">
               <div className="hero-stat"><strong>2.500+</strong><span>Chuyên gia tin dùng</span></div>
               <div className="stat-divider" />
-              <div className="hero-stat"><strong><Counter target="98" suffix="%" /></strong><span>Tăng tỷ lệ chốt sale</span></div>
+              <div className="hero-stat"><strong>98%</strong><span>Tăng tỷ lệ chốt sale</span></div>
               <div className="stat-divider" />
               <div className="hero-stat"><strong>&lt;2s</strong><span>Tốc độ tải trang</span></div>
               <div className="stat-divider" />
