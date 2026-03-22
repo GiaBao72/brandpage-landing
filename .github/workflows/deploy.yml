@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [dev]
+    branches: [main, dev]
 
 permissions:
   contents: write
@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build (demo base path)
+      - name: Build
         run: npm run build
         env:
           VITE_BASE: /brandpage-landing/
