@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
-// ── Scroll animation hook
 function useInView(threshold = 0.15) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
@@ -13,19 +12,16 @@ function useInView(threshold = 0.15) {
   return [ref, inView]
 }
 
-// ── Counter animation
 function Counter({ target, suffix = '' }) {
   const [count, setCount] = useState(0)
   const [ref, inView] = useInView(0.5)
   useEffect(() => {
     if (!inView) return
-    let start = 0
     const end = parseInt(target)
     if (isNaN(end)) { setCount(target); return }
-    const duration = 1800
-    const step = Math.ceil(end / (duration / 16))
+    let start = 0
     const timer = setInterval(() => {
-      start += step
+      start += Math.ceil(end / (1800 / 16))
       if (start >= end) { setCount(end); clearInterval(timer) }
       else setCount(start)
     }, 16)
@@ -34,7 +30,6 @@ function Counter({ target, suffix = '' }) {
   return <span ref={ref}>{isNaN(parseInt(target)) ? target : count}{suffix}</span>
 }
 
-// ── Section wrapper with animation
 function Section({ children, className = '', id = '' }) {
   const [ref, inView] = useInView()
   return (
@@ -63,7 +58,7 @@ const pains = [
 const features = [
   { icon: '⚡', title: 'Tốc độ dưới 2 giây', desc: 'Tải nhanh trên mọi thiết bị. Google ưu tiên — khách hàng không bỏ đi.' },
   { icon: '📱', title: 'Mobile-first', desc: '80% khách hàng dùng điện thoại. Chúng tôi thiết kế cho họ trước tiên.' },
-  { icon: '🎯', title: 'Tối ưu chuyển đổi', desc: 'Copywriting, màu sắc, CTA — mọi chi tiết đều được tính toán để tăng tỷ lệ liên hệ.' },
+  { icon: '🎯', title: 'Tối ưu chuyển đổi', desc: 'Copywriting, màu sắc, CTA — mọi chi tiết được tính toán để tăng tỷ lệ liên hệ.' },
   { icon: '🔍', title: 'Chuẩn SEO', desc: 'Cấu trúc đúng chuẩn, meta tags đầy đủ — Google tìm thấy bạn, đối thủ không thể copy.' },
   { icon: '🛡️', title: 'Ổn định 99.9%', desc: 'Hạ tầng CDN toàn cầu — không bao giờ bị down, bảo mật chuẩn cao cấp.' },
 ]
@@ -122,9 +117,9 @@ export default function App() {
   return (
     <div className="app">
 
-      {/* ── NAV ── */}
+      {/* NAV */}
       <nav className="nav">
-        <div className="logo">⚡ GIÁP TECH</div>
+        <div className="logo">⚡ GIAPTECH</div>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           {['pain', 'why', 'process', 'services', 'pricing'].map((id, i) => (
             <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
@@ -140,7 +135,7 @@ export default function App() {
         </div>
       </nav>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section className="hero">
         <div className="hero-orb orb1" />
         <div className="hero-orb orb2" />
@@ -156,7 +151,7 @@ export default function App() {
               <span className="gradient-text">Đã đến lúc thế giới biết điều đó.</span>
             </h1>
             <p className="hero-desc">
-              GIÁP TECH tạo ra landing page cá nhân chuyên nghiệp — giúp bạn thu hút khách hàng tự động,
+              GIAPTECH tạo ra landing page cá nhân chuyên nghiệp — giúp bạn thu hút khách hàng tự động,
               xây dựng uy tín vượt trội và tăng thu nhập mà không cần chạy quảng cáo mãi mãi.
             </p>
             <div className="hero-actions">
@@ -211,7 +206,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ── PAIN ── */}
+      {/* PAIN */}
       <Section id="pain" className="pain-section">
         <div className="container">
           <div className="section-label">Bạn có đang gặp phải?</div>
@@ -237,7 +232,7 @@ export default function App() {
         </div>
       </Section>
 
-      {/* ── WHY ── */}
+      {/* WHY */}
       <Section id="why" className="why-section">
         <div className="container">
           <div className="section-label">Sự thật về thương hiệu cá nhân</div>
@@ -248,9 +243,7 @@ export default function App() {
           <p className="why-intro">Trước khi gặp bạn, họ Google. Trước khi gọi điện, họ xem web. Câu hỏi là: <strong>trang web của bạn đang nói gì về bạn?</strong></p>
           <div className="why-compare">
             <div className="compare-card bad">
-              <div className="compare-header bad-header">
-                <span>✕</span> Không có thương hiệu
-              </div>
+              <div className="compare-header bad-header"><span>✕</span> Không có thương hiệu</div>
               <ul>
                 <li>Khách tìm thấy đối thủ, không tìm thấy bạn</li>
                 <li>Thiếu uy tín, khó tính giá cao</li>
@@ -260,9 +253,7 @@ export default function App() {
             </div>
             <div className="compare-vs">VS</div>
             <div className="compare-card good">
-              <div className="compare-header good-header">
-                <span>✓</span> Có landing page chuyên nghiệp
-              </div>
+              <div className="compare-header good-header"><span>✓</span> Có landing page chuyên nghiệp</div>
               <ul>
                 <li>Khách hàng tự tìm đến, tự điền form 24/7</li>
                 <li>Uy tín vượt trội, tính được giá premium</li>
@@ -274,7 +265,7 @@ export default function App() {
         </div>
       </Section>
 
-      {/* ── FEATURES ── */}
+      {/* FEATURES */}
       <Section id="features" className="features-section">
         <div className="container">
           <div className="section-label">Cam kết của chúng tôi</div>
@@ -294,7 +285,7 @@ export default function App() {
         </div>
       </Section>
 
-      {/* ── PROCESS ── */}
+      {/* PROCESS */}
       <Section id="process" className="process-section">
         <div className="container">
           <div className="section-label">Quy trình làm việc</div>
@@ -322,7 +313,7 @@ export default function App() {
         </div>
       </Section>
 
-      {/* ── SERVICES ── */}
+      {/* SERVICES */}
       <Section id="services" className="services-section">
         <div className="container">
           <div className="section-label">Ai phù hợp?</div>
@@ -343,7 +334,7 @@ export default function App() {
         </div>
       </Section>
 
-      {/* ── PRICING ── */}
+      {/* PRICING */}
       <Section id="pricing" className="pricing-section">
         <div className="container">
           <div className="section-label">Đầu tư một lần, sinh lời mãi mãi</div>
@@ -367,16 +358,14 @@ export default function App() {
                   {pkg.features.map((f, j) => <li key={j} className="ok">✓ {f}</li>)}
                   {pkg.missing.map((f, j) => <li key={j} className="no">✕ {f}</li>)}
                 </ul>
-                <a href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>
-                  Tư vấn gói này →
-                </a>
+                <a href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>Tư vấn gói này →</a>
               </div>
             ))}
           </div>
         </div>
       </Section>
 
-      {/* ── CONTACT ── */}
+      {/* CONTACT */}
       <Section id="contact" className="contact-section">
         <div className="container">
           <div className="section-label">Bắt đầu hành trình của bạn</div>
@@ -447,11 +436,11 @@ export default function App() {
         </div>
       </Section>
 
-      {/* ── FOOTER ── */}
+      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-inner">
           <div className="footer-brand">
-            <div className="footer-logo">⚡ GIÁP TECH</div>
+            <div className="footer-logo">⚡ GIAPTECH</div>
             <p>Chuyên gia xây dựng thương hiệu cá nhân cho người Việt</p>
           </div>
           <div className="footer-contact">
@@ -460,13 +449,11 @@ export default function App() {
             <p>🌐 giaptech.site</p>
           </div>
         </div>
-        <div className="footer-bottom">© 2026 GIÁP TECH. All rights reserved.</div>
+        <div className="footer-bottom">© 2026 GIAPTECH. All rights reserved.</div>
       </footer>
 
-      {/* ── SCROLL TOP ── */}
-      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">
-        ↑
-      </button>
+      {/* SCROLL TOP */}
+      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">↑</button>
     </div>
   )
 }
