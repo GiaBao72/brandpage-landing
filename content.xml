@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<website name="GIAPTECH" url="https://giaptech.site" lang="vi">
+
+  <meta>
+    <title>Thiết kế landing page cá nhân cho huấn luyện viên, môi giới, giáo viên | GIAPTECH</title>
+    <description>GIAPTECH thiết kế landing page cá nhân chuyên nghiệp cho huấn luyện viên PT, giáo viên, môi giới bất động sản, môi giới xe ô tô. Tốc độ nhanh, chuẩn SEO, bàn giao 7-14 ngày. Liên hệ: 0352 425 290.</description>
+    <keywords>thiết kế landing page cá nhân, landing page huấn luyện viên, landing page môi giới bất động sản, landing page giáo viên, trang web cá nhân chuyên nghiệp, xây dựng thương hiệu cá nhân</keywords>
+    <phone>0352 425 290</phone>
+    <zalo>0352 425 290</zalo>
+  </meta>
+
+  <navigation>
+    <item id="benefits">Lợi ích</item>
+    <item id="features">Cam kết</item>
+    <item id="process">Quy trình</item>
+    <item id="services">Đối tượng</item>
+    <item id="pricing">Bảng giá</item>
+    <cta href="#contact">Tư vấn miễn phí</cta>
+  </navigation>
+
+  <section id="hero">
+    <badge>Chuyên gia xây dựng thương hiệu cá nhân</badge>
+    <headline>Bạn giỏi chuyên môn. Đã đến lúc thế giới biết điều đó.</headline>
+    <description>GIAPTECH tạo landing page cá nhân chuyên nghiệp — giúp bạn thu hút khách hàng tự động, xây dựng uy tín vượt trội và tăng thu nhập bền vững.</description>
+    <cta_primary>Đặt lịch tư vấn miễn phí</cta_primary>
+    <cta_secondary>Khám phá lợi ích</cta_secondary>
+    <stats>
+      <stat label="Khách hàng">50+</stat>
+      <stat label="Hài lòng">98%</stat>
+      <stat label="Tốc độ tải">&lt;2s</stat>
+      <stat label="Hỗ trợ">24/7</stat>
+    </stats>
+  </section>
+
+  <section id="benefits">
+    <label>Tại sao cần landing page cá nhân?</label>
+    <headline>6 lợi ích mà website cá nhân mang lại cho sự nghiệp của bạn</headline>
+    <items>
+      <item icon="🌐">
+        <title>Hiện diện online 24/7</title>
+        <desc>Website hoạt động không nghỉ — khách hàng tìm thấy bạn lúc 2 giờ sáng, cuối tuần, ngày lễ.</desc>
+      </item>
+      <item icon="💎">
+        <title>Định vị thương hiệu cao cấp</title>
+        <desc>Trang web chuyên nghiệp giúp bạn thoát khỏi cuộc chiến giá rẻ — khách hàng sẵn sàng trả nhiều hơn.</desc>
+      </item>
+      <item icon="📈">
+        <title>Thu leads tự động</title>
+        <desc>Form liên hệ, Zalo tích hợp — khách hàng tiềm năng điền thông tin mà bạn không cần làm gì.</desc>
+      </item>
+      <item icon="🎯">
+        <title>Nhắm đúng khách hàng mục tiêu</title>
+        <desc>SEO địa phương + nội dung ngách giúp người thực sự cần dịch vụ của bạn tìm đến, không phải người lướt.</desc>
+      </item>
+      <item icon="🤝">
+        <title>Xây dựng niềm tin trước khi gặp</title>
+        <desc>Portfolio, testimonial, chứng chỉ — khách hàng đã tin tưởng bạn trước khi nhấc điện thoại lên gọi.</desc>
+      </item>
+      <item icon="🚀">
+        <title>Vượt trội hơn 90% đối thủ</title>
+        <desc>Thực tế: 9/10 chuyên gia trong ngành của bạn chưa có landing page chuẩn. Đây là lợi thế không thể bỏ qua.</desc>
+      </item>
+    </items>
+    <cta>Thương hiệu cá nhân mạnh = thu nhập cao hơn, khách hàng chủ động hơn, sự nghiệp bền vững hơn.</cta>
+  </section>
+
+  <section id="features">
+    <label>Cam kết của chúng tôi</label>
+    <headline>Mỗi trang web là một cỗ máy thu hút khách hàng</headline>
+    <items>
+      <item icon="⚡">
+        <title>Tốc độ dưới 2 giây</title>
+        <desc>Tải nhanh trên mọi thiết bị. Google ưu tiên — khách hàng không bỏ đi.</desc>
+      </item>
+      <item icon="📱">
+        <title>Mobile-first</title>
+        <desc>80% khách hàng dùng điện thoại. Chúng tôi thiết kế cho họ trước tiên.</desc>
+      </item>
+      <item icon="🎯">
+        <title>Tối ưu chuyển đổi</title>
+        <desc>Copywriting, màu sắc, CTA — mọi chi tiết được tính toán để tăng tỷ lệ liên hệ.</desc>
+      </item>
+      <item icon="🔍">
+        <title>Chuẩn SEO</title>
+        <desc>Cấu trúc đúng chuẩn, meta tags đầy đủ — Google tìm thấy bạn, đối thủ không thể copy.</desc>
+      </item>
+      <item icon="🛡️">
+        <title>Ổn định 99.9%</title>
+        <desc>Hạ tầng CDN toàn cầu — không bao giờ bị down, bảo mật chuẩn cao cấp.</desc>
+      </item>
+    </items>
+  </section>
+
+  <section id="process">
+    <label>Quy trình làm việc</label>
+    <headline>Từ ý tưởng đến bàn giao — minh bạch từng bước</headline>
+    <steps>
+      <step num="01" icon="📋">
+        <title>Tư vấn và Thu thập thông tin</title>
+        <desc>15 phút — chúng tôi lắng nghe ngành nghề, mục tiêu và phong cách thương hiệu của bạn.</desc>
+      </step>
+      <step num="02" icon="🎨">
+        <title>Lên concept và Thiết kế</title>
+        <desc>Đề xuất cấu trúc trang, màu sắc, nội dung phù hợp với ngành. Bạn xem và góp ý trước khi làm.</desc>
+      </step>
+      <step num="03" icon="💻">
+        <title>Phát triển và Preview</title>
+        <desc>Đội ngũ phát triển trang web. Bạn được xem bản preview thực tế trước khi hoàn thiện.</desc>
+      </step>
+      <step num="04" icon="✅">
+        <title>Chỉnh sửa theo yêu cầu</title>
+        <desc>Tối đa 3 lần chỉnh sửa miễn phí — đảm bảo bạn 100% hài lòng trước khi bàn giao.</desc>
+      </step>
+      <step num="05" icon="🚀">
+        <title>Bàn giao và Go Live</title>
+        <desc>Tên miền, hosting, hướng dẫn sử dụng — website của bạn chính thức hoạt động.</desc>
+      </step>
+    </steps>
+  </section>
+
+  <section id="services">
+    <label>Ai phù hợp?</label>
+    <headline>Chúng tôi xây dựng thương hiệu cho những người muốn dẫn đầu ngành của họ</headline>
+    <items>
+      <item icon="🏋️">
+        <title>Huấn luyện viên PT / Yoga</title>
+        <desc>Chứng chỉ, lịch tập, testimonial học viên — tất cả trên một trang duy nhất.</desc>
+      </item>
+      <item icon="👨‍🏫">
+        <title>Giáo viên / Gia sư</title>
+        <desc>Phương pháp giảng dạy, thành tích, lịch học — phụ huynh tin tưởng ngay lần đầu.</desc>
+      </item>
+      <item icon="🏠">
+        <title>Môi giới Bất động sản</title>
+        <desc>Portfolio dự án, review khách hàng, form tư vấn — uy tín được xây dựng trước khi gặp mặt.</desc>
+      </item>
+      <item icon="🚗">
+        <title>Môi giới Xe ô tô</title>
+        <desc>Showroom cá nhân online, báo giá tức thì — khách tìm đến bạn trước đối thủ.</desc>
+      </item>
+      <item icon="💰">
+        <title>Tư vấn Tài chính / Bảo hiểm</title>
+        <desc>Nội dung chuyên sâu, case study thực tế — biến sự tin tưởng thành hợp đồng.</desc>
+      </item>
+      <item icon="💆">
+        <title>Chuyên gia Sắc đẹp / Spa</title>
+        <desc>Hình ảnh before/after, đặt lịch online — khách hàng quay lại không cần nhắc.</desc>
+      </item>
+    </items>
+  </section>
+
+  <section id="pricing">
+    <label>Đầu tư một lần, sinh lời mãi mãi</label>
+    <headline>Gói dịch vụ minh bạch, không phát sinh</headline>
+    <note>Chi phí chạy quảng cáo 1 tháng có thể mua được một landing page dùng mãi mãi.</note>
+    <packages>
+      <package name="Khởi nghiệp" price="2.900.000đ" delivery="7 ngày" featured="false">
+        <desc>Phù hợp khi bạn mới bắt đầu xây dựng thương hiệu cá nhân online.</desc>
+        <includes>
+          <item>Landing page 1 trang</item>
+          <item>Responsive mobile</item>
+          <item>Form liên hệ</item>
+          <item>SEO cơ bản</item>
+          <item>Bàn giao 7 ngày</item>
+        </includes>
+        <excludes>
+          <item>Tên miền riêng</item>
+          <item>Chỉnh sửa sau bàn giao</item>
+        </excludes>
+      </package>
+      <package name="Chuyên nghiệp" price="5.900.000đ" delivery="14 ngày" featured="true">
+        <desc>Giải pháp hoàn chỉnh cho chuyên gia muốn dẫn đầu trong ngành.</desc>
+        <includes>
+          <item>Landing page cao cấp</item>
+          <item>Responsive + Animation</item>
+          <item>Form liên hệ &amp; Zalo</item>
+          <item>SEO nâng cao</item>
+          <item>Tên miền .com 1 năm</item>
+          <item>Bàn giao 14 ngày</item>
+          <item>3 lần chỉnh sửa miễn phí</item>
+        </includes>
+      </package>
+      <package name="Thương hiệu" price="9.900.000đ" delivery="21 ngày" featured="false">
+        <desc>Dành cho chuyên gia muốn xây dựng hệ sinh thái thương hiệu bền vững.</desc>
+        <includes>
+          <item>Landing page premium</item>
+          <item>Animation &amp; Micro-interactions</item>
+          <item>Form + CRM cơ bản</item>
+          <item>SEO chuyên sâu + Blog</item>
+          <item>Tên miền + Hosting 1 năm</item>
+          <item>Bàn giao 21 ngày</item>
+          <item>Hỗ trợ 6 tháng</item>
+        </includes>
+      </package>
+    </packages>
+  </section>
+
+  <section id="contact">
+    <label>Bắt đầu hành trình của bạn</label>
+    <headline>Tư vấn miễn phí 100%</headline>
+    <description>15 phút — chúng tôi sẽ phác thảo ngay landing page phù hợp cho bạn, không ép mua.</description>
+    <contact_methods>
+      <method type="phone" href="tel:0352425290">
+        <label>Gọi điện tư vấn</label>
+        <value>0352 425 290</value>
+      </method>
+      <method type="zalo" href="https://zalo.me/0352425290">
+        <label>Nhắn Zalo</label>
+        <value>0352 425 290</value>
+      </method>
+      <response_time>Phản hồi trong 30 phút — từ 8:00 đến 22:00 mỗi ngày</response_time>
+    </contact_methods>
+    <form>
+      <field type="text" placeholder="Họ và tên" required="true"/>
+      <field type="tel" placeholder="Số điện thoại / Zalo" required="true"/>
+      <field type="select" placeholder="Nghề nghiệp của bạn" required="true">
+        <option>Huấn luyện viên PT / Yoga</option>
+        <option>Giáo viên / Gia sư</option>
+        <option>Môi giới Bất động sản</option>
+        <option>Môi giới Xe ô tô</option>
+        <option>Tư vấn Tài chính / Bảo hiểm</option>
+        <option>Chuyên gia Sắc đẹp / Spa</option>
+        <option>Khác</option>
+      </field>
+      <submit>Đăng ký tư vấn miễn phí</submit>
+    </form>
+  </section>
+
+  <footer>
+    <brand>GIAPTECH — Chuyên gia xây dựng thương hiệu cá nhân cho người Việt</brand>
+    <phone>0352 425 290</phone>
+    <zalo>0352 425 290</zalo>
+    <website>giaptech.site</website>
+    <copyright>2026 GIAPTECH. All rights reserved.</copyright>
+  </footer>
+
+</website>
