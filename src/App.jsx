@@ -868,7 +868,7 @@ export default function App() {
             <p className="footer-slogan">Tôn vinh thực tài — Nâng tầm vị thế</p>
           </div>
           <div className="footer-contact">
-            <p>💬 Zalo: 0352 425 290</p>
+            <p><a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>💬 Zalo: 0352 425 290</a></p>
             <p>🌐 <a href="https://giaptech.site/" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>https://giaptech.site/</a></p>
             <p><a href="https://www.facebook.com/giaptech" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>📘 facebook.com/giaptech</a></p>
           </div>
