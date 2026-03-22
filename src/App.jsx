@@ -864,7 +864,7 @@ export default function App() {
       <footer className="footer">
         <div className="footer-inner">
           <div className="footer-brand">
-            <img src="/Logo.png" alt="GIAPTECH" className="footer-logo-img" />
+            <img src="/Logo-footer.png" alt="GIAPTECH" className="footer-logo-img" />
             <p className="footer-slogan">Tôn vinh thực tài — Nâng tầm vị thế</p>
           </div>
           <div className="footer-contact">
