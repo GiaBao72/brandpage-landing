@@ -58,7 +58,7 @@ function TiltCard({ children, className = '', style }) {
   )
 }
 
-function RippleBtn({ children, className = '', href, type = 'button', onClick }) {
+function RippleBtn({ children, className = '', href, type = 'button', onClick, target }) {
   const handleClick = (e) => {
     const btn = e.currentTarget
     const circle = document.createElement('span')
@@ -71,7 +71,7 @@ function RippleBtn({ children, className = '', href, type = 'button', onClick })
     btn.appendChild(circle)
     if (onClick) onClick(e)
   }
-  if (href) return <a href={href} className={className} onClick={handleClick}>{children}</a>
+  if (href) return <a href={href} className={className} onClick={handleClick} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>{children}</a>
   return <button type={type} className={className} onClick={handleClick}>{children}</button>
 }
 
@@ -454,7 +454,7 @@ export default function App() {
                 <div className="pf-img-wrap">
                   <img src={demo.image} alt={demo.title} loading="lazy" />
                   <div className="pf-overlay">
-                    <RippleBtn href={demo.link} className="btn-primary pf-cta">
+                    <RippleBtn href={demo.link} className="btn-primary pf-cta" target="_blank">
                       Xem Bản Live →
                     </RippleBtn>
                   </div>
