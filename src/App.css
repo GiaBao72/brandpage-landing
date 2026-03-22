@@ -306,4 +306,5 @@ body{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--slate);backgr
 @media(max-width:768px){
   .mobile-action-bar{display:flex}
   body{padding-bottom:85px}
+  .scroll-top{bottom:6rem;z-index:1000}
 }
