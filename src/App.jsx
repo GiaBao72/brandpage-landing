@@ -375,6 +375,46 @@ const premiumDemos = [
     image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=85',
     link: 'https://html.themexriver.com/finano/index.html',
   },
+  {
+    id: 26,
+    title: 'Luxe Spa — Thư Giãn & Chăm Sóc Toàn Diện',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-2.html',
+  },
+  {
+    id: 27,
+    title: 'Serenity Spa — Liệu Pháp Đẳng Cấp 5 Sao',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-3.html',
+  },
+  {
+    id: 28,
+    title: 'Glow Studio — Thẩm Mỹ Viện Hạng A',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-4.html',
+  },
+  {
+    id: 29,
+    title: 'Belle Clinic — Chăm Sóc Da & Làm Đẹp Chuyên Sâu',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-5.html',
+  },
+  {
+    id: 30,
+    title: 'Zen Spa Classic — Massage & Năng Lượng Tâm Hồn',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index.html',
+  },
 ]
 
 const faqs = [
