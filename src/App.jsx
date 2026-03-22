@@ -171,6 +171,34 @@ const packages = [
   },
 ]
 
+const faqs = [
+  {
+    q: 'Tôi chưa có hình ảnh cá nhân chuyên nghiệp thì sao?',
+    a: 'GIAPTECH sẽ tư vấn concept chụp ảnh phù hợp với ngành nghề của bạn. Trong thời gian bạn chuẩn bị, chúng tôi có thể sử dụng kho ảnh minh họa cao cấp có bản quyền để thiết kế trước cấu trúc và luồng trải nghiệm.'
+  },
+  {
+    q: 'Sau khi bàn giao, tôi có phải đóng thêm phí duy trì không?',
+    a: 'Với gói Khởi nghiệp, bạn tự quản lý hosting/tên miền. Với gói Chuyên nghiệp và Thương hiệu, GIAPTECH đã tài trợ năm đầu tiên. Từ năm thứ 2 trở đi, chi phí gia hạn theo giá gốc nhà cung cấp (chỉ khoảng vài trăm nghìn/năm).'
+  },
+  {
+    q: 'Tôi có thể tự thay đổi nội dung, hình ảnh sau này không?',
+    a: 'Hoàn toàn được. Sau khi Go-live, chúng tôi bàn giao bộ video hướng dẫn chi tiết cách tự thay chữ, đổi ảnh rất trực quan — bạn không cần biết lập trình vẫn thao tác dễ dàng.'
+  },
+]
+
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className={`faq-item ${open ? 'open' : ''}`} onClick={() => setOpen(!open)}>
+      <div className="faq-question">
+        <span>{q}</span>
+        <span className="faq-icon">{open ? '−' : '+'}</span>
+      </div>
+      {open && <div className="faq-answer">{a}</div>}
+    </div>
+  )
+}
+
 export default function App() {
   const [form, setForm] = useState({ name: '', phone: '', job: '' })
   const [sent, setSent] = useState(false)
@@ -296,7 +324,7 @@ export default function App() {
       {/* PROCESS */}
       <Section id="process" className="process-section">
         <div className="container">
-          <div className="section-label">Quy trình lam viec</div>
+          <div className="section-label">Quy trình làm việc</div>
           <h2 className="section-title">Thực Thi Tốc Độ —<br /><span className="gradient-text">Minh Bạch Từng Bước</span></h2>
           <div className="steps">
             {steps.map((s, i) => (
@@ -319,7 +347,7 @@ export default function App() {
       <Section id="services" className="services-section">
         <div className="container">
           <div className="section-label">Dịch Vụ Này Dành Riêng Cho Ai?</div>
-          <h2 className="section-title">Chúng Tôi Là "Vũ Khí Bi Mat" Của<br /><span className="gradient-text">Những Chuyên Gia Đứng Đầu Ngành</span></h2>
+          <h2 className="section-title">Chúng Tôi Là "Vũ Khí Bí Mật" Của<br /><span className="gradient-text">Những Chuyên Gia Đứng Đầu Ngành</span></h2>
           <div className="services-grid">
             {services.map((s, i) => (
               <TiltCard key={i} className="service-card" style={{ '--delay': `${i * 0.08}s` }}>
@@ -333,12 +361,29 @@ export default function App() {
         </div>
       </Section>
 
+
+      {/* FAQ */}
+      <Section id="faq" className="faq-section">
+        <div className="container">
+          <div className="section-label">Giải Đáp Thắc Mắc</div>
+          <h2 className="section-title">Những Câu Hỏi Thường Gặp Trước Khi<br /><span className="gradient-text">Khởi Tạo Thương Hiệu</span></h2>
+          <div className="faq-list">
+            {faqs.map((f, i) => <FAQItem key={i} q={f.q} a={f.a} />)}
+          </div>
+        </div>
+      </Section>
+
       {/* PRICING */}
       <Section id="pricing" className="pricing-section">
         <div className="container">
           <div className="section-label">Đầu Tư Nhỏ, Vị Thế Lớn</div>
           <h2 className="section-title">Bảng Giá Minh Bạch —<br /><span className="gradient-text">Tuong Xung Voi Tam Voc Của Ban</span></h2>
           <p className="pricing-note">Đừng đốt tiền rải tờ rơi hay chạy Ads vô định. Sở hữu "Mặt bằng số" vĩnh viễn chỉ bằng chi phí một chầu nhậu.</p>
+
+          <div className="scarcity-banner">
+            <span className="scarcity-fire">🔥</span>
+            <p><strong>Lưu ý:</strong> Để đảm bảo chất lượng cá nhân hóa cao nhất, GIAPTECH chỉ nhận tối đa <strong>05 dự án/tháng</strong>.<br /><span className="scarcity-urgent">Cập nhật: Tháng này chỉ còn 02 vị trí trống.</span></p>
+          </div>
           <div className="pricing-grid">
             {packages.map((pkg, i) => (
               <div className={`pricing-card ${pkg.featured ? 'featured' : ''}`} key={i} style={{ '--delay': `${i * 0.1}s` }}>
@@ -385,7 +430,7 @@ export default function App() {
               </a>
               <div className="response-time">
                 <span>⏰</span>
-                <p>Phản hồi tốc độ trong <strong>30 phut</strong> — Hoạt động 8:00 đến 22:00 mỗi ngày</p>
+                <p>Phản hồi tốc độ trong <strong>30 phút</strong> — Hoạt động 8:00 đến 22:00 mỗi ngày</p>
               </div>
             </div>
             <form className="contact-form" onSubmit={handleSubmit}>
@@ -442,6 +487,17 @@ export default function App() {
         </div>
         <div className="footer-bottom">© 2026 GIAPTECH. All rights reserved.</div>
       </footer>
+
+
+      {/* MOBILE ACTION BAR */}
+      <div className="mobile-action-bar">
+        <a href="tel:0352425290" className="mob-btn mob-btn-outline">
+          <span>📞</span> Gọi Ngay
+        </a>
+        <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="mob-btn mob-btn-primary">
+          <span>💬</span> Chat Zalo
+        </a>
+      </div>
 
       <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">↑</button>
     </div>
