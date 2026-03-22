@@ -871,6 +871,7 @@ export default function App() {
             <p>📞 0352 425 290</p>
             <p>💬 Zalo: 0352 425 290</p>
             <p>🌐 giaptech.site</p>
+            <p><a href="https://www.facebook.com/giaptech" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>📘 facebook.com/giaptech</a></p>
           </div>
         </div>
         <div className="footer-bottom">© 2026 GIAPTECH. All rights reserved.</div>
