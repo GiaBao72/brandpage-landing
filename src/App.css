@@ -20,10 +20,11 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;max-width:100%;overflow-x:hidden}
 html{scroll-behavior:smooth}
 body{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--slate);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased}
-.app{width:100%;overflow-x:hidden}
-.container{max-width:1400px;margin:0 auto;padding:0 5%}
+.app{width:100%;max-width:100%;overflow-x:hidden}
+.container{width:100%;max-width:1400px;margin:0 auto;padding:0 4%}
 
 /* ── SECTION ANIMATIONS ── */
 .section{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
