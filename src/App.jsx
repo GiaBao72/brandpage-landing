@@ -181,7 +181,7 @@ const premiumDemos = [
     category: 'PT / Yoga',
     tag: 'Premium',
     image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=85',
-    link: 'https://codervent.com/maxton/demo/horizontal-menu/index-dark.html',
+    link: '#',
   },
   {
     id: 2,
@@ -189,7 +189,7 @@ const premiumDemos = [
     category: 'PT / Yoga',
     tag: 'Exclusive',
     image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=85',
-    link: 'https://codervent.com/maxton/demo/horizontal-menu/index-light.html',
+    link: '#',
   },
   {
     id: 3,
@@ -197,7 +197,7 @@ const premiumDemos = [
     category: 'Bất động sản',
     tag: 'Signature',
     image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85',
-    link: 'https://codervent.com/maxton/demo/vertical-menu/index-dark.html',
+    link: '#',
   },
   {
     id: 4,
@@ -205,7 +205,7 @@ const premiumDemos = [
     category: 'Môi giới xe',
     tag: 'Elite',
     image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=85',
-    link: 'https://codervent.com/maxton/demo/vertical-menu/index-light.html',
+    link: '#',
   },
   {
     id: 5,
@@ -213,7 +213,7 @@ const premiumDemos = [
     category: 'Tài chính',
     tag: 'Premium',
     image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=85',
-    link: 'https://codervent.com/maxton/demo/horizontal-menu/index.html',
+    link: '#',
   },
   {
     id: 6,
@@ -221,7 +221,7 @@ const premiumDemos = [
     category: 'Spa / Thẩm mỹ',
     tag: 'Signature',
     image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&q=85',
-    link: 'https://codervent.com/maxton/demo/vertical-menu/index.html',
+    link: '#',
   },
   {
     id: 7,
@@ -229,7 +229,7 @@ const premiumDemos = [
     category: 'Giáo dục',
     tag: 'Elite',
     image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=85',
-    link: 'https://codervent.com/maxton/eCommerce/demo/index.html',
+    link: '#',
   },
   {
     id: 8,
@@ -237,7 +237,7 @@ const premiumDemos = [
     category: 'PT / Yoga',
     tag: 'Exclusive',
     image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=85',
-    link: 'https://codervent.com/maxton/eCommerce/demo/shop-grid-left-sidebar.html',
+    link: '#',
   },
 ]
 
