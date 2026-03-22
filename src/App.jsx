@@ -864,8 +864,8 @@ export default function App() {
       <footer className="footer">
         <div className="footer-inner">
           <div className="footer-brand">
-            <div className="footer-logo">⚡ GIAPTECH</div>
-            <p>Bệ phóng thương hiệu cá nhân số 1 cho chuyên gia Việt</p>
+            <img src="/Logo.png" alt="GIAPTECH" className="footer-logo-img" />
+            <p className="footer-slogan">Tôn vinh thực tài — Nâng tầm vị thế</p>
           </div>
           <div className="footer-contact">
             <p>📞 0352 425 290</p>

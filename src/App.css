@@ -744,3 +744,6 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 .messenger-bubble:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(0,132,255,.5)}
 @media(max-width:768px){.messenger-bubble{bottom:8rem;right:1rem}}
 @media(max-width:768px){.nav-logo{height:32px}}
+
+.footer-logo-img{height:64px;object-fit:contain;margin-bottom:.6rem;filter:brightness(0) invert(1)}
+.footer-slogan{color:rgba(255,255,255,.7);font-size:1rem;font-style:italic;margin:0}
