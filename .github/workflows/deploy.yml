@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE: /brandpage-landing/
+          VITE_BASE: /
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
