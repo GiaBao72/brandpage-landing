@@ -550,7 +550,9 @@ export default function App() {
 
       {/* NAV */}
       <nav className="nav">
-        <a className="logo" href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}) }}>⚡ GIAPTECH</a>
+        <a className="logo" href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}) }}>
+          <img src="/logo.png" alt="GIAPTECH" style={{height:'40px',objectFit:'contain'}} />
+        </a>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <li><a href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setMenuOpen(false) }}>Trang chủ</a></li>
           {['benefits','features','process','services','portfolio','pricing'].map((id,i) => (
