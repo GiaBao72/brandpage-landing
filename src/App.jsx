@@ -295,6 +295,38 @@ const premiumDemos = [
     image: 'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=85',
     link: 'https://housebox-html-demo.vercel.app/?storefront=envato-elements',
   },
+  {
+    id: 16,
+    title: 'Cardinal — Trung Tâm Rửa Xe & Sửa Chữa',
+    category: 'Ô tô',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&q=85',
+    link: 'https://demoxml.com/html/cardinal/?storefront=envato-elements',
+  },
+  {
+    id: 17,
+    title: 'Auril — Xưởng Cơ Động Cơ Hạng Sang',
+    category: 'Ô tô',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=85',
+    link: 'https://demoxml.com/html/auril/?storefront=envato-elements',
+  },
+  {
+    id: 18,
+    title: 'CarBook Classic — Showroom & Đặt Lịch Dịch Vụ',
+    category: 'Ô tô',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=85',
+    link: 'https://winsfolio.net/html/carbook/demo-1/index.html',
+  },
+  {
+    id: 19,
+    title: 'CarBook Pro — Garage & Chăm Sóc Xe Cao Cấp',
+    category: 'Ô tô',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=85',
+    link: 'https://winsfolio.net/html/carbook/demo-2/index.html',
+  },
 ]
 
 const faqs = [
@@ -331,7 +363,7 @@ export default function App() {
   const [showTop, setShowTop] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Tất cả')
-  const portfolioTabs = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Môi giới xe', 'Tài chính', 'Spa / Thẩm mỹ', 'Giáo dục']
+  const portfolioTabs = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Ô tô', 'Tài chính', 'Spa / Thẩm mỹ', 'Giáo dục']
   const visibleDemos = (() => {
     if (activeTab !== 'Tất cả') return premiumDemos.filter(d => d.category === activeTab)
     const seen = new Set()
