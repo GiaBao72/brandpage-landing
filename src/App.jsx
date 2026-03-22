@@ -825,7 +825,7 @@ export default function App() {
                 <>
                   <h3>Để lại thông tin</h3>
                   <div className="form-group">
-                    <input type="text" placeholder="Họ và tên chuyên gia" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+                    <input type="text" placeholder="Nhập tên ..." required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                   </div>
                   <div className="form-group">
                     <input type="tel" placeholder="Số điện thoại / Zalo" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
