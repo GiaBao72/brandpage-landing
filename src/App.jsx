@@ -185,11 +185,121 @@ function Particles() {
   return <canvas ref={canvasRef} className="particles" />
 }
 
+<<<<<<< Updated upstream
+=======
+const benefits = [
+  { icon: '🌐', title: '"Cỗ Máy Sale" Không Biết Mệt', desc: 'Khách hàng âm thầm tìm hiểu bạn lúc nửa đêm và để lại thông tin khi bạn đang ngủ. Đừng bỏ lỡ bất kỳ cơ hội nào.' },
+  { icon: '💎', title: 'Thoát Khỏi "Bẫy Giá Rẻ"', desc: 'Giao diện sang trọng là minh chứng cho đẳng cấp. Khách hàng sẽ không kỳ kèo khi bị thuyết phục bởi sự chuyên nghiệp của bạn.' },
+  { icon: '📈', title: 'Tự Động Hóa Dòng Khách Hàng', desc: 'Tích hợp thông minh Form, Zalo. Bạn chỉ việc tư vấn và chốt sale, việc tìm kiếm khách hàng đã có website lo.' },
+  { icon: '🎯', title: '"Đánh Xa Khỏi Vùng An Toàn"', desc: 'Tối ưu SEO và nội dung ngách giúp tiếp cận chính xác người đang khao khát dịch vụ của bạn, lọc bỏ khách "hỏi cho biết".' },
+  { icon: '🤝', title: 'Chốt Sale Từ Trong Trứng Nước', desc: 'Phô diễn năng lực qua Portfolio, chứng chỉ, Testimonials. Họ gọi cho bạn để mua, chứ không phải để hỏi "bạn là ai".' },
+  { icon: '🚀', title: 'Đè Bẹp 90% Đối Thủ Cùng Ngành', desc: 'Bao nhiêu người trong ngành của bạn đang làm được điều này? Đây chính là "Đại dương xanh" để bạn bứt phá.' },
+]
+
+const features = [
+  { icon: '⚡', title: 'Tốc Độ < 2 Giây (Chuẩn Core Web Vitals)', desc: 'Khách hàng thiếu kiên nhẫn và Google cũng vậy. Chúng tôi đảm bảo trải nghiệm mượt mà, giữ chân khách ở lại trang lâu nhất.' },
+  { icon: '📱', title: 'Tối Ưu Hoá Mobile (Mobile-first)', desc: 'Thiết kế được đo ni đóng giày cho màn hình điện thoại, nơi 80% khách hàng của bạn đang lướt web mỗi ngày.' },
+  { icon: '🎯', title: 'Nghệ Thuật "Thôi Miên" Khách Hàng', desc: 'Từ ngôn từ sắc bén đến tâm lý học màu sắc, mọi yếu tố đều được sắp đặt có chủ đích để thôi thúc họ hành động ngay.' },
+  { icon: '🔍', title: 'Chuẩn Mực SEO Mới Nhất', desc: 'Tối ưu On-page toàn diện, giúp tên tuổi của bạn nhanh chóng thống lĩnh trang nhất Google khi khách hàng tìm kiếm.' },
+  { icon: '🛡️', title: 'Hạ Tầng Vững Như Bàn Thạch', desc: 'Không lo sập web lúc chạy quảng cáo hay có lượng truy cập đột biến. Bảo mật tuyệt đối mọi dữ liệu khách hàng.' },
+]
+
+const services = [
+  { icon: '🏋️', title: 'Personal Trainer / HLV Yoga', desc: 'Biến hình thể đẹp và chứng chỉ thành thỏi nam châm hút học viên. Tự động hóa lịch tập chuyên nghiệp.' },
+  { icon: '👨‍🏫', title: 'Giáo Viên / Chuyên Gia Đào Tạo', desc: 'Xây dựng niềm tin tuyệt đối với phụ huynh qua bảng thành tích đáng nể và phương pháp giảng dạy khác biệt.' },
+  { icon: '🏠', title: 'Môi Giới Bất Động Sản', desc: 'Khẳng định đẳng cấp "người chơi hệ dự án lớn". Uy tín đi trước, hợp đồng tiền tỷ theo sau.' },
+  { icon: '🚗', title: 'Môi Giới Xe Ô Tô', desc: 'Tạo showroom ảo cá nhân cực sang chảnh. Khách hàng xem xe qua web, gọi điện là để chốt cọc.' },
+  { icon: '💰', title: 'Chuyên Viên Tài Chính / Bảo Hiểm', desc: 'Đập tan sự hoài nghi của khách hàng. Xây dựng hình ảnh chuyên gia tư vấn đáng tin cậy trọn đời.' },
+  { icon: '💆', title: 'Chuyên Gia Thẩm Mỹ / Spa', desc: 'Phô diễn những ca "lột xác" thần thánh. Khách hàng khao khát làm đẹp và tranh nhau đặt lịch trước hàng tuần.' },
+]
+
+const steps = [
+  { num: '01', icon: '📋', title: 'Khai Thác Điểm Mạnh Nhất Của Bạn', desc: '15 phút lắng nghe để thấu hiểu ngành nghề, lợi thế cạnh tranh và định hình phong cách thương hiệu cá nhân.' },
+  { num: '02', icon: '🎨', title: 'Phác Thảo "Vũ Khí" Bán Hàng', desc: 'Đề xuất cấu trúc chiến lược, màu sắc, và luồng nội dung tâm lý học. Bạn sẽ duyệt trước khi chúng tôi code.' },
+  { num: '03', icon: '💻', title: 'Lập Trình & Trải Nghiệm Thực Tế', desc: 'Chuyển hóa bản vẽ thành website hoạt động mượt mà. Bạn được trực tiếp trải nghiệm bản preview.' },
+  { num: '04', icon: '✅', title: 'Tinh Chỉnh Hoàn Hảo', desc: 'Tối đa 3 lần điều chỉnh miễn phí để đảm bảo từng câu chữ, hình ảnh đều sắc nét và đúng ý bạn 100%.' },
+  { num: '05', icon: '🚀', title: 'Kích Hoạt & Thống Lĩnh Thị Trường', desc: 'Bàn giao toàn bộ tên miền, mã nguồn và hướng dẫn tận tình. Cỗ máy thu hút khách hàng của bạn chính thức vận hành.' },
+]
+
+const packages = [
+  {
+    name: 'Khởi nghiệp',
+    price: '2.900.000đ',
+    time: '7 ngày',
+    desc: 'Bệ phóng hoàn hảo khi bạn mới bắt đầu xây dựng thương hiệu cá nhân online.',
+    features: ['Landing page 1 trang', 'Tối ưu giao diện Mobile', 'Form liên hệ cơ bản', 'Chuẩn SEO On-page', 'Ban giao toc toc 7 ngày'],
+    missing: ['Tên miền riêng', 'Chỉnh sửa sau bàn giao'],
+  },
+  {
+    name: 'Chuyên nghiệp',
+    price: '5.900.000đ',
+    time: '14 ngày',
+    featured: true,
+    badge: 'GIẢI PHÁP TỐI ƯU NHẤT',
+    desc: 'Dành cho chuyên gia muốn bứt phá và dẫn đầu thị phần.',
+    features: ['Landing page thiết kế cao cấp', 'Hiệu ứng Animation mượt mà', 'Tích hợp Form & Nút gọi/Zalo', 'Tối ưu SEO nâng cao', 'Tặng Tên miền .com 1 năm', 'Ban giao 14 ngày', '3 lần chỉnh sửa miễn phí'],
+    missing: [],
+  },
+  {
+    name: 'Thương hiệu',
+    price: '9.900.000đ',
+    time: '21 ngày',
+    desc: 'Dành cho chuyên gia VIP muốn xây dựng hệ sinh thái thương hiệu bền vững, độc quyền.',
+    features: ['Thiết kế Premium độc bản', 'Micro-interactions đỉnh cao', 'Form + Tích hợp Mini CRM', 'SEO chuyên sâu + Mục Blog', 'Tặng Tên miền + Hosting 1 năm', 'Ban giao 21 ngày', 'Bảo hành & Hỗ trợ 6 tháng'],
+    missing: [],
+  },
+]
+
+const demos = [
+  { id: 1, title: 'Landing Page HLV Fitness Cao Cấp', category: 'PT / Yoga', image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80', link: '#' },
+  { id: 2, title: 'Thương Hiệu Cá Nhân Yoga & Wellness', category: 'PT / Yoga', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80', link: '#' },
+  { id: 3, title: 'Dự Án BĐS VinHomes Premium', category: 'Bất động sản', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80', link: '#' },
+  { id: 4, title: 'Môi Giới Nhà Đất Cao Cấp Phú Mỹ Hưng', category: 'Bất động sản', image: 'https://images.unsplash.com/photo-1582407947304-fd86f28f3e34?w=600&q=80', link: '#' },
+  { id: 5, title: 'Trung Tâm Luyện Thi Đại Học Chuyên Sâu', category: 'Giáo dục', image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&q=80', link: '#' },
+  { id: 6, title: 'Chuyên Gia Đào Tạo Kỹ Năng Mềm', category: 'Giáo dục', image: 'https://images.unsplash.com/photo-1558021212-51b6ecfa0db9?w=600&q=80', link: '#' },
+  { id: 7, title: 'Showroom Xe Mercedes-Benz Cá Nhân', category: 'Môi giới xe', image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80', link: '#' },
+  { id: 8, title: 'Chuyên Gia Tư Vấn Xe Toyota & Lexus', category: 'Môi giới xe', image: 'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&q=80', link: '#' },
+  { id: 9, title: 'Spa Cao Cấp & Làm Đẹp Toàn Diện', category: 'Spa / Làm đẹp', image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80', link: '#' },
+  { id: 10, title: 'Chuyên Gia Thẩm Mỹ & Chăm Sóc Da', category: 'Spa / Làm đẹp', image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80', link: '#' },
+]
+
+const faqs = [
+  {
+    q: 'Tôi chưa có hình ảnh cá nhân chuyên nghiệp thì sao?',
+    a: 'GIAPTECH sẽ tư vấn concept chụp ảnh phù hợp với ngành nghề của bạn. Trong thời gian bạn chuẩn bị, chúng tôi có thể sử dụng kho ảnh minh họa cao cấp có bản quyền để thiết kế trước cấu trúc và luồng trải nghiệm.'
+  },
+  {
+    q: 'Sau khi bàn giao, tôi có phải đóng thêm phí duy trì không?',
+    a: 'Với gói Khởi nghiệp, bạn tự quản lý hosting/tên miền. Với gói Chuyên nghiệp và Thương hiệu, GIAPTECH đã tài trợ năm đầu tiên. Từ năm thứ 2 trở đi, chi phí gia hạn theo giá gốc nhà cung cấp (chỉ khoảng vài trăm nghìn/năm).'
+  },
+  {
+    q: 'Tôi có thể tự thay đổi nội dung, hình ảnh sau này không?',
+    a: 'Hoàn toàn được. Sau khi Go-live, chúng tôi bàn giao bộ video hướng dẫn chi tiết cách tự thay chữ, đổi ảnh rất trực quan — bạn không cần biết lập trình vẫn thao tác dễ dàng.'
+  },
+]
+
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className={`faq-item ${open ? 'open' : ''}`} onClick={() => setOpen(!open)}>
+      <div className="faq-question">
+        <span>{q}</span>
+        <span className="faq-icon">{open ? '−' : '+'}</span>
+      </div>
+      {open && <div className="faq-answer">{a}</div>}
+    </div>
+  )
+}
+
+>>>>>>> Stashed changes
 export default function App() {
   const [form, setForm] = useState({ name: '', phone: '', job: '' })
   const [sent, setSent] = useState(false)
   const [showTop, setShowTop] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeFilter, setActiveFilter] = useState('Tất cả')
+  const categories = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Giáo dục', 'Môi giới xe', 'Spa / Làm đẹp']
+  const filteredDemos = activeFilter === 'Tất cả' ? demos : demos.filter(d => d.category === activeFilter)
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 500)
@@ -207,9 +317,15 @@ export default function App() {
       <nav className="nav">
         <div className="logo">⚡ GIAPTECH</div>
         <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
+<<<<<<< Updated upstream
           {['benefits', 'features', 'process', 'services', 'pricing'].map((id, i) => (
             <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
               {['Lợi ích', 'Cam kết', 'Quy trình', 'Đối tượng', 'Bảng giá'][i]}
+=======
+          {['benefits','features','process','services','demos','pricing'].map((id,i) => (
+            <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)}>
+              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Mẫu giao diện','Bảng giá'][i]}
+>>>>>>> Stashed changes
             </a></li>
           ))}
         </ul>
@@ -380,6 +496,52 @@ export default function App() {
         </div>
       </Section>
 
+<<<<<<< Updated upstream
+=======
+
+      {/* DEMOS */}
+      <Section id="demos" className="demos-section">
+        <div className="container">
+          <div className="section-label">Trải Nghiệm Các Dự Án Đã Triển Khai</div>
+          <h2 className="section-title">Kho Giao Diện Thực Tế —<br /><span className="gradient-text">Cảm Hứng Cho Thương Hiệu Của Bạn</span></h2>
+          <div className="demo-filter">
+            {categories.map(cat => (
+              <button key={cat} className={`filter-btn ${activeFilter === cat ? 'active' : ''}`} onClick={() => setActiveFilter(cat)}>
+                {cat}
+              </button>
+            ))}
+          </div>
+          <div className="demo-grid">
+            {filteredDemos.map(demo => (
+              <TiltCard key={demo.id} className="demo-card">
+                <div className="demo-img-wrap">
+                  <img src={demo.image} alt={demo.title} loading="lazy" />
+                  <div className="demo-overlay">
+                    <RippleBtn href={demo.link} className="btn-primary">Xem thực tế →</RippleBtn>
+                  </div>
+                </div>
+                <div className="demo-content">
+                  <span className="demo-category">{demo.category}</span>
+                  <div className="demo-title">{demo.title}</div>
+                </div>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* FAQ */}
+      <Section id="faq" className="faq-section">
+        <div className="container">
+          <div className="section-label">Giải Đáp Thắc Mắc</div>
+          <h2 className="section-title">Những Câu Hỏi Thường Gặp Trước Khi<br /><span className="gradient-text">Khởi Tạo Thương Hiệu</span></h2>
+          <div className="faq-list">
+            {faqs.map((f, i) => <FAQItem key={i} q={f.q} a={f.a} />)}
+          </div>
+        </div>
+      </Section>
+
+>>>>>>> Stashed changes
       {/* PRICING */}
       <Section id="pricing" className="pricing-section">
         <div className="container">
