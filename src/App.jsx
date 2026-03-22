@@ -420,7 +420,7 @@ const premiumDemos = [
     title: 'Examin Academy — Nền Tảng Học Online Hàng Đầu',
     category: 'Giáo dục',
     tag: 'Premium',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=85',
+    image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=85',
     link: 'https://validthemes.net/site-template/examin/index-2.html',
   },
   {
@@ -468,7 +468,7 @@ const premiumDemos = [
     title: 'Examin MBA — Đào Tạo Quản Trị & Lãnh Đạo',
     category: 'Giáo dục',
     tag: 'Elite',
-    image: 'https://images.unsplash.com/photo-1532649842991-40ed7edb4da2?w=800&q=85',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=85',
     link: 'https://validthemes.net/site-template/examin/index-8.html',
   },
 ]
