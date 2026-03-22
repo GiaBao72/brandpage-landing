@@ -243,12 +243,11 @@ export default function App() {
           <div className="hero-content">
             <div className="hero-badge"><span className="badge-dot" />Bệ Phóng Thương Hiệu Cá Nhân Chuyên Nghiệp</div>
             <h1>
-              Năng lực của bạn xứng đáng được trả giá cao hơn.<br />
-              <span className="gradient-text">Đừng để khách hàng chọn đối thủ chỉ vì họ có vẻ ngoài bóng bẩy hơn.</span>
+              Tôn vinh thực tài —<br />
+              <span className="gradient-text">Nâng tầm vị thế</span>
             </h1>
             <p className="hero-desc">
-              Trong thoi dai so, "huu xa tu nhien huong" la chua du. GIAPTECH thiet ke landing page ca nhan chuyen sau —
-              Bien nang luc thuc su cua ban thanh thoi nam cham thu hut khach hang cao cap va khang dinh vi the doc ton.
+              Khách hàng không thể trực tiếp trải nghiệm chuyên môn của bạn qua màn hình, họ đánh giá qua sự chuyên nghiệp. Đừng tuột mất khách hàng VIP vào tay đối thủ chỉ vì bề ngoài số hóa của họ bóng bẩy hơn.
             </p>
             <div className="hero-actions">
               <RippleBtn href="#contact" className="btn-hero-primary">
