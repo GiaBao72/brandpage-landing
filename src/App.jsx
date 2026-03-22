@@ -872,8 +872,8 @@ export default function App() {
 
       {/* MOBILE ACTION BAR */}
       <div className="mobile-action-bar">
-        <a href="tel:0352425290" className="mob-btn mob-btn-outline">
-          <span>📞</span> Gọi Ngay
+        <a href="#" onClick={e => { e.preventDefault(); document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); history.replaceState(null,'',window.location.pathname) }} className="mob-btn mob-btn-outline">
+          <span>📝</span> Gửi Thông Tin
         </a>
         <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="mob-btn mob-btn-primary">
           <span>💬</span> Chat Zalo
