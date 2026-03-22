@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&display=swap');
 
 :root {
   --b50:  #eff6ff;
@@ -22,7 +22,7 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:100%;max-width:100%;overflow-x:hidden}
 html{scroll-behavior:smooth}
-body{font-family:'Be Vietnam Pro',system-ui,sans-serif;color:var(--slate);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased}
+body{font-family:'Google Sans Flex',system-ui,sans-serif;color:var(--slate);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased}
 .app{width:100%;max-width:100%;overflow-x:hidden}
 .container{width:100%;max-width:1400px;margin:0 auto;padding:0 4%}
 
