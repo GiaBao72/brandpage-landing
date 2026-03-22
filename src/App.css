@@ -747,3 +747,4 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 
 .footer-logo-img{height:64px;object-fit:contain;margin-bottom:.6rem;filter:none}
 .footer-slogan{color:rgba(255,255,255,.7);font-size:1rem;font-style:italic;margin:0}
+@media(max-width:768px){.nav{padding:.5rem 4%}}
