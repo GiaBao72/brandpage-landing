@@ -94,7 +94,7 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--slate);bac
 
 .nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 5%;position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--b100);z-index:200}
 
-.logo{font-size:1.25rem;font-weight:900;color:var(--b600);letter-spacing:-.5px}
+.logo{font-size:1.25rem;font-weight:900;color:var(--b600);letter-spacing:-.5px;text-decoration:none}
 
 .nav-links{display:flex;gap:2rem;list-style:none}
 
