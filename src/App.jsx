@@ -180,7 +180,7 @@ const premiumDemos = [
     title: 'Xtreme Fitness — HLV Cá Nhân Đẳng Cấp',
     category: 'PT / Yoga',
     tag: 'Premium',
-    image: 'https://api.microlink.io/?url=https://html.designingmedia.com/xtreme-fitness/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://html.designingmedia.com/xtreme-fitness/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://html.designingmedia.com/xtreme-fitness/?storefront=envato-elements',
   },
   {
@@ -188,7 +188,7 @@ const premiumDemos = [
     title: 'FiTrainer — Chuyên Gia Huấn Luyện Cá Nhân',
     category: 'PT / Yoga',
     tag: 'Exclusive',
-    image: 'https://api.microlink.io/?url=https://htmldesigntemplates.com/html/fitrainer/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://htmldesigntemplates.com/html/fitrainer/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://htmldesigntemplates.com/html/fitrainer/?storefront=envato-elements',
   },
   {
@@ -196,7 +196,7 @@ const premiumDemos = [
     title: 'Zoyot — Studio Yoga & Wellness Cao Cấp',
     category: 'PT / Yoga',
     tag: 'Signature',
-    image: 'https://api.microlink.io/?url=https://themesflat.co/html/zoyot/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://themesflat.co/html/zoyot/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://themesflat.co/html/zoyot/?storefront=envato-elements',
   },
   {
@@ -204,7 +204,7 @@ const premiumDemos = [
     title: 'BodyShape Pro — Gym & Fitness Đỉnh Cao',
     category: 'PT / Yoga',
     tag: 'Elite',
-    image: 'https://api.microlink.io/?url=https://bodyshape.dexignzone.com/xhtml/index-2.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://bodyshape.dexignzone.com/xhtml/index-2.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://bodyshape.dexignzone.com/xhtml/index-2.html',
   },
   {
@@ -212,7 +212,7 @@ const premiumDemos = [
     title: 'BodyShape Dark — Phòng Gym Premium',
     category: 'PT / Yoga',
     tag: 'Premium',
-    image: 'https://api.microlink.io/?url=https://bodyshape.dexignzone.com/xhtml/index-3.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://bodyshape.dexignzone.com/xhtml/index-3.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://bodyshape.dexignzone.com/xhtml/index-3.html',
   },
   {
@@ -220,7 +220,7 @@ const premiumDemos = [
     title: 'BodyShape Classic — Thương Hiệu Gym Bền Vững',
     category: 'PT / Yoga',
     tag: 'Signature',
-    image: 'https://api.microlink.io/?url=https://bodyshape.dexignzone.com/xhtml/index.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://bodyshape.dexignzone.com/xhtml/index.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://bodyshape.dexignzone.com/xhtml/index.html',
   },
   {
@@ -228,7 +228,7 @@ const premiumDemos = [
     title: 'GymOn Dark — HLV & Trung Tâm Gym Hạng Sâng',
     category: 'PT / Yoga',
     tag: 'Elite',
-    image: 'https://api.microlink.io/?url=https://winsfolio.net/html/gymon/gym-on-drak/index.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://winsfolio.net/html/gymon/gym-on-drak/index.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://winsfolio.net/html/gymon/gym-on-drak/index.html',
   },
   {
@@ -236,7 +236,7 @@ const premiumDemos = [
     title: 'Hamilton Realty — Môi Giới BĐS Luxury',
     category: 'Bất động sản',
     tag: 'Premium',
-    image: 'https://api.microlink.io/?url=https://devsaidul.com/tm/html/hamilton/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://devsaidul.com/tm/html/hamilton/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://devsaidul.com/tm/html/hamilton/?storefront=envato-elements',
   },
   {
@@ -244,7 +244,7 @@ const premiumDemos = [
     title: 'Relx Tower — Dự Án Căn Hộ Hạng A',
     category: 'Bất động sản',
     tag: 'Signature',
-    image: 'https://api.microlink.io/?url=https://htmldemo.zcubethemes.com/relxtower/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://htmldemo.zcubethemes.com/relxtower/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://htmldemo.zcubethemes.com/relxtower/?storefront=envato-elements',
   },
   {
@@ -252,7 +252,7 @@ const premiumDemos = [
     title: 'Quarter Modern — BĐS Hiện Đại',
     category: 'Bất động sản',
     tag: 'Elite',
-    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-2.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-2.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-2.html',
   },
   {
@@ -260,7 +260,7 @@ const premiumDemos = [
     title: 'Quarter Dark — Sống Đẳng Cấp',
     category: 'Bất động sản',
     tag: 'Premium',
-    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-3.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-3.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-3.html',
   },
   {
@@ -268,7 +268,7 @@ const premiumDemos = [
     title: 'Quarter Prestige — Biệt Thự & Penthouse',
     category: 'Bất động sản',
     tag: 'Exclusive',
-    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-4.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-4.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-4.html',
   },
   {
@@ -276,7 +276,7 @@ const premiumDemos = [
     title: 'Quarter Classic — Uy Tín Hàng Đầu',
     category: 'Bất động sản',
     tag: 'Signature',
-    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index.html&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index.html&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index.html',
   },
   {
@@ -284,7 +284,7 @@ const premiumDemos = [
     title: 'HomPark — Khu Đô Thị Đẳng Cấp',
     category: 'Bất động sản',
     tag: 'Elite',
-    image: 'https://api.microlink.io/?url=https://themezinho.net/hompark/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://themezinho.net/hompark/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://themezinho.net/hompark/?storefront=envato-elements',
   },
   {
@@ -292,7 +292,7 @@ const premiumDemos = [
     title: 'HouseBox — Nền Tảng BĐS Thông Minh',
     category: 'Bất động sản',
     tag: 'Premium',
-    image: 'https://api.microlink.io/?url=https://housebox-html-demo.vercel.app/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url',
+    image: 'https://api.microlink.io/?url=https://housebox-html-demo.vercel.app/?storefront=envato-elements&screenshot=true&meta=false&embed=screenshot.url&waitFor=2000',
     link: 'https://housebox-html-demo.vercel.app/?storefront=envato-elements',
   },
 ]
