@@ -525,7 +525,24 @@ export default function App() {
   }, [])
 
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
-  const handleSubmit = (e) => { e.preventDefault(); setSent(true) }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await fetch('https://formsubmit.co/ajax/vuonggiabao.7297@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          service: form.service,
+          message: form.message,
+          _subject: 'Lead moi tu GIAPTECH.SITE',
+          _template: 'table',
+        })
+      })
+    } catch(_) {}
+    setSent(true)
+  }
 
   return (
     <div className="app">
