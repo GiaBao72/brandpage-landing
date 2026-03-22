@@ -809,6 +809,11 @@ export default function App() {
                 <div><strong>Chat Zalo ngay</strong><span>0352 425 290</span></div>
                 <div className="method-arrow">→</div>
               </a>
+              <a href="https://m.me/583549081512783" target="_blank" rel="noreferrer" className="contact-method">
+                <div className="method-icon">💙</div>
+                <div><strong>Nhắn tin Messenger</strong><span>GIAPTECH</span></div>
+                <div className="method-arrow">→</div>
+              </a>
               <div className="response-time">
                 <span>⏰</span>
                 <p>Phản hồi tốc độ trong <strong>30 phút</strong> — Hoạt động 8:00 đến 22:00 mỗi ngày</p>
