@@ -814,7 +814,7 @@ export default function App() {
                 <p>Phản hồi tốc độ trong <strong>30 phút</strong> — Hoạt động 8:00 đến 22:00 mỗi ngày</p>
               </div>
             </div>
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
               {sent ? (
                 <div className="form-success">
                   <div className="success-icon">🎉</div>
@@ -872,7 +872,7 @@ export default function App() {
 
       {/* MOBILE ACTION BAR */}
       <div className="mobile-action-bar">
-        <a href="#" onClick={e => { e.preventDefault(); const el = document.getElementById('contact'); if(el){ el.scrollIntoView({behavior:'smooth'}); setTimeout(()=>history.replaceState(null,'',window.location.pathname),800) } }} className="mob-btn mob-btn-outline">
+        <a href="#" onClick={e => { e.preventDefault(); const el = document.getElementById('contact-form'); if(el){ el.scrollIntoView({behavior:'smooth', block:'center'}); setTimeout(()=>history.replaceState(null,'',window.location.pathname),800) } }} className="mob-btn mob-btn-outline">
           <span>📝</span> Gửi Thông Tin
         </a>
         <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="mob-btn mob-btn-primary">
