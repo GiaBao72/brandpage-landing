@@ -171,6 +171,8 @@ const packages = [
   },
 ]
 
+
+
 const faqs = [
   {
     q: 'Tôi chưa có hình ảnh cá nhân chuyên nghiệp thì sao?',
@@ -359,6 +361,8 @@ export default function App() {
           </div>
         </div>
       </Section>
+
+
 
 
       {/* FAQ */}
