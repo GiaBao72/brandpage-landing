@@ -244,7 +244,7 @@ const premiumDemos = [
     title: 'Relx Tower — Dự Án Căn Hộ Hạng A',
     category: 'Bất động sản',
     tag: 'Signature',
-    image: 'https://images.unsplash.com/photo-1582407947304-fd86f28f3e34?w=800&q=85',
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=85',
     link: 'https://htmldemo.zcubethemes.com/relxtower/?storefront=envato-elements',
   },
   {
@@ -292,7 +292,7 @@ const premiumDemos = [
     title: 'HouseBox — Nền Tảng BĐS Thông Minh',
     category: 'Bất động sản',
     tag: 'Premium',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85',
+    image: 'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=85',
     link: 'https://housebox-html-demo.vercel.app/?storefront=envato-elements',
   },
 ]
