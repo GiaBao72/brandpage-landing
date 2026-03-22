@@ -332,7 +332,15 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('Tất cả')
   const portfolioTabs = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Môi giới xe', 'Tài chính', 'Spa / Thẩm mỹ', 'Giáo dục']
-  const visibleDemos = activeTab === 'Tất cả' ? premiumDemos : premiumDemos.filter(d => d.category === activeTab)
+  const visibleDemos = (() => {
+    if (activeTab !== 'Tất cả') return premiumDemos.filter(d => d.category === activeTab)
+    const seen = new Set()
+    return premiumDemos.filter(d => {
+      if (seen.has(d.category)) return false
+      seen.add(d.category)
+      return true
+    })
+  })()
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 500)
