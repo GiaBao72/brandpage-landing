@@ -148,7 +148,7 @@ const packages = [
     price: '2.900.000đ',
     time: '7 ngày',
     desc: 'Bệ phóng hoàn hảo khi bạn mới bắt đầu xây dựng thương hiệu cá nhân online.',
-    features: ['Landing page 1 trang', 'Tối ưu giao diện Mobile', 'Form liên hệ cơ bản', 'Chuẩn SEO On-page', 'Ban giao toc toc 7 ngày'],
+    features: ['Landing page 1 trang', 'Tối ưu giao diện Mobile', 'Form liên hệ cơ bản', 'Chuẩn SEO On-page', 'Bàn giao trọn vẹn 7 ngày'],
     missing: ['Tên miền riêng', 'Chỉnh sửa sau bàn giao'],
   },
   {
@@ -760,7 +760,7 @@ export default function App() {
       <Section id="pricing" className="pricing-section">
         <div className="container">
           <div className="section-label">Đầu Tư Nhỏ, Vị Thế Lớn</div>
-          <h2 className="section-title">Bảng Giá Minh Bạch —<br /><span className="gradient-text">Tuong Xung Voi Tam Voc Của Ban</span></h2>
+          <h2 className="section-title">Bảng Giá Minh Bạch —<br /><span className="gradient-text">Tương Xứng Với Tầm Vóc Của Bạn</span></h2>
           <p className="pricing-note">Đừng đốt tiền rải tờ rơi hay chạy Ads vô định. Sở hữu "Mặt bằng số" vĩnh viễn chỉ bằng chi phí một chầu nhậu.</p>
 
           <div className="scarcity-banner">
