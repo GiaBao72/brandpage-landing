@@ -1,779 +1,896 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
-// ── HOOKS ──────────────────────────────────────────────────────
-
 function useInView(threshold = 0.15) {
- const ref = useRef(null)
- const [inView, setInView] = useState(false)
- useEffect(() => {
- const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true) }, { threshold })
- if (ref.current) obs.observe(ref.current)
- return () => obs.disconnect()
- }, [])
- return [ref, inView]
+  const ref = useRef(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true) }, { threshold })
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
+  }, [threshold])
+  return [ref, inView]
 }
 
-function useCountUp(target, duration = 2000, start = false) {
- const [val, setVal] = useState(0)
- useEffect(() => {
- if (!start) return
- let startTime = null
- const step = (ts) => {
- if (!startTime) startTime = ts
- const progress = Math.min((ts - startTime) / duration, 1)
- const eased = 1 - Math.pow(1 - progress, 3) // ease-out cubic
- setVal(Math.round(eased * target))
- if (progress < 1) requestAnimationFrame(step)
- }
- requestAnimationFrame(step)
- }, [start, target, duration])
- return val
+function Counter({ target, suffix = '' }) {
+  const [count, setCount] = useState(0)
+  const [ref, inView] = useInView(0.5)
+  useEffect(() => {
+    if (!inView) return
+    const end = parseInt(target)
+    if (isNaN(end)) { setCount(target); return }
+    let start = 0
+    const timer = setInterval(() => {
+      start += Math.ceil(end / (1800 / 16))
+      if (start >= end) { setCount(end); clearInterval(timer) }
+      else setCount(start)
+    }, 16)
+    return () => clearInterval(timer)
+  }, [inView, target])
+  return <span ref={ref}>{isNaN(parseInt(target)) ? target : count}{suffix}</span>
 }
 
-function useScrollProgress() {
- const [pct, setPct] = useState(0)
- useEffect(() => {
- const onScroll = () => {
- const h = document.documentElement
- const scrolled = h.scrollTop
- const total = h.scrollHeight - h.clientHeight
- setPct(total > 0 ? (scrolled / total) * 100 : 0)
- }
- window.addEventListener('scroll', onScroll, { passive: true })
- return () => window.removeEventListener('scroll', onScroll)
- }, [])
- return pct
+function Section({ children, className = '', id = '' }) {
+  const [ref, inView] = useInView()
+  return (
+    <section ref={ref} id={id} className={`section ${className} ${inView ? 'visible' : ''}`}>
+      {children}
+    </section>
+  )
 }
 
-function useActiveSection(ids) {
- const [active, setActive] = useState(ids[0])
- useEffect(() => {
- const obs = new IntersectionObserver(
- (entries) => {
- entries.forEach(e => { if (e.isIntersecting) setActive('#' + e.target.id) })
- },
- { rootMargin: '-40% 0px -55% 0px' }
- )
- ids.forEach(id => {
- const el = document.querySelector(id)
- if (el) obs.observe(el)
- })
- return () => obs.disconnect()
- }, [])
- return active
+function TiltCard({ children, className = '', style }) {
+  const cardRef = useRef(null)
+  const handleMove = (e) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    card.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`
+  }
+  const handleLeave = () => { if (cardRef.current) cardRef.current.style.transform = '' }
+  return (
+    <div ref={cardRef} className={className} style={{ ...style, transition: 'transform 0.15s ease' }}
+      onMouseMove={handleMove} onMouseLeave={handleLeave}>
+      {children}
+    </div>
+  )
 }
 
-// ── ANIMATED WRAPPER ────────────────────────────────────────────
-
-function FadeIn({ children, delay = 0, className = '' }) {
- const [ref, inView] = useInView()
- return (
- <div ref={ref} className={`fade-in ${inView ? 'visible' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
- {children}
- </div>
- )
+function RippleBtn({ children, className = '', href, type = 'button', onClick, target }) {
+  const handleClick = (e) => {
+    const btn = e.currentTarget
+    const circle = document.createElement('span')
+    const d = Math.max(btn.clientWidth, btn.clientHeight)
+    const r = d / 2
+    const rect = btn.getBoundingClientRect()
+    circle.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - rect.left - r}px;top:${e.clientY - rect.top - r}px`
+    circle.classList.add('ripple')
+    btn.querySelector('.ripple')?.remove()
+    btn.appendChild(circle)
+    if (onClick) onClick(e)
+  }
+  if (href) return <a href={href} className={className} onClick={handleClick} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined}>{children}</a>
+  return <button type={type} className={className} onClick={handleClick}>{children}</button>
 }
 
-// ── SVG ICONS ──────────────────────────────────────────────────
-
-const Icon = ({ name }) => {
- const icons = {
- bolt: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
- mobile: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>,
- search: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
- pen: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
- shield: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
- headset: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>,
- check: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
- arrow: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
- quote: <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.192 15.757c0-.88-.23-1.618-.69-2.217-.326-.412-.768-.683-1.327-.812-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.956.76-3.022.66-1.065 1.515-1.867 2.558-2.403L9.373 5c-.8.396-1.56.898-2.26 1.505-.71.607-1.34 1.305-1.9 2.094s-.98 1.68-1.25 2.69-.346 2.04-.217 3.1c.168 1.4.62 2.52 1.356 3.35.735.84 1.652 1.26 2.748 1.26.965 0 1.766-.29 2.4-.878.628-.576.94-1.365.94-2.368l.002.003zm9.124 0c0-.88-.23-1.618-.69-2.217-.326-.42-.77-.692-1.327-.82-.55-.128-1.07-.137-1.54-.028-.16-.95.1-1.956.76-3.022.66-1.065 1.515-1.867 2.558-2.403L18.49 5c-.8.396-1.555.898-2.26 1.505-.708.607-1.34 1.305-1.894 2.094-.556.79-.97 1.68-1.24 2.69-.273 1-.345 2.04-.217 3.1.168 1.4.62 2.52 1.356 3.35.735.84 1.652 1.26 2.748 1.26.965 0 1.766-.29 2.4-.878.628-.576.94-1.365.94-2.368l-.007.004z"/></svg>,
- star: <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
- shield2: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>,
- zap: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
- }
- return <span className="icon">{icons[name] || null}</span>
+function Particles() {
+  const canvasRef = useRef(null)
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let animId
+    const particles = []
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight }
+    resize()
+    window.addEventListener('resize', resize)
+    for (let i = 0; i < 40; i++) {
+      particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1, dx: (Math.random() - 0.5) * 0.4, dy: (Math.random() - 0.5) * 0.4,
+        alpha: Math.random() * 0.4 + 0.1 })
+    }
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      particles.forEach(p => {
+        p.x += p.dx; p.y += p.dy
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(59,130,246,${p.alpha})`; ctx.fill()
+      })
+      animId = requestAnimationFrame(draw)
+    }
+    draw()
+    return () => { cancelAnimationFrame(animId); window.removeEventListener('resize', resize) }
+  }, [])
+  return <canvas ref={canvasRef} className="particles" />
 }
 
-// ── COUNTER ────────────────────────────────────────────────────
-
-function Counter({ target, suffix = '', prefix = '', duration = 2000 }) {
- const [ref, inView] = useInView()
- const count = useCountUp(target, duration, inView)
- return (
- <span ref={ref} className="counter">
- {prefix}{count.toLocaleString()}{suffix}
- </span>
- )
-}
-
-// ── NAV ─────────────────────────────────────────────────────────
-
-const NAV_LINKS = [
- { label: 'Lợi ích', href: '#features' },
- { label: 'Quy trình', href: '#process' },
- { label: 'Portfolio', href: '#portfolio' },
- { label: 'Bảng giá', href: '#pricing' },
- { label: 'FAQ', href: '#faq' },
+const benefits = [
+  { icon: '🌐', title: '"Cỗ Máy Sale" Không Biết Mệt', desc: 'Khách hàng âm thầm tìm hiểu bạn lúc nửa đêm và để lại thông tin khi bạn đang ngủ. Đừng bỏ lỡ bất kỳ cơ hội nào.' },
+  { icon: '💎', title: 'Thoát Khỏi "Bẫy Giá Rẻ"', desc: 'Giao diện sang trọng là minh chứng cho đẳng cấp. Khách hàng sẽ không kỳ kèo khi bị thuyết phục bởi sự chuyên nghiệp của bạn.' },
+  { icon: '📈', title: 'Tự Động Hóa Dòng Khách Hàng', desc: 'Tích hợp thông minh Form, Zalo. Bạn chỉ việc tư vấn và chốt sale, việc tìm kiếm khách hàng đã có website lo.' },
+  { icon: '🎯', title: '"Đánh Xa Khỏi Vùng An Toàn"', desc: 'Tối ưu SEO và nội dung ngách giúp tiếp cận chính xác người đang khao khát dịch vụ của bạn, lọc bỏ khách "hỏi cho biết".' },
+  { icon: '🤝', title: 'Chốt Sale Từ Trong Trứng Nước', desc: 'Phô diễn năng lực qua Portfolio, chứng chỉ, Testimonials. Họ gọi cho bạn để mua, chứ không phải để hỏi "bạn là ai".' },
+  { icon: '🚀', title: 'Đè Bẹp 90% Đối Thủ Cùng Ngành', desc: 'Bao nhiêu người trong ngành của bạn đang làm được điều này? Đây chính là "Đại dương xanh" để bạn bứt phá.' },
 ]
 
-function Nav() {
- const [scrolled, setScrolled] = useState(false)
- const [menuOpen, setMenuOpen] = useState(false)
- const scrollPct = useScrollProgress()
- const active = useActiveSection(NAV_LINKS.map(l => l.href))
-
- useEffect(() => {
- const onScroll = () => setScrolled(window.scrollY > 40)
- window.addEventListener('scroll', onScroll, { passive: true })
- return () => window.removeEventListener('scroll', onScroll)
- }, [])
-
- return (
- <>
- {/* Reading progress bar */}
- <div className="scroll-progress" style={{ width: `${scrollPct}%` }} />
-
- <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
- <div className="nav__inner container">
- <a href="#" className="nav__logo">
- <svg viewBox="0 0 120 28" className="nav__logo-svg" aria-label="GIAPTECH">
- <text x="0" y="22" fontFamily="Inter, sans-serif" fontWeight="900" fontSize="22" fill="currentColor" letterSpacing="-1">GIAP</text>
- <text x="66" y="22" fontFamily="Inter, sans-serif" fontWeight="300" fontSize="22" fill="currentColor" letterSpacing="-1">TECH</text>
- </svg>
- </a>
-
- <ul className={`nav__links ${menuOpen ? 'open' : ''}`}>
- {NAV_LINKS.map(l => (
- <li key={l.href}>
- <a
- href={l.href}
- className={active === l.href ? 'active' : ''}
- onClick={() => setMenuOpen(false)}
- >
- {l.label}
- </a>
- </li>
- ))}
- </ul>
-
- <a href="#contact" className="btn btn--primary btn--sm nav__cta">Tư vấn ngay</a>
-
- <button className="nav__burger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
- <span className={menuOpen ? 'open' : ''} />
- <span className={menuOpen ? 'open' : ''} />
- <span className={menuOpen ? 'open' : ''} />
- </button>
- </div>
- </nav>
- </>
- )
-}
-
-// ── HERO ────────────────────────────────────────────────────────
-
-function Hero() {
- return (
- <section className="hero" id="home">
- {/* Floating orbs */}
- <div className="hero__orb hero__orb--1" />
- <div className="hero__orb hero__orb--2" />
- <div className="hero__orb hero__orb--3" />
- <div className="hero__bg" />
-
- <div className="container hero__inner">
- <FadeIn>
- <span className="hero__badge">
- <svg viewBox="0 0 8 8" width="8" height="8" fill="#3B82F6"><circle cx="4" cy="4" r="4"/></svg>
- Dịch vụ thiết kế website cao cấp
- </span>
- </FadeIn>
-
- <FadeIn delay={80}>
- <h1 className="hero__title">
- Website Cá Nhân<br />
- <span className="hero__title--gradient">Đẳng Cấp</span> Cho<br />
- Chuyên Gia Hàng Đầu
- </h1>
- </FadeIn>
-
- <FadeIn delay={160}>
- <p className="hero__sub">
- Chúng tôi không chỉ thiết kế website — chúng tôi xây dựng thương hiệu cá nhân giúp bạn thu hút khách hàng VIP và tăng doanh thu 40%.
- </p>
- </FadeIn>
-
- <FadeIn delay={240}>
- <div className="hero__ctas">
- <a href="#contact" className="btn btn--primary btn--lg">
- Phân tích thương hiệu miễn phí
- <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
- </a>
- <a href="#portfolio" className="btn btn--ghost btn--lg">Xem portfolio</a>
- </div>
- </FadeIn>
-
- <FadeIn delay={320}>
- <div className="hero__stats">
- {[
- { num: 500, suffix: '+', label: 'Chuyên gia tin dùng' },
- { num: 98, suffix: '%', label: 'Khách hàng hài lòng' },
- { num: 2, prefix: '<', suffix: 's', label: 'Tốc độ tải trang' },
- ].map(s => (
- <div className="hero__stat" key={s.label}>
- <strong>
- <Counter target={s.num} suffix={s.suffix} prefix={s.prefix} duration={1800} />
- </strong>
- <span>{s.label}</span>
- </div>
- ))}
- </div>
- </FadeIn>
- </div>
- </section>
- )
-}
-
-// ── TRUST BAR ──────────────────────────────────────────────────
-
-function TrustBar() {
- const logos = ['FitPro', 'LuxHome', 'AutoElite', 'WealthPro', 'GlowUp', 'EduViet', 'TechStar', 'MedPro']
- return (
- <section className="trust">
- <div className="container">
- <FadeIn>
- <p className="trust__label">Tin tưởng bởi 500+ chuyên gia trên toàn quốc</p>
- </FadeIn>
- </div>
- <div className="trust__track">
- <div className="trust__logos">
- {[...logos, ...logos].map((l, i) => (
- <span className="trust__logo" key={`${l}-${i}`}>{l}</span>
- ))}
-  </div>
- </div>
- </section>
- )
-}
-
-// ── PROBLEM / SOLUTION ─────────────────────────────────────────
-
-function ProblemSolution() {
- const problems = [
- 'Chỉ nhận khách qua giới thiệu, tăng trưởng chậm',
- 'Không có kênh digital chuyên nghiệp để thuyết phục',
- 'Thua kém đối thủ kém năng lực hơn nhưng có web đẹp hơn',
- 'Mất hàng giờ giải thích "tôi là ai, tôi làm gì"',
- ]
- const solutions = [
- 'Khách hàng tự tìm đến và để lại thông tin lúc nửa đêm',
- 'Website cao cấp là bằng chứng sống cho chuyên môn của bạn',
- 'Thoát khỏi "bẫy giá rẻ", thu hút đúng khách hàng VIP',
- 'Hệ thống tự động hóa từ tiếp cận đến chốt sale',
- ]
- return (
- <section className="ps section" id="why">
- <div className="container">
- <div className="ps__grid">
- <FadeIn className="ps__col ps__col--problem">
- <span className="section-tag">
- <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5a5.5 5.5 0 110-11 5.5 5.5 0 010 11zM7 4h2v5H7V4zm0 6h2v2H7v-2z"/></svg>
- Vấn đề
- </span>
- <h2>Khách hàng VIP không thể tìm thấy bạn</h2>
- <ul className="ps__list">
- {problems.map(item => (
- <li key={item}>
- <span className="ps__icon ps__icon--bad"><Icon name="bolt" /></span>
- {item}
- </li>
- ))}
- </ul>
- </FadeIn>
-
- <FadeIn delay={150} className="ps__col ps__col--solution">
- <span className="section-tag section-tag--blue">
- <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor"><path d="M6.5 1a5.5 5.5 0 014.383 8.823l4.147 4.147-.707.707L10 10.528A5.5 5.5 0 016.5 1zm0 1.5a4 4 0 100 8 4 4 0 000-8z"/></svg>
- Giải pháp GIAPTECH
- </span>
- <h2>Thương hiệu cá nhân hoạt động 24/7 thay bạn</h2>
- <ul className="ps__list">
- {solutions.map(item => (
- <li key={item}>
- <span className="ps__icon ps__icon--good"><Icon name="check" /></span>
- {item}
- </li>
- ))}
- </ul>
- </FadeIn>
- </div>
- </div>
- </section>
- )
-}
-
-// ── FEATURES ───────────────────────────────────────────────────
-
-const FEATURES = [
- { icon: 'bolt', title: 'Tốc độ < 2 giây', desc: 'Core Web Vitals chuẩn. Google và khách hàng đều ở lại lâu hơn.' },
- { icon: 'mobile', title: 'Mobile-First', desc: '80% khách hàng dùng điện thoại. Trải nghiệm hoàn hảo trên mọi màn hình.' },
- { icon: 'search', title: 'SEO chuyên sâu', desc: 'On-page tối ưu toàn diện. Tên bạn thống lĩnh trang 1 Google.' },
- { icon: 'pen', title: 'Copywriting bán hàng', desc: 'Từng câu chữ được viết theo tâm lý học, thôi thúc hành động.' },
- { icon: 'shield', title: 'Bảo mật SSL', desc: 'HTTPS, bảo vệ dữ liệu khách hàng, không lo sập hay bị hack.' },
- { icon: 'headset', title: 'Hỗ trợ 24/7', desc: 'Bàn giao mã nguồn, đào tạo tự quản lý, hỗ trợ kỹ thuật trọn đời.' },
+const features = [
+  { icon: '⚡', title: 'Tốc Độ < 2 Giây (Chuẩn Core Web Vitals)', desc: 'Khách hàng thiếu kiên nhẫn và Google cũng vậy. Chúng tôi đảm bảo trải nghiệm mượt mà, giữ chân khách ở lại trang lâu nhất.' },
+  { icon: '📱', title: 'Tối Ưu Hoá Mobile (Mobile-first)', desc: 'Thiết kế được đo ni đóng giày cho màn hình điện thoại, nơi 80% khách hàng của bạn đang lướt web mỗi ngày.' },
+  { icon: '🎯', title: 'Nghệ Thuật "Thôi Miên" Khách Hàng', desc: 'Từ ngôn từ sắc bén đến tâm lý học màu sắc, mọi yếu tố đều được sắp đặt có chủ đích để thôi thúc họ hành động ngay.' },
+  { icon: '🔍', title: 'Chuẩn Mực SEO Mới Nhất', desc: 'Tối ưu On-page toàn diện, giúp tên tuổi của bạn nhanh chóng thống lĩnh trang nhất Google khi khách hàng tìm kiếm.' },
+  { icon: '🛡️', title: 'Hạ Tầng Vững Như Bàn Thạch', desc: 'Không lo sập web lúc chạy quảng cáo hay có lượng truy cập đột biến. Bảo mật tuyệt đối mọi dữ liệu khách hàng.' },
 ]
 
-function Features() {
- return (
- <section className="section features" id="features">
- <div className="container">
- <FadeIn>
- <span className="section-tag">Tiêu chuẩn GIAPTECH</span>
- <h2 className="section-title">Không chỉ đẹp —<br />Phải <em>hiệu quả</em></h2>
- <p className="section-sub">Mỗi yếu tố đều có mục đích: chuyển đổi khách truy cập thành khách hàng trả tiền.</p>
- </FadeIn>
- <div className="features__grid">
-  {FEATURES.map((f, i) => (
- <FadeIn key={f.title} delay={i * 70} className="feature-card">
- <div className="feature-card__icon-wrap">
- <Icon name={f.icon} />
- </div>
- <h3>{f.title}</h3>
- <p>{f.desc}</p>
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
-
-// ── PROCESS ────────────────────────────────────────────────────
-
-const STEPS = [
- { num: '01', title: 'Khai thác điểm mạnh', desc: 'Buổi call 30 phút để thấu hiểu ngành nghề, lợi thế cạnh tranh và phong cách thương hiệu.' },
- { num: '02', title: 'Thiết kế chiến lược', desc: 'Phác thảo cấu trúc, màu sắc, luồng nội dung tâm lý học. Bạn duyệt trước khi code.' },
- { num: '03', title: 'Lập trình & review', desc: 'Chuyển hóa thiết kế thành website. Bạn được xem bản preview live và góp ý trực tiếp.' },
- { num: '04', title: 'Bàn giao & vận hành', desc: 'Bàn giao toàn bộ mã nguồn, domain, hướng dẫn. Cỗ máy thu hút khách hàng chính thức bật.' },
+const services = [
+  { icon: '🏋️', title: 'Personal Trainer / HLV Yoga', desc: 'Biến hình thể đẹp và chứng chỉ thành thỏi nam châm hút học viên. Tự động hóa lịch tập chuyên nghiệp.' },
+  { icon: '👨‍🏫', title: 'Giáo Viên / Chuyên Gia Đào Tạo', desc: 'Xây dựng niềm tin tuyệt đối với phụ huynh qua bảng thành tích đáng nể và phương pháp giảng dạy khác biệt.' },
+  { icon: '🏠', title: 'Môi Giới Bất Động Sản', desc: 'Khẳng định đẳng cấp "người chơi hệ dự án lớn". Uy tín đi trước, hợp đồng tiền tỷ theo sau.' },
+  { icon: '🚗', title: 'Môi Giới Xe Ô Tô', desc: 'Tạo showroom ảo cá nhân cực sang chảnh. Khách hàng xem xe qua web, gọi điện là để chốt cọc.' },
+  { icon: '💰', title: 'Chuyên Viên Tài Chính / Bảo Hiểm', desc: 'Đập tan sự hoài nghi của khách hàng. Xây dựng hình ảnh chuyên gia tư vấn đáng tin cậy trọn đời.' },
+  { icon: '💆', title: 'Chuyên Gia Thẩm Mỹ / Spa', desc: 'Phô diễn những ca "lột xác" thần thánh. Khách hàng khao khát làm đẹp và tranh nhau đặt lịch trước hàng tuần.' },
 ]
 
-function Process() {
- return (
- <section className="section process" id="process">
- <div className="container">
- <FadeIn>
- <span className="section-tag">Quy trình làm việc</span>
- <h2 className="section-title">Từ ý tưởng đến<br />website trong <em>7 ngày</em></h2>
- </FadeIn>
- <div className="process__steps">
- {STEPS.map((s, i) => (
- <FadeIn key={s.num} delay={i * 80} className="process__step">
- <div className="process__num">{s.num}</div>
- <h3>{s.title}</h3>
- <p>{s.desc}</p>
-  {i < STEPS.length - 1 && <div className="process__connector" />}
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
-
-// ── AUDIENCE ───────────────────────────────────────────────────
-
-const TARGETS = [
- { icon: '🏋️', title: 'Personal Trainer / HLV', desc: 'Biến chứng chỉ và thành tích thành nam châm hút học viên mới mỗi ngày.' },
- { icon: '👨‍🏫', title: 'Giáo viên / Đào tạo', desc: 'Xây dựng uy tín với phụ huynh và học sinh qua hồ sơ giảng dạy chuyên nghiệp.' },
- { icon: '🏠', title: 'Môi giới Bất động sản', desc: 'Khẳng định đẳng cấp "người chơi hệ dự án lớn". Hợp đồng tiền tỷ theo sau.' },
- { icon: '🚗', title: 'Môi giới Ô tô', desc: 'Showroom ảo cá nhân sang trọng. Khách gọi điện là để chốt, không phải để hỏi.' },
- { icon: '💰', title: 'Tư vấn Tài chính / Bảo hiểm', desc: 'Đập tan hoài nghi. Xây dựng hình ảnh chuyên gia tư vấn đáng tin cậy trọn đời.' },
-  { icon: '💆', title: 'Chuyên gia Thẩm mỹ / Spa', desc: 'Phô diễn những ca lột xác. Khách tranh nhau đặt lịch trước hàng tuần.' },
+const steps = [
+  { num: '01', icon: '📋', title: 'Khai Thác Điểm Mạnh Nhất Của Bạn', desc: '15 phút lắng nghe để thấu hiểu ngành nghề, lợi thế cạnh tranh và định hình phong cách thương hiệu cá nhân.' },
+  { num: '02', icon: '🎨', title: 'Phác Thảo "Vũ Khí" Bán Hàng', desc: 'Đề xuất cấu trúc chiến lược, màu sắc, và luồng nội dung tâm lý học. Bạn sẽ duyệt trước khi chúng tôi code.' },
+  { num: '03', icon: '💻', title: 'Lập Trình & Trải Nghiệm Thực Tế', desc: 'Chuyển hóa bản vẽ thành website hoạt động mượt mà. Bạn được trực tiếp trải nghiệm bản preview.' },
+  { num: '04', icon: '✅', title: 'Tinh Chỉnh Hoàn Hảo', desc: 'Tối đa 3 lần điều chỉnh miễn phí để đảm bảo từng câu chữ, hình ảnh đều sắc nét và đúng ý bạn 100%.' },
+  { num: '05', icon: '🚀', title: 'Kích Hoạt & Thống Lĩnh Thị Trường', desc: 'Bàn giao toàn bộ tên miền, mã nguồn và hướng dẫn tận tình. Cỗ máy thu hút khách hàng của bạn chính thức vận hành.' },
 ]
 
-function Audience() {
- return (
- <section className="section audience" id="audience">
- <div className="container">
- <FadeIn>
- <span className="section-tag">Dành cho ai</span>
- <h2 className="section-title">Vũ khí bí mật của<br />những <em>chuyên gia đứng đầu</em></h2>
- </FadeIn>
- <div className="audience__grid">
- {TARGETS.map((t, i) => (
- <FadeIn key={t.title} delay={i * 60} className="audience-card">
- <span className="audience-card__icon">{t.icon}</span>
- <h3>{t.title}</h3>
- <p>{t.desc}</p>
- <a href="#contact" className="audience-card__cta">
- Tư vấn cho tôi <Icon name="arrow" />
- </a>
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
-
-// ── PORTFOLIO ──────────────────────────────────────────────────
-
-const PORTFOLIO = [
- { title: 'FitPro Nguyễn Minh', cat: 'Personal Trainer', result: '+45% học viên mới', color: '#0F172A' },
- { title: 'LuxHome Trần Hưng', cat: 'Môi giới BĐS', result: '+60% tỷ lệ chốt deal', color: '#1a1a2e' },
- { title: 'WealthPro Lê Lan', cat: 'Tư vấn tài chính', result: '+38% khách hàng mới', color: '#0F172A' },
- { title: 'GlowUp Beauty', cat: 'Chuyên gia Spa', result: 'Đặt lịch hết trong tuần', color: '#1a1a2e' },
+const packages = [
+  {
+    name: 'Khởi nghiệp',
+    price: '2.900.000đ',
+    time: '7 ngày',
+    desc: 'Bệ phóng hoàn hảo khi bạn mới bắt đầu xây dựng thương hiệu cá nhân online.',
+    features: ['Landing page 1 trang', 'Tối ưu giao diện Mobile', 'Form liên hệ cơ bản', 'Chuẩn SEO On-page', 'Bàn giao trọn vẹn 7 ngày'],
+    missing: ['Tên miền riêng', 'Chỉnh sửa sau bàn giao'],
+  },
+  {
+    name: 'Chuyên nghiệp',
+    price: '5.900.000đ',
+    time: '14 ngày',
+    featured: true,
+    badge: 'GIẢI PHÁP TỐI ƯU NHẤT',
+    desc: 'Dành cho chuyên gia muốn bứt phá và dẫn đầu thị phần.',
+    features: ['Landing page thiết kế cao cấp', 'Hiệu ứng Animation mượt mà', 'Tích hợp Form & Nút gọi/Zalo', 'Tối ưu SEO nâng cao', 'Tặng Tên miền .com 1 năm', 'Ban giao 14 ngày', '3 lần chỉnh sửa miễn phí'],
+    missing: [],
+  },
+  {
+    name: 'Thương hiệu',
+    price: '9.900.000đ',
+    time: '21 ngày',
+    desc: 'Dành cho chuyên gia VIP muốn xây dựng hệ sinh thái thương hiệu bền vững, độc quyền.',
+    features: ['Thiết kế Premium độc bản', 'Micro-interactions đỉnh cao', 'Form + Tích hợp Mini CRM', 'SEO chuyên sâu + Mục Blog', 'Tặng Tên miền + Hosting 1 năm', 'Ban giao 21 ngày', 'Bảo hành & Hỗ trợ 6 tháng'],
+    missing: [],
+  },
 ]
 
-function Portfolio() {
- return (
- <section className="section portfolio" id="portfolio">
- <div className="container">
- <FadeIn>
- <span className="section-tag">Portfolio</span>
- <h2 className="section-title">Mỗi dự án là<br />một <em>tác phẩm đẳng cấp</em></h2>
- </FadeIn>
- <div className="portfolio__grid">
- {PORTFOLIO.map((p, i) => (
- <FadeIn key={p.title} delay={i * 70} className="portfolio-card">
- <div className="portfolio-card__visual" style={{ background: p.color }}>
- <div className="portfolio-card__browser">
- <span /><span /><span />
- </div>
- <div className="portfolio-card__content">
- <div className="portfolio-card__line" style={{ width: '45%', height: '8px' }} />
- <div className="portfolio-card__line" style={{ width: '75%', height: '6px', marginTop: '10px' }} />
- <div className="portfolio-card__line" style={{ width: '60%', height: '6px', marginTop: '6px' }} />
- <div className="portfolio-card__btn">Khám phá</div>
- </div>
- </div>
- <div className="portfolio-card__info">
- <span className="portfolio-card__cat">{p.cat}</span>
- <h3>{p.title}</h3>
- <span className="portfolio-card__result">
- <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/></svg>
- {p.result}
- </span>
- </div>
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
 
-// ── GUARANTEE ───────────────────────────────────────────────────
 
-function Guarantee() {
- const badges = [
- { icon: 'shield2', title: 'Cam kết hoàn tiền', desc: 'Không hài lòng sau preview đầu? Hoàn 50% đặt cọc, không câu hỏi.' },
- { icon: 'zap', title: 'Bàn giao mã nguồn', desc: '100% website thuộc về bạn. Không khóa, không phụ thuộc.' },
- { icon: 'check', title: 'Bảo hành trọn đời', desc: 'Hỗ trợ kỹ thuật dài hạn. Website sống mãi với thương hiệu.' },
- ]
- return (
- <section className="section guarantee">
- <div className="container">
- <FadeIn>
- <div className="guarantee__banner">
- <div className="guarantee__stars">
- {[1,2,3,4,5].map(n => <span key={n}><Icon name="star" /></span>)}
- </div>
- <h2>Cam kết đầu tiên trong ngành</h2>
- <p>Chúng tôi tự tin đến mức đặt ra những gì không ai dám hứa.</p>
- </div>
- </FadeIn>
- <div className="guarantee__grid">
- {badges.map((b, i) => (
- <FadeIn key={b.title} delay={i * 80} className="guarantee__badge">
- <div className="guarantee__badge-icon"><Icon name={b.icon} /></div>
- <h3>{b.title}</h3>
- <p>{b.desc}</p>
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
 
-// ── TESTIMONIALS ───────────────────────────────────────────────
-
-const TESTIMONIALS = [
- { name: 'Trần Minh', role: 'HLV Yoga', avatar: 'TM', text: 'Trước đây tôi chỉ nhận học viên qua giới thiệu. Sau khi có landing page, khách tự tìm đến và đặt lịch liên tục. Thu nhập tăng 40% chỉ trong 2 tháng đầu.' },
- { name: 'Nguyễn Hưng', role: 'Môi giới BĐS', avatar: 'NH', text: 'Khách hàng gọi điện đã biết tôi là ai và đã xem qua website. Họ gọi để hỏi thêm, không phải để hỏi bạn làm gì. Tỷ lệ chốt deal tăng rõ rệt.' },
- { name: 'Lê Lan', role: 'Chuyên viên tài chính', avatar: 'LL', text: 'Website cá nhân giúp tôi khác biệt hoàn toàn so với đồng nghiệp. Khách nhắn Zalo đã để lại thông tin, chỉ cần tư vấn thêm vài bước là chốt được.' },
+const premiumDemos = [
+  {
+    id: 1,
+    title: 'Xtreme Fitness — HLV Cá Nhân Đẳng Cấp',
+    category: 'PT / Yoga',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=85',
+    link: 'https://html.designingmedia.com/xtreme-fitness/?storefront=envato-elements',
+  },
+  {
+    id: 2,
+    title: 'FiTrainer — Chuyên Gia Huấn Luyện Cá Nhân',
+    category: 'PT / Yoga',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=85',
+    link: 'https://htmldesigntemplates.com/html/fitrainer/?storefront=envato-elements',
+  },
+  {
+    id: 3,
+    title: 'Zoyot — Studio Yoga & Wellness Cao Cấp',
+    category: 'PT / Yoga',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=85',
+    link: 'https://themesflat.co/html/zoyot/?storefront=envato-elements',
+  },
+  {
+    id: 4,
+    title: 'BodyShape Pro — Gym & Fitness Đỉnh Cao',
+    category: 'PT / Yoga',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=85',
+    link: 'https://bodyshape.dexignzone.com/xhtml/index-2.html',
+  },
+  {
+    id: 5,
+    title: 'BodyShape Dark — Phòng Gym Premium',
+    category: 'PT / Yoga',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=85',
+    link: 'https://bodyshape.dexignzone.com/xhtml/index-3.html',
+  },
+  {
+    id: 6,
+    title: 'BodyShape Classic — Thương Hiệu Gym Bền Vững',
+    category: 'PT / Yoga',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=85',
+    link: 'https://bodyshape.dexignzone.com/xhtml/index.html',
+  },
+  {
+    id: 7,
+    title: 'GymOn Dark — HLV & Trung Tâm Gym Hạng Sâng',
+    category: 'PT / Yoga',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1605296867424-35fc25c9212a?w=800&q=85',
+    link: 'https://winsfolio.net/html/gymon/gym-on-drak/index.html',
+  },
+  {
+    id: 8,
+    title: 'Hamilton Realty — Môi Giới BĐS Luxury',
+    category: 'Bất động sản',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85',
+    link: 'https://devsaidul.com/tm/html/hamilton/?storefront=envato-elements',
+  },
+  {
+    id: 9,
+    title: 'Relx Tower — Dự Án Căn Hộ Hạng A',
+    category: 'Bất động sản',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=85',
+    link: 'https://htmldemo.zcubethemes.com/relxtower/?storefront=envato-elements',
+  },
+  {
+    id: 10,
+    title: 'Quarter Modern — BĐS Hiện Đại',
+    category: 'Bất động sản',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=85',
+    link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-2.html',
+  },
+  {
+    id: 11,
+    title: 'Quarter Dark — Sống Đẳng Cấp',
+    category: 'Bất động sản',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=85',
+    link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-3.html',
+  },
+  {
+    id: 12,
+    title: 'Quarter Prestige — Biệt Thự & Penthouse',
+    category: 'Bất động sản',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=85',
+    link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index-4.html',
+  },
+  {
+    id: 13,
+    title: 'Quarter Classic — Uy Tín Hàng Đầu',
+    category: 'Bất động sản',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=85',
+    link: 'https://html.themewin.com/pixells/quarter-tailwind-preview/quarter/index.html',
+  },
+  {
+    id: 14,
+    title: 'HomPark — Khu Đô Thị Đẳng Cấp',
+    category: 'Bất động sản',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=85',
+    link: 'https://themezinho.net/hompark/?storefront=envato-elements',
+  },
+  {
+    id: 15,
+    title: 'HouseBox — Nền Tảng BĐS Thông Minh',
+    category: 'Bất động sản',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&q=85',
+    link: 'https://housebox-html-demo.vercel.app/?storefront=envato-elements',
+  },
+  {
+    id: 16,
+    title: 'Cardinal — Trung Tâm Rửa Xe & Sửa Chữa',
+    category: 'Ô tô',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?w=800&q=85',
+    link: 'https://demoxml.com/html/cardinal/?storefront=envato-elements',
+  },
+  {
+    id: 17,
+    title: 'Auril — Xưởng Cơ Động Cơ Hạng Sang',
+    category: 'Ô tô',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=85',
+    link: 'https://demoxml.com/html/auril/?storefront=envato-elements',
+  },
+  {
+    id: 18,
+    title: 'CarBook Classic — Showroom & Đặt Lịch Dịch Vụ',
+    category: 'Ô tô',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=85',
+    link: 'https://winsfolio.net/html/carbook/demo-1/index.html',
+  },
+  {
+    id: 19,
+    title: 'CarBook Pro — Garage & Chăm Sóc Xe Cao Cấp',
+    category: 'Ô tô',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=85',
+    link: 'https://winsfolio.net/html/carbook/demo-2/index.html',
+  },
+  {
+    id: 20,
+    title: 'Finance Pro — Tư Vấn Tài Chính Cao Cấp',
+    category: 'Tài chính',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=85',
+    link: 'https://themesflat.co/html/finance/?storefront=envato-elements',
+  },
+  {
+    id: 21,
+    title: 'Finano Dark — Chuyên Gia Đầu Tư Chứng Khoán',
+    category: 'Tài chính',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&q=85',
+    link: 'https://html.themexriver.com/finano/index-2.html',
+  },
+  {
+    id: 22,
+    title: 'Finano Business — Hoạch Định Tài Chính Doanh Nghiệp',
+    category: 'Tài chính',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=85',
+    link: 'https://html.themexriver.com/finano/index-3.html',
+  },
+  {
+    id: 23,
+    title: 'Finano Wealth — Quản Lý Tài Sản Hạng Sang',
+    category: 'Tài chính',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=85',
+    link: 'https://html.themexriver.com/finano/index-4.html',
+  },
+  {
+    id: 24,
+    title: 'Finano Capital — Quỹ Đầu Tư & Bảo Hiểm',
+    category: 'Tài chính',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=800&q=85',
+    link: 'https://html.themexriver.com/finano/index-5.html',
+  },
+  {
+    id: 25,
+    title: 'Finano Classic — Cố Vấn Tài Chính Uy Tín',
+    category: 'Tài chính',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=85',
+    link: 'https://html.themexriver.com/finano/index.html',
+  },
+  {
+    id: 26,
+    title: 'Luxe Spa — Thư Giãn & Chăm Sóc Toàn Diện',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-2.html',
+  },
+  {
+    id: 27,
+    title: 'Serenity Spa — Liệu Pháp Đẳng Cấp 5 Sao',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-3.html',
+  },
+  {
+    id: 28,
+    title: 'Glow Studio — Thẩm Mỹ Viện Hạng A',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-4.html',
+  },
+  {
+    id: 29,
+    title: 'Belle Clinic — Chăm Sóc Da & Làm Đẹp Chuyên Sâu',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index-5.html',
+  },
+  {
+    id: 30,
+    title: 'Zen Spa Classic — Massage & Năng Lượng Tâm Hồn',
+    category: 'Spa / Thẩm mỹ',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=85',
+    link: 'https://thewebmax.org/spa/index.html',
+  },
+  {
+    id: 31,
+    title: 'Examin Academy — Nền Tảng Học Online Hàng Đầu',
+    category: 'Giáo dục',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-2.html',
+  },
+  {
+    id: 32,
+    title: 'Examin Pro — Trung Tâm Luyện Thi Đạt Đỉnh',
+    category: 'Giáo dục',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-3.html',
+  },
+  {
+    id: 33,
+    title: 'Examin University — Đại Học & Sau Đại Học',
+    category: 'Giáo dục',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-4.html',
+  },
+  {
+    id: 34,
+    title: 'Examin Kids — Giáo Dục Thiếu Nhi Chất Lượng Cao',
+    category: 'Giáo dục',
+    tag: 'Exclusive',
+    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-5.html',
+  },
+  {
+    id: 35,
+    title: 'Examin Skills — Đào Tạo Kỹ Năng Nghề Nghiệp',
+    category: 'Giáo dục',
+    tag: 'Premium',
+    image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-6.html',
+  },
+  {
+    id: 36,
+    title: 'Examin Language — Trung Tâm Ngoại Ngữ Quốc Tế',
+    category: 'Giáo dục',
+    tag: 'Signature',
+    image: 'https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-7.html',
+  },
+  {
+    id: 37,
+    title: 'Examin MBA — Đào Tạo Quản Trị & Lãnh Đạo',
+    category: 'Giáo dục',
+    tag: 'Elite',
+    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&q=85',
+    link: 'https://validthemes.net/site-template/examin/index-8.html',
+  },
 ]
 
-function Testimonials() {
- return (
- <section className="section testimonials" id="testimonials">
- <div className="container">
- <FadeIn>
- <span className="section-tag">Khách hàng nói gì</span>
- <h2 className="section-title">Kết quả thực tế<br />từ <em>chuyên gia thực sự</em></h2>
- </FadeIn>
- <div className="testimonials__grid">
- {TESTIMONIALS.map((t, i) => (
- <FadeIn key={t.name} delay={i * 80} className="testimonial-card">
- <div className="testimonial-card__stars">
-  {[1,2,3,4,5].map(n => <span key={n}><Icon name="star" /></span>)}
- </div>
- <div className="testimonial-card__quote"><Icon name="quote" /></div>
-  <p className="testimonial-card__text">{t.text}</p>
- <div className="testimonial-card__author">
- <span className="testimonial-card__avatar">{t.avatar}</span>
- <div>
- <strong>{t.name}</strong>
-  <span>{t.role}</span>
- </div>
- </div>
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
-
-// ── PRICING ────────────────────────────────────────────────────
-
-const PLANS = [
- { name: 'Starter', price: '3.9', unit: 'triệu', desc: 'Cho chuyên gia mới bắt đầu xây dựng hiện diện online', features: ['5 sections chuẩn', 'Responsive mobile', 'SEO cơ bản', 'Form liên hệ', '1 lần chỉnh sửa', 'Bàn giao mã nguồn'], cta: 'Bắt đầu ngay', highlight: false },
- { name: 'Pro', price: '6.9', unit: 'triệu', desc: 'Cho chuyên gia muốn bứt phá và tăng tỷ lệ chốt sale', features: ['10+ sections đầy đủ', 'Copywriting bán hàng', 'SEO chuyên sâu', 'Tích hợp Zalo/Messenger', '3 lần chỉnh sửa', 'Google Analytics', 'Hỗ trợ 6 tháng'], cta: 'Chọn gói Pro', highlight: true },
- { name: 'Premium', price: '12.9', unit: 'triệu', desc: 'Cho chuyên gia top ngành, cần giải pháp toàn diện', features: ['Design độc bản 100%', 'Tích hợp CRM/Booking', 'Blog + nội dung SEO', 'A/B testing setup', '5 lần chỉnh sửa', 'Bảo trì 12 tháng', 'Hỗ trợ ưu tiên 24/7'], cta: 'Tư vấn Premium', highlight: false },
+const faqs = [
+  {
+    q: 'Tôi chưa có hình ảnh cá nhân chuyên nghiệp thì sao?',
+    a: 'GIAPTECH sẽ tư vấn concept chụp ảnh phù hợp với ngành nghề của bạn. Trong thời gian bạn chuẩn bị, chúng tôi có thể sử dụng kho ảnh minh họa cao cấp có bản quyền để thiết kế trước cấu trúc và luồng trải nghiệm.'
+  },
+  {
+    q: 'Sau khi bàn giao, tôi có phải đóng thêm phí duy trì không?',
+    a: 'Với gói Khởi nghiệp, bạn tự quản lý hosting/tên miền. Với gói Chuyên nghiệp và Thương hiệu, GIAPTECH đã tài trợ năm đầu tiên. Từ năm thứ 2 trở đi, chi phí gia hạn theo giá gốc nhà cung cấp (chỉ khoảng vài trăm nghìn/năm).'
+  },
+  {
+    q: 'Tôi có thể tự thay đổi nội dung, hình ảnh sau này không?',
+    a: 'Hoàn toàn được. Sau khi Go-live, chúng tôi bàn giao bộ video hướng dẫn chi tiết cách tự thay chữ, đổi ảnh rất trực quan — bạn không cần biết lập trình vẫn thao tác dễ dàng.'
+  },
 ]
 
-function Pricing() {
- return (
- <section className="section pricing" id="pricing">
- <div className="container">
- <FadeIn>
- <span className="section-tag">Bảng giá</span>
- <h2 className="section-title">Đầu tư một lần<br /><em>thu về mãi mãi</em></h2>
- <p className="section-sub">Giá đã bao gồm thiết kế, lập trình, domain 1 năm và hosting 1 năm.</p>
- </FadeIn>
- <div className="pricing__grid">
- {PLANS.map((p, i) => (
- <FadeIn key={p.name} delay={i * 80} className={`pricing-card ${p.highlight ? 'pricing-card--highlight' : ''}`}>
- {p.highlight && <span className="pricing-card__badge">Phổ biến nhất</span>}
- <h3>{p.name}</h3>
- <div className="pricing-card__price">
- <strong>{p.price}</strong>
- <span>{p.unit}</span>
- </div>
- <p className="pricing-card__desc">{p.desc}</p>
- <ul className="pricing-card__features">
- {p.features.map(f => (
- <li key={f}><Icon name="check" />{f}</li>
- ))}
- </ul>
- <a href="#contact" className={`btn btn--lg ${p.highlight ? 'btn--primary' : 'btn--outline'}`}>{p.cta}</a>
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
+function FAQItem({ q, a }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className={`faq-item ${open ? 'open' : ''}`} onClick={() => setOpen(!open)}>
+      <div className="faq-question">
+        <span>{q}</span>
+        <span className="faq-icon">{open ? '−' : '+'}</span>
+      </div>
+      {open && <div className="faq-answer">{a}</div>}
+    </div>
+  )
 }
-
-// ── FAQ ────────────────────────────────────────────────────────
-
-const FAQS = [
- { q: 'Bao lâu thì hoàn thành website?', a: 'Thông thường 5–7 ngày làm việc sau khi nhận đủ thông tin và nội dung từ bạn. Gói Premium có thể mất 10–14 ngày.' },
- { q: 'Tôi có cần biết kỹ thuật không?', a: 'Không cần. Chúng tôi xử lý toàn bộ phần kỹ thuật. Bạn chỉ cần cung cấp thông tin về nghề nghiệp, hình ảnh và nội dung muốn truyền tải.' },
- { q: 'Website có được bàn giao mã nguồn không?', a: 'Có. 100% mã nguồn được bàn giao cho bạn. Bạn hoàn toàn sở hữu website, không bị phụ thuộc vào chúng tôi.' },
- { q: 'Có hỗ trợ sau khi bàn giao không?', a: 'Có. Gói Starter hỗ trợ 3 tháng, Pro 6 tháng, Premium 12 tháng bảo trì và hỗ trợ kỹ thuật.' },
- { q: 'Có cam kết hoàn tiền không?', a: 'Có. Nếu bạn không hài lòng sau khi nhận bản preview đầu tiên, chúng tôi hoàn lại 50% đặt cọc, không câu hỏi thêm.' },
-]
-
-function FAQ() {
- const [open, setOpen] = useState(null)
- return (
- <section className="section faq" id="faq">
- <div className="container faq__inner">
- <FadeIn>
- <span className="section-tag">FAQ</span>
- <h2 className="section-title">Câu hỏi<br /><em>thường gặp</em></h2>
- </FadeIn>
- <div className="faq__list">
- {FAQS.map((f, i) => (
- <FadeIn key={i} delay={i * 40} className={`faq__item ${open === i ? 'open' : ''}`}>
- <button className="faq__q" onClick={() => setOpen(open === i ? null : i)}>
- {f.q}
- <span className="faq__arrow">{open === i ? '−' : '+'}</span>
- </button>
- {open === i && <p className="faq__a">{f.a}</p>}
- </FadeIn>
- ))}
- </div>
- </div>
- </section>
- )
-}
-
-// ── CONTACT ─────────────────────────────────────────────────────
-
-function Contact() {
- const [form, setForm] = useState({ name: '', phone: '', job: '', message: '' })
- const [sent, setSent] = useState(false)
- const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
- const handleSubmit = e => { e.preventDefault(); setSent(true) }
- return (
- <section className="section contact" id="contact">
- <div className="container">
- <div className="contact__grid">
- <FadeIn className="contact__info">
- <span className="section-tag">Liên hệ</span>
- <h2 className="section-title">Bắt đầu xây dựng<br /><em>thương hiệu cá nhân</em></h2>
- <p>Điền form để nhận buổi phân tích thương hiệu miễn phí (trị giá 2 triệu đồng). Chúng tôi phản hồi trong 2 giờ làm việc.</p>
- <div className="contact__details">
- <div className="contact__detail"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>hello@giaptech.vn</div>
- <div className="contact__detail"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Zalo: 0909 123 456</div>
- <div className="contact__detail"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>TP. Hồ Chí Minh</div>
- </div>
- </FadeIn>
-
-  <FadeIn delay={100} className="contact__form-wrap">
- {sent ? (
- <div className="contact__success">
- <div className="contact__success-icon"><Icon name="check" /></div>
- <h3>Đã nhận thông tin!</h3>
- <p>Chúng tôi sẽ liên hệ bạn trong vòng 2 giờ làm việc.</p>
- </div>
- ) : (
- <form className="contact__form" onSubmit={handleSubmit}>
- <div className="form-group">
- <label>Họ và tên *</label>
- <input name="name" value={form.name} onChange={handleChange} placeholder="Nguyễn Văn A" required />
- </div>
- <div className="form-group">
- <label>Số điện thoại *</label>
- <input name="phone" value={form.phone} onChange={handleChange} placeholder="0909 xxx xxx" required type="tel" />
- </div>
- <div className="form-group">
- <label>Nghề nghiệp</label>
- <input name="job" value={form.job} onChange={handleChange} placeholder="VD: HLV Yoga, Môi giới BĐS..." />
- </div>
- <div className="form-group">
- <label>Bạn muốn đạt được điều gì?</label>
-  <textarea name="message" value={form.message} onChange={handleChange} rows={4} placeholder="Mô tả ngắn về mục tiêu của bạn..." />
- </div>
- <button type="submit" className="btn btn--primary btn--lg btn--full">
- Nhận phân tích thương hiệu miễn phí
- <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
- </button>
- </form>
- )}
-  </FadeIn>
- </div>
- </div>
- </section>
- )
-}
-
-// ── STICKY CTA ─────────────────────────────────────────────────
-
-function StickyCta() {
- const [visible, setVisible] = useState(false)
- useEffect(() => {
- const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.8)
- window.addEventListener('scroll', onScroll, { passive: true })
- return () => window.removeEventListener('scroll', onScroll)
- }, [])
- return (
- <div className={`sticky-cta ${visible ? 'visible' : ''}`}>
- <div className="sticky-cta__inner">
- <span>Website của bạn đang chờ đấy!</span>
- <a href="#contact" className="btn btn--primary btn--sm">Tư vấn miễn phí →</a>
- </div>
- </div>
- )
-}
-
-// ── FOOTER ─────────────────────────────────────────────────────
-
-function Footer() {
- return (
- <footer className="footer">
- <div className="container footer__inner">
- <div className="footer__brand">
- <svg viewBox="0 0 120 28" className="footer__logo-svg" aria-label="GIAPTECH">
- <text x="0" y="22" fontFamily="Inter, sans-serif" fontWeight="900" fontSize="22" fill="white" letterSpacing="-1">GIAP</text>
- <text x="66" y="22" fontFamily="Inter, sans-serif" fontWeight="300" fontSize="22" fill="white" letterSpacing="-1">TECH</text>
- </svg>
- <p>Xây dựng thương hiệu cá nhân cho chuyên gia Việt Nam.</p>
- <div className="footer__social">
- <a href="https://facebook.com/giaptech" aria-label="Facebook" target="_blank" rel="noreferrer">
- <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
- </a>
- <a href="https://zalo.me/0909123456" aria-label="Zalo" target="_blank" rel="noreferrer">
- <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><text x="3" y="18" fontSize="16" fontWeight="bold" fontFamily="Inter">Z</text></svg>
- </a>
- </div>
- </div>
- <div className="footer__links">
- <div className="footer__col">
- <h4>Dịch vụ</h4>
-  <a href="#features">Tính năng</a>
- <a href="#pricing">Bảng giá</a>
- <a href="#portfolio">Portfolio</a>
- </div>
- <div className="footer__col">
- <h4>Công ty</h4>
- <a href="#why">Tại sao GIAPTECH</a>
- <a href="#testimonials">Khách hàng</a>
- <a href="#faq">FAQ</a>
- </div>
- <div className="footer__col">
- <h4>Liên hệ</h4>
- <a href="mailto:hello@giaptech.vn">hello@giaptech.vn</a>
- <a href="tel:0909123456">0909 123 456</a>
- </div>
- </div>
- </div>
- <div className="footer__bottom">
- <div className="container">
- <span>© 2025 GIAPTECH. All rights reserved.</span>
- </div>
- </div>
- </footer>
- )
-}
-
-// ── FLOATING ZALO ──────────────────────────────────────────────
-
-function FloatingZalo() {
- return (
- <a href="https://zalo.me/0909123456" className="floating-zalo" target="_blank" rel="noreferrer" aria-label="Chat Zalo">
- <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#0068FF"/><path d="M14 31c.2-3.2 1.6-6.1 3.9-8.3 1.4-1.4 3.5-2.7 5.9-2.7h.2c2.4 0 4.4.7 5.8 2 .7.7 1.2 1.5 1.5 2.4.1.5.2 1.1.2 1.6v1c0 2-.8 3.8-2.2 5.1-1.1 1.1-2.7 2-4.6 2.4-.5.1-1 .2-1.6.2-.3 0-.5-.1-.8-.2-.8-.2-1.4-.7-1.8-1.5-.3-.6-.4-1.3-.3-2 .1-.9.5-1.7 1.2-2.3.4-.4.9-.7 1.4-1 .5-.2 1-.3 1.6-.2.5.1.9.3 1.2.7.3.4.4.9.4 1.4h2c0-.8-.3-1.5-.7-2.1-.4-.6-1-1-1.7-1.3-.8-.3-1.6-.5-2.5-.5-.8 0-1.6.1-2.3.4-1.3.5-2.4 1.3-3.2 2.4-.5.7-.9 1.6-1.1 2.5H14v1z" fill="white"/></svg>
- </a>
- )
-}
-
-// ── APP ────────────────────────────────────────────────────────
 
 export default function App() {
- return (
- <>
- <Nav />
- <main>
- <Hero />
- <TrustBar />
- <ProblemSolution />
- <Features />
- <Process />
- <Audience />
- <Portfolio />
- <Guarantee />
- <Testimonials />
- <Pricing />
- <FAQ />
- <Contact />
- </main>
- <Footer />
- <StickyCta />
- <FloatingZalo />
- </>
- )
+  const [form, setForm] = useState({ name: '', phone: '', job: '' })
+  const [sent, setSent] = useState(false)
+  const [showTop, setShowTop] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('Tất cả')
+  const portfolioTabs = ['Tất cả', 'PT / Yoga', 'Bất động sản', 'Ô tô', 'Tài chính', 'Spa / Thẩm mỹ', 'Giáo dục']
+  const visibleDemos = (() => {
+    if (activeTab !== 'Tất cả') return premiumDemos.filter(d => d.category === activeTab)
+    const seen = new Set()
+    return premiumDemos.filter(d => {
+      if (seen.has(d.category)) return false
+      seen.add(d.category)
+      return true
+    })
+  })()
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await fetch('https://formsubmit.co/ajax/vuonggiabao.7297@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          linh_vuc: form.job,
+          service: form.service,
+          message: form.message,
+          _subject: 'Lead moi tu GIAPTECH.SITE',
+          _template: 'table',
+        })
+      })
+    } catch(_) {}
+    setSent(true)
+  }
+
+  return (
+    <div className="app">
+
+      {/* NAV */}
+      <nav className="nav">
+        <a className="logo" href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}) }}>
+          <img src="/Logo.png" alt="GIAPTECH" className="nav-logo" />
+        </a>
+        <ul className={`nav-links ${menuOpen ? 'open' : ''}`}>
+          <li><a href="#" onClick={e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setMenuOpen(false) }}>Trang chủ</a></li>
+          {['benefits','features','process','services','portfolio','pricing'].map((id,i) => (
+            <li key={id}><a href="#" onClick={e => { e.preventDefault(); const el=document.getElementById(id); if(el){el.scrollIntoView({behavior:'smooth'})} setMenuOpen(false) }}>
+              {['Lợi ích','Tiêu chuẩn','Quy trình','Dành cho ai','Portfolio','Bảng giá'][i]}
+            </a></li>
+          ))}
+        </ul>
+        <div className="nav-right">
+          <RippleBtn href="#contact" className="btn-primary nav-cta">Tư vấn miễn phí</RippleBtn>
+          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            <span /><span /><span />
+          </button>
+        </div>
+      </nav>
+
+      {/* HERO */}
+      <section className="hero">
+        <Particles />
+        <div className="hero-orb orb1" /><div className="hero-orb orb2" />
+        <div className="hero-inner">
+          <div className="hero-content">
+            <div className="hero-badge"><span className="badge-dot" />Bệ Phóng Thương Hiệu Cá Nhân Chuyên Nghiệp</div>
+            <h1>
+              Tôn vinh thực tài —<br />
+              <span className="gradient-text">Nâng tầm vị thế</span>
+            </h1>
+            <p className="hero-desc">
+              Khách hàng không thể trực tiếp trải nghiệm chuyên môn của bạn qua màn hình, họ đánh giá qua sự chuyên nghiệp. Đừng tuột mất khách hàng VIP vào tay đối thủ chỉ vì bề ngoài số hóa của họ bóng bẩy hơn.
+            </p>
+            <div className="hero-actions">
+              <RippleBtn href="#contact" className="btn-hero-primary">
+                Phân Tích Thương Hiệu Miễn Phí (Trị giá 2Tr) <span className="btn-arrow">→</span>
+              </RippleBtn>
+              <a href="#benefits" className="btn-hero-ghost">Xem Cách Chúng Tôi Đột Phá Doanh Thu</a>
+            </div>
+            <div className="hero-stats">
+              <div className="hero-stat"><strong>2.500+</strong><span>Chuyên gia tin dùng</span></div>
+              <div className="stat-divider" />
+              <div className="hero-stat"><strong>98%</strong><span>Tăng tỷ lệ chốt sale</span></div>
+              <div className="stat-divider" />
+              <div className="hero-stat"><strong>&lt;2s</strong><span>Tốc độ tải trang</span></div>
+              <div className="stat-divider" />
+              <div className="hero-stat"><strong>24/7</strong><span>Đồng hành hỗ trợ</span></div>
+            </div>
+          </div>
+          <div className="hero-visual">
+            <div className="mockup">
+              <div className="mockup-bar"><span /><span /><span /></div>
+              <div className="mockup-content">
+                <div className="mock-nav" />
+                <div className="mock-hero">
+                  <div className="mock-title" /><div className="mock-sub" /><div className="mock-btn" />
+                </div>
+                <div className="mock-cards">
+                  <div className="mock-card" /><div className="mock-card" /><div className="mock-card" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFITS */}
+      <Section id="benefits" className="benefits-section">
+        <div className="container">
+          <div className="section-label">Tại Sao Bắt Buộc Phải Có Landing Page Cá Nhân?</div>
+          <h2 className="section-title">6 Lý Do Website Cá Nhân Sẽ Thay Đổi Hoàn Toàn<br /><span className="gradient-text">Cách Bạn Kiếm Tiền</span></h2>
+          <div className="benefits-grid">
+            {benefits.map((b, i) => (
+              <TiltCard key={i} className="benefit-card" style={{ '--delay': `${i * 0.1}s` }}>
+                <div className="benefit-icon">{b.icon}</div>
+                <h3>{b.title}</h3>
+                <p>{b.desc}</p>
+              </TiltCard>
+            ))}
+          </div>
+          <div className="benefits-cta">
+            <p>🏆 <strong>Nhân hiệu mạnh = Khách hàng VIP = Thu nhập đột phá. Bắt đầu ngay hôm nay!</strong></p>
+            <RippleBtn href="#contact" className="btn-primary">Bắt Đầu Xây Dựng Ngay →</RippleBtn>
+          </div>
+        </div>
+      </Section>
+
+      {/* FEATURES */}
+      <Section id="features" className="features-section">
+        <div className="container">
+          <div className="section-label">Tiêu Chuẩn GIAPTECH</div>
+          <h2 className="section-title">Không Chỉ Là Web Đẹp,<br /><span className="gradient-text">Chúng Tôi Xây Dựng "Cỗ Máy In Tiền"</span></h2>
+          <div className="features-grid">
+            {features.map((f, i) => (
+              <TiltCard key={i} className="feature-card" style={{ '--delay': `${i * 0.1}s` }}>
+                <div className="feature-icon-wrap">{f.icon}</div>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* PROCESS */}
+      <Section id="process" className="process-section">
+        <div className="container">
+          <div className="section-label">Quy trình làm việc</div>
+          <h2 className="section-title">Thực Thi Tốc Độ —<br /><span className="gradient-text">Minh Bạch Từng Bước</span></h2>
+          <div className="steps">
+            {steps.map((s, i) => (
+              <div className="step" key={i} style={{ '--delay': `${i * 0.12}s` }}>
+                <div className="step-left">
+                  <div className="step-num">{s.num}</div>
+                  {i < steps.length - 1 && <div className="step-line" />}
+                </div>
+                <div className="step-card">
+                  <div className="step-icon">{s.icon}</div>
+                  <div><h3>{s.title}</h3><p>{s.desc}</p></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* SERVICES */}
+      <Section id="services" className="services-section">
+        <div className="container">
+          <div className="section-label">Dịch Vụ Này Dành Riêng Cho Ai?</div>
+          <h2 className="section-title">Chúng Tôi Là "Vũ Khí Bí Mật" Của<br /><span className="gradient-text">Những Chuyên Gia Đứng Đầu Ngành</span></h2>
+          <div className="services-grid">
+            {services.map((s, i) => (
+              <TiltCard key={i} className="service-card" style={{ '--delay': `${i * 0.08}s` }}>
+                <div className="service-icon">{s.icon}</div>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+                <a href="#contact" className="service-link">Tư vấn cho tôi →</a>
+              </TiltCard>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+
+
+
+
+      {/* PORTFOLIO */}
+      <Section id="portfolio" className="portfolio-section">
+        <div className="container">
+          <div className="portfolio-header">
+            <div className="section-label">Kho Giao Diện Độc Bản</div>
+            <h2 className="section-title">Mỗi Dự Án Là Một<br /><span className="gradient-text">Tác Phẩm Đẳng Cấp</span></h2>
+            <p className="portfolio-sub">Không có template. Không có bản sậy. Mỗi website được thai nghén riêng cho từng chuyên gia.</p>
+          </div>
+          <div className="portfolio-filter">
+            {portfolioTabs.map(tab => (
+              <button
+                key={tab}
+                className={"pf-btn " + (activeTab === tab ? "active" : "")}
+                onClick={() => setActiveTab(tab)}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="portfolio-bento">
+            {visibleDemos.map((demo, i) => (
+              <TiltCard key={demo.id} className={"pf-card pf-card--" + ((i % 5 === 0) ? "wide" : (i % 5 === 3) ? "tall" : "normal")}>
+                <div className="pf-img-wrap">
+                  <img src={demo.image} alt={demo.title} loading="lazy" />
+                  <div className="pf-overlay">
+                    <RippleBtn href={demo.link} className="btn-primary pf-cta" target="_blank">
+                      Xem Bản Live →
+                    </RippleBtn>
+                  </div>
+                </div>
+                <div className="pf-info">
+                  <div className="pf-tags">
+                    <span className="pf-tag pf-tag--cat">{demo.category}</span>
+                    <span className="pf-tag pf-tag--grade">{demo.tag}</span>
+                  </div>
+                  <div className="pf-title">{demo.title}</div>
+                </div>
+              </TiltCard>
+            ))}
+          </div>
+          <div className="portfolio-cta-wrap">
+            <p>Đây chỉ là một phần nhỏ trong portfolio của chúng tôi.</p>
+            <RippleBtn href="#contact" className="btn-primary">Nhận Tư Vấn Để Xem Toàn Bộ →</RippleBtn>
+          </div>
+        </div>
+      </Section>
+
+      {/* FAQ */}
+      <Section id="faq" className="faq-section">
+        <div className="container">
+          <div className="section-label">Giải Đáp Thắc Mắc</div>
+          <h2 className="section-title">Những Câu Hỏi Thường Gặp Trước Khi<br /><span className="gradient-text">Khởi Tạo Thương Hiệu</span></h2>
+          <div className="faq-list">
+            {faqs.map((f, i) => <FAQItem key={i} q={f.q} a={f.a} />)}
+          </div>
+        </div>
+      </Section>
+
+      {/* PRICING */}
+      <Section id="pricing" className="pricing-section">
+        <div className="container">
+          <div className="section-label">Đầu Tư Nhỏ, Vị Thế Lớn</div>
+          <h2 className="section-title">Bảng Giá Minh Bạch —<br /><span className="gradient-text">Tương Xứng Với Tầm Vóc Của Bạn</span></h2>
+          <p className="pricing-note">Đừng đốt tiền rải tờ rơi hay chạy Ads vô định. Sở hữu "Mặt bằng số" vĩnh viễn chỉ bằng chi phí một chầu nhậu.</p>
+
+          <div className="scarcity-banner">
+            <span className="scarcity-fire">🔥</span>
+            <p><strong>Lưu ý:</strong> Để đảm bảo chất lượng cá nhân hóa cao nhất, GIAPTECH chỉ nhận tối đa <strong>05 dự án/tháng</strong>.<br /><span className="scarcity-urgent">Cập nhật: Tháng này chỉ còn 02 vị trí trống.</span></p>
+          </div>
+          <div className="pricing-grid">
+            {packages.map((pkg, i) => (
+              <div className={`pricing-card ${pkg.featured ? 'featured' : ''}`} key={i} style={{ '--delay': `${i * 0.1}s` }}>
+                {pkg.featured && <div className="featured-badge">⭐ {pkg.badge || 'Pho bien nhat'}</div>}
+                <div className="pkg-header">
+                  <h3>{pkg.name}</h3>
+                  <p className="pkg-desc">{pkg.desc}</p>
+                </div>
+                <div className="pkg-price">
+                  <span className="price">{pkg.price}</span>
+                  <span className="price-note">Ban giao {pkg.time}</span>
+                </div>
+                <ul className="pkg-features">
+                  {pkg.features.map((f, j) => <li key={j} className="ok">✓ {f}</li>)}
+                  {pkg.missing.map((f, j) => <li key={j} className="no">✕ {f}</li>)}
+                </ul>
+                <RippleBtn href="#contact" className={pkg.featured ? 'btn-primary' : 'btn-outline'}>
+                  Tư vấn gói này →
+                </RippleBtn>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* CONTACT */}
+      <Section id="contact" className="contact-section">
+        <div className="container">
+          <div className="section-label">Bắt Đầu Kỷ Nguyên Mới Cho Thương Hiệu</div>
+          <h2 className="section-title">Nhận Lộ Trình Xây Dựng Nhân Hiệu<br /><span className="gradient-text">Hoàn Toàn Miễn Phí</span></h2>
+          <p className="contact-desc">Dành 15 phút nói chuyện với chuyên gia của GIAPTECH. Dù có hợp tác hay không, bạn cũng sẽ biết chính xác mình cần làm gì tiếp theo để bứt phá thu nhập.</p>
+          <div className="contact-grid">
+            <div className="contact-left">
+              <h3>Liên hệ ngay</h3>
+              <a href="tel:0352425290" className="contact-method">
+                <div className="method-icon">📞</div>
+                <div><strong>Gọi điện trực tiếp</strong><span>0352 425 290</span></div>
+                <div className="method-arrow">→</div>
+              </a>
+              <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="contact-method">
+                <div className="method-icon">💬</div>
+                <div><strong>Chat Zalo ngay</strong><span>0352 425 290</span></div>
+                <div className="method-arrow">→</div>
+              </a>
+              <a href="https://m.me/583549081512783" target="_blank" rel="noreferrer" className="contact-method">
+                <div className="method-icon">💙</div>
+                <div><strong>Nhắn tin Messenger</strong><span>GIAPTECH</span></div>
+                <div className="method-arrow">→</div>
+              </a>
+              <div className="response-time">
+                <span>⏰</span>
+                <p>Phản hồi tốc độ trong <strong>30 phút</strong> — Hoạt động 8:00 đến 22:00 mỗi ngày</p>
+              </div>
+            </div>
+            <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
+              {sent ? (
+                <div className="form-success">
+                  <div className="success-icon">🎉</div>
+                  <h3>Đã nhận thông tin của bạn!</h3>
+                  <p>Chuyên gia GIAPTECH sẽ liên hệ lại trong vòng 30 phút.</p>
+                </div>
+              ) : (
+                <>
+                  <h3>Để lại thông tin</h3>
+                  <div className="form-group">
+                    <input type="text" placeholder="Nhập tên ..." required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <input type="tel" placeholder="Số điện thoại / Zalo" required value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
+                  </div>
+                  <div className="form-group">
+                    <select value={form.job} onChange={e => setForm({...form, job: e.target.value})} required>
+                      <option value="">Lĩnh vực chuyên môn</option>
+                      <option>Huấn luyện viên PT / Yoga</option>
+                      <option>Giáo viên / Chuyên gia Đào tạo</option>
+                      <option>Môi giới Bất động sản</option>
+                      <option>Môi giới Xe ô tô</option>
+                      <option>Chuyên viên Tài chính / Bảo hiểm</option>
+                      <option>Chuyên gia Thẩm mỹ / Spa</option>
+                      <option>Lĩnh vực khác</option>
+                    </select>
+                  </div>
+                  <RippleBtn type="submit" className="btn-primary btn-full">
+                    Đăng ký nhận lộ trình miễn phí 🚀
+                  </RippleBtn>
+                  <p className="form-privacy">🔒 Thông tin được bảo mật tuyệt đối</p>
+                </>
+              )}
+            </form>
+          </div>
+        </div>
+      </Section>
+
+      {/* FOOTER */}
+      <footer className="footer">
+        <div className="footer-inner">
+          <div className="footer-brand">
+            <img src="/Logo-footer.png" alt="GIAPTECH" className="footer-logo-img" />
+            <p className="footer-slogan">Tôn vinh thực tài — Nâng tầm vị thế</p>
+          </div>
+          <div className="footer-contact">
+            <p><a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>💬 Zalo: 0352 425 290</a></p>
+            <p>🌐 <a href="https://giaptech.site/" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>https://giaptech.site/</a></p>
+            <p><a href="https://www.facebook.com/giaptech" target="_blank" rel="noreferrer" style={{color:'rgba(255,255,255,.7)'}}>📘 facebook.com/giaptech</a></p>
+          </div>
+        </div>
+        <div className="footer-bottom">© 2026 GIAPTECH. All rights reserved.</div>
+      </footer>
+
+
+      {/* MOBILE ACTION BAR */}
+      <div className="mobile-action-bar">
+        <a href="#" onClick={e => { e.preventDefault(); const el = document.getElementById('contact-form'); if(el){ el.scrollIntoView({behavior:'smooth', block:'center'}) } }} className="mob-btn mob-btn-outline">
+          <span>📝</span> Gửi Thông Tin
+        </a>
+        <a href="https://zalo.me/0352425290" target="_blank" rel="noreferrer" className="mob-btn mob-btn-primary">
+          <span>💬</span> Chat Zalo
+        </a>
+      </div>
+
+      <button className={`scroll-top ${showTop ? 'show' : ''}`} onClick={scrollTop} aria-label="Lên đầu trang">↑</button>
+      <a href="https://m.me/583549081512783" target="_blank" rel="noreferrer" className="messenger-bubble" aria-label="Chat Messenger">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 2C6.477 2 2 6.145 2 11.243c0 2.906 1.404 5.497 3.6 7.22V22l3.25-1.786A10.5 10.5 0 0012 20.486c5.523 0 10-4.145 10-9.243S17.523 2 12 2zm1.07 12.44l-2.55-2.72-4.98 2.72 5.48-5.82 2.61 2.72 4.92-2.72-5.48 5.82z"/></svg>
+      </a>
+    </div>
+  )
 }
